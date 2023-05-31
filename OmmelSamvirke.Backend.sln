@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.API", "OmmelSamvirke.API\OmmelSamvirke.API.csproj", "{33993785-406D-4D23-A6A0-30ACCFE55115}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Application", "OmmelSamvirke.Application\OmmelSamvirke.Application.csproj", "{7D4E2647-437A-4C2F-9DC9-A7AE3AD35426}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Application.UnitTests", "OmmelSamvirke.Application.UnitTests\OmmelSamvirke.Application.UnitTests.csproj", "{347914A2-8A15-4FF4-A74E-E4A5F3549A65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Domain", "OmmelSamvirke.Domain\OmmelSamvirke.Domain.csproj", "{11904FD4-6145-44E8-814D-4E1A1359F51B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Infrastructure", "OmmelSamvirke.Infrastructure\OmmelSamvirke.Infrastructure.csproj", "{43C196E5-239C-4263-A8E3-3D0F09D7077D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Persistence", "OmmelSamvirke.Persistence\OmmelSamvirke.Persistence.csproj", "{B2754106-5BD3-4FC9-A4EA-8E0ABE35F28D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Persistence.IntegrationTests", "OmmelSamvirke.Persistence.IntegrationTests\OmmelSamvirke.Persistence.IntegrationTests.csproj", "{BD42BAF6-2388-481A-9FB5-41B07E38E21B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33993785-406D-4D23-A6A0-30ACCFE55115}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33993785-406D-4D23-A6A0-30ACCFE55115}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33993785-406D-4D23-A6A0-30ACCFE55115}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33993785-406D-4D23-A6A0-30ACCFE55115}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D4E2647-437A-4C2F-9DC9-A7AE3AD35426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D4E2647-437A-4C2F-9DC9-A7AE3AD35426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D4E2647-437A-4C2F-9DC9-A7AE3AD35426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D4E2647-437A-4C2F-9DC9-A7AE3AD35426}.Release|Any CPU.Build.0 = Release|Any CPU
+		{347914A2-8A15-4FF4-A74E-E4A5F3549A65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{347914A2-8A15-4FF4-A74E-E4A5F3549A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{347914A2-8A15-4FF4-A74E-E4A5F3549A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{347914A2-8A15-4FF4-A74E-E4A5F3549A65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11904FD4-6145-44E8-814D-4E1A1359F51B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11904FD4-6145-44E8-814D-4E1A1359F51B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11904FD4-6145-44E8-814D-4E1A1359F51B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11904FD4-6145-44E8-814D-4E1A1359F51B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43C196E5-239C-4263-A8E3-3D0F09D7077D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43C196E5-239C-4263-A8E3-3D0F09D7077D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43C196E5-239C-4263-A8E3-3D0F09D7077D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43C196E5-239C-4263-A8E3-3D0F09D7077D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2754106-5BD3-4FC9-A4EA-8E0ABE35F28D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2754106-5BD3-4FC9-A4EA-8E0ABE35F28D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2754106-5BD3-4FC9-A4EA-8E0ABE35F28D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2754106-5BD3-4FC9-A4EA-8E0ABE35F28D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD42BAF6-2388-481A-9FB5-41B07E38E21B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD42BAF6-2388-481A-9FB5-41B07E38E21B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD42BAF6-2388-481A-9FB5-41B07E38E21B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD42BAF6-2388-481A-9FB5-41B07E38E21B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
