@@ -10,16 +10,15 @@ namespace OmmelSamvirke.Domain.Features.Newsletters.Models;
 public class NewsletterCommunity : BaseModel
 {
     /// <summary>
-    /// The name of the <see cref="NewsletterCommunity"/>.
+    /// The name of the <see cref="NewsletterCommunity"/>. Must be between 3-35 characters long.
     /// <example>Ommel Samvirke</example>
     /// </summary>
-    public string Name { get; private set; }
+    public string Name { get; }
 
     /// <summary>
     /// Creates a new instance of <see cref="NewsletterCommunity"/>.
-    /// The <paramref name="name"/> must be between 3-15 characters long.
     /// </summary>
-    /// <param name="name">The name of the <see cref="NewsletterCommunity"/></param>
+    /// <param name="name"><see cref="Name"/></param>
     public NewsletterCommunity(string name)
     {
         ValidateName(name);

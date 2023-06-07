@@ -23,3 +23,8 @@ from BaseModel.
 ### Added
 - Model templates for the Newsletter feature. 
 - The NewsletterCommunity model has been completed.
+
+## [0.3.0] - 2023-06-08
+### Added
+- Models for the Newsletters feature
+- Common ModelIdValidator class for validating model ids 
