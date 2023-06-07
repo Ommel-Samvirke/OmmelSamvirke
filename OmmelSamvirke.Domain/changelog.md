@@ -18,3 +18,8 @@ from BaseModel.
 
 ### Changed
 - Updated README to provide more context about the Domain layer.
+
+## [0.2.0] - 2023-06-07
+### Added
+- Model templates for the Newsletter feature. 
+- The NewsletterCommunity model has been completed.
