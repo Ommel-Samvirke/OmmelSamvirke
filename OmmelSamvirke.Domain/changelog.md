@@ -10,3 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The project was generated and none of the default classes have been modified.
 - This changelog file to document future changes.
 - The _Docs_ directory. This should be used for requirements and documentation.
+
+## [0.1.0] - 2023-06-07
+### Added
+- BaseModel class, containing basic model fields. All model classes must inherit
+from BaseModel.
+
+### Changed
+- Updated README to provide more context about the Domain layer.
