@@ -13,38 +13,82 @@ public class NewsletterCommunityAssociations : BaseModel
     /// <summary>
     /// The id of an instance of a <see cref="Newsletter"/>
     /// </summary>
-    public int NewsletterId { get; }
-    
+    public int NewsletterId { get; set; }
+
     /// <summary>
     /// A list of all the <see cref="NewsletterCommunity"/> instances
     /// associated with the instance of <see cref="Newsletter"/> represented by
     /// <see cref="NewsletterId"/>.
     /// </summary>
-    public IList<int> NewsletterCommunities { get; set; }
+    public IList<int> NewsletterCommunities { get; set; } = null!;
 
     /// <summary>
     /// Create an instance of <see cref="NewsletterCommunityAssociations"/>
     /// with an empty list of <see cref="NewsletterCommunities"/>.
+    /// This constructor should be used when the model has not yet been saved to the database.
     /// </summary>
     /// <param name="newsletterId"><see cref="NewsletterId"/></param>
     public NewsletterCommunityAssociations(int newsletterId)
     {
-        ModelIdValidator.Validate(newsletterId);
-
-        NewsletterId = newsletterId;
-        NewsletterCommunities = new List<int>();
+        Initialize(newsletterId, new List<int>());
+    }
+    
+    /// <summary>
+    /// Create an instance of <see cref="NewsletterCommunityAssociations"/>
+    /// with an empty list of <see cref="NewsletterCommunities"/>.
+    /// This constructor should be used when the model is being loaded from the database.
+    /// </summary>
+    /// <param name="id"><see cref="BaseModel.Id"/></param>
+    /// <param name="dateCreated"><see cref="BaseModel.DateCreated"/></param>
+    /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
+    /// <param name="newsletterId"><see cref="NewsletterId"/></param>
+    public NewsletterCommunityAssociations(
+        int id,
+        DateTime dateCreated,
+        DateTime dateModified,
+        int newsletterId
+    ) : base(id, dateCreated, dateModified)
+    {
+        Initialize(newsletterId, new List<int>());
     }
 
     /// <summary>
     /// Create an instance of <see cref="NewsletterCommunityAssociations"/>
     /// for the newsletter with the id <paramref name="newsletterId"/>.
+    /// This constructor should be used when the model has not yet been saved to the database.
     /// </summary>
     /// <param name="newsletterId"><see cref="NewsletterId"/></param>
     /// <param name="newsletterCommunities"><see cref="NewsletterCommunities"/></param>
     public NewsletterCommunityAssociations(int newsletterId, IList<int> newsletterCommunities)
     {
+        Initialize(newsletterId, newsletterCommunities);
+    }
+    
+    /// <summary>
+    /// Create an instance of <see cref="NewsletterCommunityAssociations"/>
+    /// for the newsletter with the id <paramref name="newsletterId"/>.
+    /// This constructor should be used when the model is being loaded from the database.
+    /// </summary>
+    /// <param name="id"><see cref="BaseModel.Id"/></param>
+    /// <param name="dateCreated"><see cref="BaseModel.DateCreated"/></param>
+    /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
+    /// <param name="newsletterId"><see cref="NewsletterId"/></param>
+    /// <param name="newsletterCommunities"><see cref="NewsletterCommunities"/></param>
+    public NewsletterCommunityAssociations(
+        int id,
+        DateTime dateCreated,
+        DateTime dateModified,
+        int newsletterId, 
+        IList<int> newsletterCommunities
+    ) : base(id, dateCreated, dateModified)
+    {
+        Initialize(newsletterId, newsletterCommunities);
+    }
+
+    private void Initialize(int newsletterId, IList<int> newsletterCommunities)
+    {
         ModelIdValidator.Validate(newsletterId);
-        
+
         NewsletterId = newsletterId;
         NewsletterCommunities = newsletterCommunities;
     }
