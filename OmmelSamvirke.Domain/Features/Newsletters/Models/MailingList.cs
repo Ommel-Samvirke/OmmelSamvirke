@@ -13,13 +13,13 @@ public class MailingList : BaseModel
     /// The model id of the <see cref="NewsletterCommunity"/> that owns the
     /// mailing list.
     /// </summary>
-    public int NewsletterCommunityId { get; set; }
+    public int NewsletterCommunityId { get; private set; }
 
     /// <summary>
     /// A list of <see cref="NewsletterSubscribers"/> that are subscribed to
     /// the mailing list.
     /// </summary>
-    public IList<NewsletterSubscriber> NewsletterSubscribers { get; set; } = null!;
+    public ISet<NewsletterSubscriber> NewsletterSubscribers { get; set; } = null!;
 
     /// <summary>
     /// Creates an empty mailing list for the <see cref="NewsletterCommunity"/>
@@ -29,7 +29,7 @@ public class MailingList : BaseModel
     /// <param name="newsletterCommunityId"><see cref="NewsletterCommunityId"/></param>
     public MailingList(int newsletterCommunityId)
     {
-        Initialize(newsletterCommunityId, new List<NewsletterSubscriber>());
+        Initialize(newsletterCommunityId, new HashSet<NewsletterSubscriber>());
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class MailingList : BaseModel
         int newsletterCommunityId
     ) : base(id, dateCreated, dateModified)
     {
-        Initialize(newsletterCommunityId, new List<NewsletterSubscriber>());
+        Initialize(newsletterCommunityId, new HashSet<NewsletterSubscriber>());
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class MailingList : BaseModel
     /// </summary>
     /// <param name="newsletterCommunityId"><see cref="NewsletterCommunityId"/></param>
     /// <param name="newsletterSubscribers"><see cref="NewsletterSubscribers"/></param>
-    public MailingList(int newsletterCommunityId, IList<NewsletterSubscriber> newsletterSubscribers)
+    public MailingList(int newsletterCommunityId, ISet<NewsletterSubscriber> newsletterSubscribers)
     {
         Initialize(newsletterCommunityId, newsletterSubscribers);
     }
@@ -80,13 +80,13 @@ public class MailingList : BaseModel
         DateTime dateCreated, 
         DateTime dateModified, 
         int newsletterCommunityId, 
-        IList<NewsletterSubscriber> newsletterSubscribers
+        ISet<NewsletterSubscriber> newsletterSubscribers
     ): base(id, dateCreated, dateModified)
     {
         Initialize(newsletterCommunityId, newsletterSubscribers);
     }
 
-    private void Initialize(int newsletterCommunityId, IList<NewsletterSubscriber> newsletterSubscribers)
+    private void Initialize(int newsletterCommunityId, ISet<NewsletterSubscriber> newsletterSubscribers)
     {
         ModelIdValidator.Validate(newsletterCommunityId);
 

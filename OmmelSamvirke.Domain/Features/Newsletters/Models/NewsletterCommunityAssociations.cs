@@ -13,14 +13,14 @@ public class NewsletterCommunityAssociations : BaseModel
     /// <summary>
     /// The id of an instance of a <see cref="Newsletter"/>
     /// </summary>
-    public int NewsletterId { get; set; }
+    public int NewsletterId { get; private set; }
 
     /// <summary>
     /// A list of all the <see cref="NewsletterCommunity"/> instances
     /// associated with the instance of <see cref="Newsletter"/> represented by
     /// <see cref="NewsletterId"/>.
     /// </summary>
-    public IList<int> NewsletterCommunities { get; set; } = null!;
+    public ISet<int> NewsletterCommunities { get; set; } = null!;
 
     /// <summary>
     /// Create an instance of <see cref="NewsletterCommunityAssociations"/>
@@ -30,7 +30,7 @@ public class NewsletterCommunityAssociations : BaseModel
     /// <param name="newsletterId"><see cref="NewsletterId"/></param>
     public NewsletterCommunityAssociations(int newsletterId)
     {
-        Initialize(newsletterId, new List<int>());
+        Initialize(newsletterId, new HashSet<int>());
     }
     
     /// <summary>
@@ -49,7 +49,7 @@ public class NewsletterCommunityAssociations : BaseModel
         int newsletterId
     ) : base(id, dateCreated, dateModified)
     {
-        Initialize(newsletterId, new List<int>());
+        Initialize(newsletterId, new HashSet<int>());
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class NewsletterCommunityAssociations : BaseModel
     /// </summary>
     /// <param name="newsletterId"><see cref="NewsletterId"/></param>
     /// <param name="newsletterCommunities"><see cref="NewsletterCommunities"/></param>
-    public NewsletterCommunityAssociations(int newsletterId, IList<int> newsletterCommunities)
+    public NewsletterCommunityAssociations(int newsletterId, ISet<int> newsletterCommunities)
     {
         Initialize(newsletterId, newsletterCommunities);
     }
@@ -79,13 +79,13 @@ public class NewsletterCommunityAssociations : BaseModel
         DateTime dateCreated,
         DateTime dateModified,
         int newsletterId, 
-        IList<int> newsletterCommunities
+        ISet<int> newsletterCommunities
     ) : base(id, dateCreated, dateModified)
     {
         Initialize(newsletterId, newsletterCommunities);
     }
 
-    private void Initialize(int newsletterId, IList<int> newsletterCommunities)
+    private void Initialize(int newsletterId, ISet<int> newsletterCommunities)
     {
         ModelIdValidator.Validate(newsletterId);
 
