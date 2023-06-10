@@ -41,6 +41,11 @@ public class Newsletter : BaseModel
     /// The Date and time when the newsletter was sent.
     /// </summary>
     public DateTime? SentDate { get; set; }
+    
+    /// <summary>
+    /// The number of users who have liked the newsletter
+    /// </summary>
+    public int Likes { get; set; }
 
     /// <summary>
     /// Create an instance of a newsletter that has not been sent.
@@ -52,7 +57,7 @@ public class Newsletter : BaseModel
     /// <param name="adminId"><see cref="AdminId"/></param>
     public Newsletter(string title, string htmlContent, string plainContent, int adminId)
     {
-        Initialize(title, htmlContent, plainContent, adminId, sentDate: null);
+        Initialize(title, htmlContent, plainContent, adminId, sentDate: null, likes: 0);
     }
     
     /// <summary>
@@ -76,7 +81,7 @@ public class Newsletter : BaseModel
         int adminId
     ) : base(id, dateCreated, dateModified)
     {
-        Initialize(title, htmlContent, plainContent, adminId, sentDate: null);
+        Initialize(title, htmlContent, plainContent, adminId, sentDate: null, likes: 0);
     }
 
     /// <summary>
@@ -88,9 +93,17 @@ public class Newsletter : BaseModel
     /// <param name="plainContent"><see cref="PlainContent"/></param>
     /// <param name="adminId"><see cref="AdminId"/></param>
     /// <param name="sentDate"><see cref="SentDate"/></param>
-    public Newsletter(string title, string htmlContent, string plainContent, int adminId, DateTime sentDate)
+    /// <param name="likes"><see cref="Likes"/></param>
+    public Newsletter(
+        string title,
+        string htmlContent,
+        string plainContent,
+        int adminId,
+        DateTime sentDate,
+        int likes = 0
+    )
     {
-        Initialize(title, htmlContent, plainContent, adminId, sentDate);
+        Initialize(title, htmlContent, plainContent, adminId, sentDate, likes);
     }
     
     /// <summary>
@@ -105,6 +118,7 @@ public class Newsletter : BaseModel
     /// <param name="plainContent"><see cref="PlainContent"/></param>
     /// <param name="adminId"><see cref="AdminId"/></param>
     /// <param name="sentDate"><see cref="SentDate"/></param>
+    /// <param name="likes"><see cref="Likes"/></param>
     public Newsletter(
         int id,
         DateTime dateCreated,
@@ -113,13 +127,14 @@ public class Newsletter : BaseModel
         string htmlContent,
         string plainContent,
         int adminId,
-        DateTime sentDate
+        DateTime sentDate,
+        int likes = 0
     ) : base(id, dateCreated, dateModified)
     {
-        Initialize(title, htmlContent, plainContent, adminId, sentDate);
+        Initialize(title, htmlContent, plainContent, adminId, sentDate, likes);
     }
 
-    private void Initialize(string title, string htmlContent, string plainContent, int adminId, DateTime? sentDate)
+    private void Initialize(string title, string htmlContent, string plainContent, int adminId, DateTime? sentDate, int likes)
     {
         HtmlSanitizer sanitizer = new();
         string sanitizedHtmlContent = sanitizer.Sanitize(htmlContent);
@@ -127,6 +142,7 @@ public class Newsletter : BaseModel
         ValidateTitle(title);
         ValidateHtmlContent(sanitizedHtmlContent);
         ValidatePlainContent(plainContent);
+        ValidateLikes(likes);
         ModelIdValidator.Validate(adminId);
 
         Title = title;
@@ -134,6 +150,7 @@ public class Newsletter : BaseModel
         PlainContent = plainContent;
         AdminId = adminId;
         SentDate = sentDate;
+        Likes = likes;
     }
     
     private static void ValidateTitle(string title)
@@ -172,6 +189,14 @@ public class Newsletter : BaseModel
         if (content.Length is < 50 or > 15_000)
         {
             throw new ArgumentException("Property PlainContent must be between 50-15.000 characters long");
+        }
+    }
+
+    private static void ValidateLikes(int likes)
+    {
+        if (likes < 0)
+        {
+            throw new ArgumentException("Property likes cannot be negative");
         }
     }
 }

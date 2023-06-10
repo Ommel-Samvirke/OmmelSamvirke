@@ -43,6 +43,7 @@ public class NewsletterTests
             Assert.That(newsletter.PlainContent, Is.EqualTo(_defaultPlainContent));
             Assert.That(newsletter.AdminId, Is.EqualTo(_defaultAdminId));
             Assert.That(newsletter.SentDate, Is.Null);
+            Assert.That(newsletter.Likes, Is.EqualTo(0));
         });
     }
 
@@ -64,6 +65,7 @@ public class NewsletterTests
             Assert.That(newsletter.PlainContent, Is.EqualTo(_defaultPlainContent));
             Assert.That(newsletter.AdminId, Is.EqualTo(_defaultAdminId));
             Assert.That(newsletter.SentDate, Is.EqualTo(_defaultSentDate));
+            Assert.That(newsletter.Likes, Is.EqualTo(0));
         });
     }
 
@@ -90,6 +92,7 @@ public class NewsletterTests
             Assert.That(newsletter.PlainContent, Is.EqualTo(_defaultPlainContent));
             Assert.That(newsletter.AdminId, Is.EqualTo(_defaultAdminId));
             Assert.That(newsletter.SentDate, Is.Null);
+            Assert.That(newsletter.Likes, Is.EqualTo(0));
         });
     }
 
@@ -117,6 +120,7 @@ public class NewsletterTests
             Assert.That(newsletter.PlainContent, Is.EqualTo(_defaultPlainContent));
             Assert.That(newsletter.AdminId, Is.EqualTo(_defaultAdminId));
             Assert.That(newsletter.SentDate, Is.EqualTo(_defaultSentDate));
+            Assert.That(newsletter.Likes, Is.EqualTo(0));
         });
     }
 
@@ -281,5 +285,37 @@ public class NewsletterTests
         newsletter.SentDate = newSentDate;
         
         Assert.That(newsletter.SentDate, Is.EqualTo(newSentDate));
+    }
+    
+    [Test]
+    public void SentDate_SetLikes_UpdateLikes()
+    {
+        Newsletter newsletter = new(
+            _defaultTitle,
+            _defaultHtmlContent,
+            _defaultPlainContent,
+            _defaultAdminId,
+            _defaultSentDate
+        );
+        const int newLikes = 1;
+
+        newsletter.Likes = newLikes;
+        
+        Assert.That(newsletter.Likes, Is.EqualTo(newLikes));
+    }
+    
+    [TestCase(-1)]
+    [TestCase(-10)]
+    [TestCase(-1000)]
+    public void SentDate_SetLikesNegative_ThrowsArgumentException(int likes)
+    {
+        Assert.That(() => new Newsletter(
+            _defaultTitle,
+            _defaultHtmlContent,
+            _defaultPlainContent,
+            _defaultAdminId,
+            _defaultSentDate,
+            likes
+        ), Throws.ArgumentException);
     }
 }
