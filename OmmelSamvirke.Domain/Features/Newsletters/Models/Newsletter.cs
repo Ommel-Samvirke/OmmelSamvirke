@@ -139,11 +139,11 @@ public class Newsletter : BaseModel
         HtmlSanitizer sanitizer = new();
         string sanitizedHtmlContent = sanitizer.Sanitize(htmlContent);
 
-        ValidateTitle(title);
-        ValidateHtmlContent(sanitizedHtmlContent);
-        ValidatePlainContent(plainContent);
-        ValidateLikes(likes);
-        ModelIdValidator.Validate(adminId);
+        StringLengthValidator.Validate(title, 5, 200);
+        StringLengthValidator.Validate(sanitizedHtmlContent, 50, 15_000);
+        StringLengthValidator.Validate(plainContent, 50, 15_000);
+        IntegerValidator.Validate(likes, 0);
+        IntegerValidator.Validate(adminId, 1);
 
         Title = title;
         HtmlContent = sanitizedHtmlContent;
@@ -151,52 +151,5 @@ public class Newsletter : BaseModel
         AdminId = adminId;
         SentDate = sentDate;
         Likes = likes;
-    }
-    
-    private static void ValidateTitle(string title)
-    {
-        if (string.IsNullOrEmpty(title))
-        {
-            throw new ArgumentException("Property HTMLContent cannot be null or empty");
-        }
-
-        if (title.Length is < 5 or > 200)
-        {
-            throw new ArgumentException("Property Title must be between 5-200 characters long");
-        }
-    }
-
-    private static void ValidateHtmlContent(string content)
-    {
-        if (string.IsNullOrEmpty(content))
-        {
-            throw new ArgumentException("Property HTMLContent cannot be null or empty");
-        }
-
-        if (content.Length is < 50 or > 15_000)
-        {
-            throw new ArgumentException("Property HTMLContent must be between 50-15.000 characters long");
-        }
-    }
-
-    private static void ValidatePlainContent(string content)
-    {
-        if (string.IsNullOrEmpty(content))
-        {
-            throw new ArgumentException("Property PlainContent cannot be null or empty");
-        }
-
-        if (content.Length is < 50 or > 15_000)
-        {
-            throw new ArgumentException("Property PlainContent must be between 50-15.000 characters long");
-        }
-    }
-
-    private static void ValidateLikes(int likes)
-    {
-        if (likes < 0)
-        {
-            throw new ArgumentException("Property likes cannot be negative");
-        }
     }
 }

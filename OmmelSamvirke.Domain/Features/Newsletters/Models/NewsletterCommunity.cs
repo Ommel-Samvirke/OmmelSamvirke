@@ -1,4 +1,5 @@
 ﻿using OmmelSamvirke.Domain.Common;
+using OmmelSamvirke.Domain.Common.Validators;
 
 namespace OmmelSamvirke.Domain.Features.Newsletters.Models;
 
@@ -45,21 +46,8 @@ public class NewsletterCommunity : BaseModel
 
     private void Initialize(string name)
     {
-        ValidateName(name);
+        StringLengthValidator.Validate(name, 3, 35);
 
         Name = name;
-    }
-
-    private static void ValidateName(string name)
-    {
-        if (string.IsNullOrEmpty(name))
-        {
-            throw new ArgumentException("Property Name cannot be null or empty");
-        }
-
-        if (name.Length is < 3 or > 35)
-        {
-            throw new ArgumentException("Property Name must be between 3-35 characters long");
-        }
     }
 }

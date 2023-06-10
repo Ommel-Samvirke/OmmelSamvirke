@@ -88,7 +88,7 @@ public class MailingList : BaseModel
 
     private void Initialize(int newsletterCommunityId, ISet<NewsletterSubscriber> newsletterSubscribers)
     {
-        ModelIdValidator.Validate(newsletterCommunityId);
+        IntegerValidator.Validate(newsletterCommunityId, 1);
 
         NewsletterCommunityId = newsletterCommunityId;
         NewsletterSubscribers = newsletterSubscribers;

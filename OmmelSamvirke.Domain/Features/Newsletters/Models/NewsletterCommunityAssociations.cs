@@ -87,7 +87,7 @@ public class NewsletterCommunityAssociations : BaseModel
 
     private void Initialize(int newsletterId, ISet<int> newsletterCommunities)
     {
-        ModelIdValidator.Validate(newsletterId);
+        IntegerValidator.Validate(newsletterId, 1);
 
         NewsletterId = newsletterId;
         NewsletterCommunities = newsletterCommunities;

@@ -1,5 +1,6 @@
 ﻿using Ganss.Xss;
 using OmmelSamvirke.Domain.Common;
+using OmmelSamvirke.Domain.Common.Validators;
 
 namespace OmmelSamvirke.Domain.Features.Newsletters.Models;
 
@@ -65,18 +66,10 @@ public class NewsletterComment : BaseModel
         HtmlSanitizer htmlSanitizer = new();
         string sanitizedContent = htmlSanitizer.Sanitize(content);
 
-        ValidateContent(sanitizedContent);
+        StringLengthValidator.Validate(sanitizedContent, 2, 15_000);
         
         UserId = userId;
         NewsletterId = newsletterId;
         Content = sanitizedContent;
-    }
-
-    private static void ValidateContent(string content)
-    {
-        if (content.Length is < 2 or > 15_000)
-        {
-            throw new ArgumentException("Property Content must be between 2-15.000 characters long");
-        }
     }
 }
