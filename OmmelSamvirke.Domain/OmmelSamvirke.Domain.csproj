@@ -8,11 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Docs" />
+      <PackageReference Include="HtmlSanitizer" Version="8.0.645" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="HtmlSanitizer" Version="8.0.645" />
+      <Folder Include="Features\Pages\Interfaces" />
     </ItemGroup>
 
 </Project>
