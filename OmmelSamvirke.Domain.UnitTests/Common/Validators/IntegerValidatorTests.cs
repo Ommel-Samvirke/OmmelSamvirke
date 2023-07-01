@@ -2,6 +2,7 @@
 
 namespace OmmelSamvirke.Domain.UnitTests.Common.Validators;
 
+[TestFixture]
 public class IntegerValidatorTests
 {
     private int _defaultInput;

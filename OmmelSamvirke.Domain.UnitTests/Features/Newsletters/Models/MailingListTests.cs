@@ -2,6 +2,7 @@
 
 namespace OmmelSamvirke.Domain.UnitTests.Features.Newsletters.Models;
 
+[TestFixture]
 public class MailingListTests
 {
     private ISet<NewsletterSubscriber> _newsletterSubscribers = null!;

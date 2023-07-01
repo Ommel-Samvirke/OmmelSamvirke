@@ -2,6 +2,7 @@
 
 namespace OmmelSamvirke.Domain.UnitTests.Features.Newsletters.Models;
 
+[TestFixture]
 public class NewsletterCommunityTests
 {
     private string _defaultName = null!;

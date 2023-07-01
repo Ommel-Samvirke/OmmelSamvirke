@@ -2,6 +2,7 @@
 
 namespace OmmelSamvirke.Domain.UnitTests.Features.Newsletters.Models;
 
+[TestFixture]
 public class NewsletterCommentTests
 {
     private int _defaultModelId;

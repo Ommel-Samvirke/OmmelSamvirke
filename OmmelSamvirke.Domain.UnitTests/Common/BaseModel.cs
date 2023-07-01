@@ -7,6 +7,7 @@ namespace OmmelSamvirke.Domain.UnitTests.Common;
 /// performed on <see cref="NewsletterSubscriber"/> which
 /// inherits from BaseClass.
 /// </summary>
+[TestFixture]
 public class BaseModel
 {
     private const string TestEmail = "testmail@example.com";
