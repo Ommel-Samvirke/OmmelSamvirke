@@ -1,13 +1,13 @@
 ﻿using OmmelSamvirke.Domain.Features.Newsletters.Models;
 
-namespace OmmelSamvirke.Domain.Features.Newsletters.Interfaces;
+namespace OmmelSamvirke.Domain.Features.Newsletters.Interfaces.Services;
 
 public interface INewsletterCommentControllerService
 {
-    public Task CreateComment(NewsletterComment newsletterComment);
-    public Task GetComment(Newsletter newsletter, int commentId);
-    public Task GetComments(Newsletter newsletter, IReadOnlySet<int> commentIds);
-    public Task GetComments(Newsletter newsletter);
-    public Task UpdateComment(NewsletterComment newsletterComment);
-    public Task DeleteComment(NewsletterComment newsletterComment);
+    Task<NewsletterComment> CreateComment(NewsletterComment newsletterComment);
+    Task<NewsletterComment> GetComment(Newsletter newsletter, int commentId);
+    Task<IList<NewsletterComment>> GetComments(Newsletter newsletter, IReadOnlySet<int> commentIds);
+    Task<IList<NewsletterComment>> GetComments(Newsletter newsletter);
+    Task<NewsletterComment> UpdateComment(NewsletterComment newsletterComment);
+    Task<bool> DeleteComment(NewsletterComment newsletterComment);
 }

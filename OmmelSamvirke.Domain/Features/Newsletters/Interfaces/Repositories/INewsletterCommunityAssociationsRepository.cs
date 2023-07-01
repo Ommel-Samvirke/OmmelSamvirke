@@ -1,9 +1,9 @@
 ﻿using OmmelSamvirke.Domain.Common.Interfaces;
 using OmmelSamvirke.Domain.Features.Newsletters.Models;
 
-namespace OmmelSamvirke.Domain.Features.Newsletters.Interfaces;
+namespace OmmelSamvirke.Domain.Features.Newsletters.Interfaces.Repositories;
 
 public interface INewsletterCommunityAssociationsRepository : IGenericRepository<NewsletterCommunityAssociations>
 {
-    Task<bool> AddNewsletterCommunity(NewsletterCommunity newsletterCommunity);
+    Task<NewsletterCommunity> AddNewsletterCommunity(NewsletterCommunity newsletterCommunity);
 }

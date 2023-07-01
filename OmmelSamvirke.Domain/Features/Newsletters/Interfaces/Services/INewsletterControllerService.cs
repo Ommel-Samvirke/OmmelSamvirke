@@ -1,17 +1,17 @@
 ﻿using OmmelSamvirke.Domain.Features.Newsletters.Models;
 
-namespace OmmelSamvirke.Domain.Features.Newsletters.Interfaces;
+namespace OmmelSamvirke.Domain.Features.Newsletters.Interfaces.Services;
 
 public interface INewsletterControllerService
 {
-    public Task CreateNewsletter(Newsletter newsletter);
-    public Task CreateNewsletters(IReadOnlySet<Newsletter> newsletter);
-    public Task GetNewsletter(int id);
-    public Task GetNewsletters(IReadOnlySet<int> ids);
-    public Task GetAllNewsletters();
-    public Task UpdateNewsletter(Newsletter newsletter);
-    public Task DeleteNewsletter(Newsletter newsletter);
-    public Task DeleteNewsletters(IReadOnlySet<Newsletter> newsletters);
-    public Task Like(int userId, Newsletter newsletter); // Todo - Review after implementing User feature
-    public Task RemoveLike(int userId, Newsletter newsletter); // Todo - Review after implementing User feature
+    Task<Newsletter> CreateNewsletter(Newsletter newsletter);
+    Task<IReadOnlyList<Newsletter>> CreateNewsletters(IReadOnlySet<Newsletter> newsletter);
+    Task<Newsletter> GetNewsletter(int id);
+    Task<IList<Newsletter>> GetNewsletters(IReadOnlySet<int> ids);
+    Task<IList<Newsletter>> GetAllNewsletters();
+    Task<Newsletter> UpdateNewsletter(Newsletter newsletter);
+    Task<bool> DeleteNewsletter(Newsletter newsletter);
+    Task<bool> DeleteNewsletters(IReadOnlySet<Newsletter> newsletters);
+    Task<Newsletter> Like(int userId, Newsletter newsletter); // Todo - Review after implementing User feature
+    Task<Newsletter> RemoveLike(int userId, Newsletter newsletter); // Todo - Review after implementing User feature
 }
