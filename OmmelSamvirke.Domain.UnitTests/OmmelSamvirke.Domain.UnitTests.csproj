@@ -17,10 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Docs" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\OmmelSamvirke.Domain\OmmelSamvirke.Domain.csproj" />
     </ItemGroup>
 

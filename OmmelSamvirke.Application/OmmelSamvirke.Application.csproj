@@ -4,11 +4,29 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>0.0.1</Version>
+        <Version>0.0.2</Version>
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Docs" />
+      <Folder Include="Features\Pages\PageTemplates\Queries" />
+      <Folder Include="Features\Pages\Page\Commands" />
+      <Folder Include="Features\Pages\Page\DTOs" />
+      <Folder Include="Features\Pages\Page\MappingProfiles" />
+      <Folder Include="Features\Pages\Page\Queries" />
+      <Folder Include="Features\Pages\Page\Validators" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="12.0.1" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+      <PackageReference Include="FluentValidation" Version="11.5.2" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.2" />
+      <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
+      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\OmmelSamvirke.Domain\OmmelSamvirke.Domain.csproj" />
     </ItemGroup>
 
 </Project>
