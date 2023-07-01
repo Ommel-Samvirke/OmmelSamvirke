@@ -1,4 +1,5 @@
 ﻿using OmmelSamvirke.Domain.Common;
+using OmmelSamvirke.Domain.Common.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
@@ -26,7 +27,7 @@ public abstract class ContentBlockData<T>: BaseModel where T : ContentBlock
     /// </summary>
     /// <param name="contentBlock"><see cref="ContentBlock"/></param>
     /// <param name="pageId"><see cref="PageId"/></param>
-    public ContentBlockData(T contentBlock, int pageId)
+    protected ContentBlockData(T contentBlock, int pageId)
     {
         Initialize(contentBlock, pageId);
     }
@@ -39,7 +40,7 @@ public abstract class ContentBlockData<T>: BaseModel where T : ContentBlock
     /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
     /// <param name="contentBlock"><see cref="ContentBlock"/></param>
     /// <param name="pageId"><see cref="PageId"/></param>
-    public ContentBlockData(
+    protected ContentBlockData(
         int id,
         DateTime dateCreated,
         DateTime dateModified,
@@ -52,6 +53,9 @@ public abstract class ContentBlockData<T>: BaseModel where T : ContentBlock
 
     private void Initialize(T contentBlock, int pageId)
     {
+        NullValidator.Validate(contentBlock);
+        IntegerValidator.Validate(pageId, 0);
+        
         ContentBlock = contentBlock;
         PageId = pageId;
     }

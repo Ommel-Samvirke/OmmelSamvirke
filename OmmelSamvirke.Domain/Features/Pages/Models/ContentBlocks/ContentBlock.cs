@@ -43,7 +43,7 @@ public abstract class ContentBlock : BaseModel
     /// <param name="yPosition"><see cref="YPosition"/></param>
     /// <param name="width"><see cref="Width"/></param>
     /// <param name="height"><see cref="Height"/></param>
-    public ContentBlock(bool isOptional, int xPosition, int yPosition, int width, int? height)
+    protected ContentBlock(bool isOptional, int xPosition, int yPosition, int width, int? height)
     {
         Initialize(isOptional, xPosition, yPosition, width, height);
     }
@@ -59,7 +59,7 @@ public abstract class ContentBlock : BaseModel
     /// <param name="yPosition"><see cref="YPosition"/></param>
     /// <param name="width"><see cref="Width"/></param>
     /// <param name="height"><see cref="Height"/></param>
-    public ContentBlock(
+    protected ContentBlock(
         int id,
         DateTime dateCreated,
         DateTime dateModified,

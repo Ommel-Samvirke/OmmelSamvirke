@@ -18,7 +18,6 @@
 
     <ItemGroup>
       <Folder Include="Docs" />
-      <Folder Include="Features\Pages\Models" />
     </ItemGroup>
 
     <ItemGroup>

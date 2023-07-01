@@ -1,4 +1,5 @@
 ﻿using OmmelSamvirke.Domain.Common;
+using OmmelSamvirke.Domain.Common.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
@@ -53,6 +54,11 @@ public class SlideshowBlockData : ContentBlockData<SlideshowBlock>
 
     private void Initialize(List<string> imageUrls)
     {
+        NullValidator.Validate(imageUrls);
+        foreach (string imageUrl in imageUrls)
+        {
+            StringLengthValidator.Validate(imageUrl, 5, 2000);
+        }
         ImageUrls = imageUrls;
     }
 }

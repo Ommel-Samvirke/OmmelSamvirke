@@ -54,6 +54,7 @@ public class Page : BaseModel
     private void Initialize(string name, PageTemplate template)
     {
         StringLengthValidator.Validate(name, 1, 100);
+        NullValidator.Validate(template);
         Name = name;
         Template = template;
     }

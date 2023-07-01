@@ -21,7 +21,7 @@ public class PageTemplate : BaseModel
     /// <summary>
     /// Represents a list of layouts that are supported by this template.
     /// </summary>
-    public List<string> SupportedLayouts { get; private set; } = new();
+    public ISet<Layouts> SupportedLayouts { get; private set; } = new HashSet<Layouts>();
 
     /// <summary>
     /// Represents the content blocks associated with this template.
@@ -40,7 +40,7 @@ public class PageTemplate : BaseModel
     /// <param name="name"><see cref="Name"/></param>
     /// <param name="supportedLayouts"><see cref="SupportedLayouts"/></param>
     /// <param name="state"><see cref="State"/></param>
-    public PageTemplate(string name, List<string> supportedLayouts, PageTemplateState state)
+    public PageTemplate(string name, ISet<Layouts> supportedLayouts, PageTemplateState state)
     {
         Initialize(name, supportedLayouts, state);
     }
@@ -59,7 +59,7 @@ public class PageTemplate : BaseModel
         DateTime dateCreated,
         DateTime dateModified,
         string name,
-        List<string> supportedLayouts,
+        ISet<Layouts> supportedLayouts,
         PageTemplateState state
     ) : base(id, dateCreated, dateModified)
     {
@@ -72,9 +72,11 @@ public class PageTemplate : BaseModel
     /// <param name="name"><see cref="Name"/></param>
     /// <param name="supportedLayouts"><see cref="SupportedLayouts"/></param>
     /// <param name="state"><see cref="State"/></param>
-    private void Initialize(string name, List<string> supportedLayouts, PageTemplateState state)
+    private void Initialize(string name, ISet<Layouts> supportedLayouts, PageTemplateState state)
     {
         StringLengthValidator.Validate(name, 1, 100);
+        NullValidator.Validate(supportedLayouts);
+        
         Name = name;
         SupportedLayouts = supportedLayouts;
         State = state;
