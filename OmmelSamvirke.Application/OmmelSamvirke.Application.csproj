@@ -9,11 +9,11 @@
 
     <ItemGroup>
       <Folder Include="Features\Pages\PageTemplates\Queries" />
-      <Folder Include="Features\Pages\Page\Commands" />
-      <Folder Include="Features\Pages\Page\DTOs" />
-      <Folder Include="Features\Pages\Page\MappingProfiles" />
-      <Folder Include="Features\Pages\Page\Queries" />
-      <Folder Include="Features\Pages\Page\Validators" />
+      <Folder Include="Features\Pages\Pages\Commands" />
+      <Folder Include="Features\Pages\Pages\DTOs" />
+      <Folder Include="Features\Pages\Pages\MappingProfiles" />
+      <Folder Include="Features\Pages\Pages\Queries" />
+      <Folder Include="Features\Pages\Pages\Validators" />
     </ItemGroup>
 
     <ItemGroup>
