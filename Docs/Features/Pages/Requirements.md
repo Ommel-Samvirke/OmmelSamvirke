@@ -3,7 +3,7 @@
 - Has a name
 - Has a list of supported layouts (Desktop, tablet, mobile)
 - Contains a collection of blocks
-- Cannot be deleted if a page implements the template
+- Cannot be deleted if a page implements the template, instead it is archived
 - Can be in the following states:
   - Public: Can be used to create a page
   - Custom: A custom template is created if a page dynamically alters the structure of a template
