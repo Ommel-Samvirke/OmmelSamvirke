@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.7.0] - 2023-07-01
 ### Added
 - Domain classes for the Pages feature
+- Domain class for sharing content to Facebook
+
+### Changed
+- Namespace and return types of interfaces for the Newsletters feature
 
 ## [0.6.0] - 2023-06-22
 ### Added

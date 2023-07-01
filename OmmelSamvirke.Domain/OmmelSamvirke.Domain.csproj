@@ -11,8 +11,4 @@
       <PackageReference Include="HtmlSanitizer" Version="8.0.645" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Features\Pages\Interfaces" />
-    </ItemGroup>
-
 </Project>
