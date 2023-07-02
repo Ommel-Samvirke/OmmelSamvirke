@@ -28,6 +28,8 @@ public class CreatePageTemplateCommandValidator : AbstractValidator<CreatePageTe
             .NotNull()
             .WithMessage("{PropertyName} cannot be null")
             .Must(p => p.Length > 2)
-            .WithMessage("{PropertyName} cannot have a size less than 3");
+            .WithMessage("{PropertyName} cannot have a size less than 3")
+            .Must(p => p.Length <= 50)
+            .WithMessage("{PropertyName} cannot have a size greater than 50");
     }
 }
