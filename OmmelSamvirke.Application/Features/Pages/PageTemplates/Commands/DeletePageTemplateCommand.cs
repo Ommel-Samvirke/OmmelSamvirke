@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using OmmelSamvirke.Application.Errors;
-using OmmelSamvirke.Application.Exceptions;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;

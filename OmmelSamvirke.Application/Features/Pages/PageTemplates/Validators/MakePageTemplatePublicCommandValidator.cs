@@ -7,11 +7,11 @@ using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 
-public class ArchivePageTemplateCommandValidator : AbstractValidator<ArchivePageTemplateCommand>
+public class MakePageTemplatePublicCommandValidator : AbstractValidator<MakePageTemplatePublicCommand>
 {
     private readonly IPageTemplateRepository _pageTemplateRepository;
 
-    public ArchivePageTemplateCommandValidator(IPageTemplateRepository pageTemplateRepository)
+    public MakePageTemplatePublicCommandValidator(IPageTemplateRepository pageTemplateRepository)
     {
         _pageTemplateRepository = pageTemplateRepository;
         
@@ -21,14 +21,19 @@ public class ArchivePageTemplateCommandValidator : AbstractValidator<ArchivePage
             .WithMessage("PageTemplate does not exist");
 
         RuleFor(p => p.CurrentTemplateState)
-            .Equal(PageTemplateState.Public)
+            .Must(BeInValidState)
             .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("PageTemplate must be in the public state to be archived");
+            .WithMessage("PageTemplate must be in the archived or custom state to become public");
     }
-    
+
     private async Task<bool> PageTemplateExists(int pageTemplateId, CancellationToken cancellationToken)
     {
         PageTemplate? pageTemplate = await _pageTemplateRepository.GetByIdAsync(pageTemplateId);
         return pageTemplate != null;
+    }
+    
+    private static bool BeInValidState(PageTemplateState pageTemplateState)
+    {
+        return pageTemplateState is PageTemplateState.Archived or PageTemplateState.Custom;
     }
 }

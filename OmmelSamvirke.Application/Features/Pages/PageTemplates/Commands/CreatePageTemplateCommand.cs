@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentValidation.Results;
-using JetBrains.Annotations;
 using MediatR;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
@@ -12,7 +11,6 @@ using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
-[UsedImplicitly]
 public class CreatePageTemplateCommand : IRequest<PageTemplateDto>
 {
     public string Name { get; }
