@@ -39,12 +39,13 @@ public class PageTemplate : BaseModel
     /// </summary>
     /// <param name="name"><see cref="Name"/></param>
     /// <param name="supportedLayouts"><see cref="SupportedLayouts"/></param>
+    /// <param name="contentBlocks"><see cref="Blocks"/></param>
     /// <param name="state"><see cref="State"/></param>
-    public PageTemplate(string name, ISet<Layouts> supportedLayouts, PageTemplateState state)
+    public PageTemplate(string name, ISet<Layouts> supportedLayouts, List<ContentBlock> contentBlocks, PageTemplateState state)
     {
-        Initialize(name, supportedLayouts, state);
+        Initialize(name, supportedLayouts, contentBlocks, state);
     }
-    
+
     /// <summary>
     /// Create an instance of a page template that is loaded from the database.
     /// </summary>
@@ -53,6 +54,7 @@ public class PageTemplate : BaseModel
     /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
     /// <param name="name"><see cref="Name"/></param>
     /// <param name="supportedLayouts"><see cref="SupportedLayouts"/></param>
+    /// <param name="contentBlocks"><see cref="Blocks"/></param>
     /// <param name="state"><see cref="State"/></param>
     public PageTemplate(
         int id,
@@ -60,10 +62,11 @@ public class PageTemplate : BaseModel
         DateTime dateModified,
         string name,
         ISet<Layouts> supportedLayouts,
+        List<ContentBlock> contentBlocks,
         PageTemplateState state
     ) : base(id, dateCreated, dateModified)
     {
-        Initialize(name, supportedLayouts, state);
+        Initialize(name, supportedLayouts, contentBlocks, state);
     }
 
     /// <summary>
@@ -71,14 +74,17 @@ public class PageTemplate : BaseModel
     /// </summary>
     /// <param name="name"><see cref="Name"/></param>
     /// <param name="supportedLayouts"><see cref="SupportedLayouts"/></param>
+    /// <param name="contentBlocks"><see cref="Blocks"/></param>
     /// <param name="state"><see cref="State"/></param>
-    private void Initialize(string name, ISet<Layouts> supportedLayouts, PageTemplateState state)
+    private void Initialize(string name, ISet<Layouts> supportedLayouts, List<ContentBlock> contentBlocks, PageTemplateState state)
     {
         StringLengthValidator.Validate(name, 1, 100);
         NullValidator.Validate(supportedLayouts);
+        NullValidator.Validate(contentBlocks);
         
         Name = name;
         SupportedLayouts = supportedLayouts;
+        Blocks = contentBlocks;
         State = state;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Models;
+using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Domain.UnitTests.Features.Pages.Models;
 
@@ -16,12 +17,13 @@ public class PageTemplateTests
     public void Can_Create_PageTemplate_With_Valid_Data()
     {
         const string name = "test_template";
-        PageTemplate pageTemplate = new(name, _supportedLayouts, PageTemplateState.Public);
+        PageTemplate pageTemplate = new(name, _supportedLayouts, new List<ContentBlock>(), PageTemplateState.Public);
 
         Assert.Multiple(() =>
         {
             Assert.That(pageTemplate.Name, Is.EqualTo(name));
             Assert.That(pageTemplate.SupportedLayouts, Is.EquivalentTo(_supportedLayouts));
+            Assert.That(pageTemplate.Blocks, Is.Empty);
             Assert.That(pageTemplate.State, Is.EqualTo(PageTemplateState.Public));
         });
     }
@@ -33,13 +35,14 @@ public class PageTemplateTests
         const string name = "test_template";
         DateTime dateCreated = DateTime.Now;
         DateTime dateModified = DateTime.Now;
-        PageTemplate pageTemplate = new(id, dateCreated, dateModified, name, _supportedLayouts, PageTemplateState.Public);
+        PageTemplate pageTemplate = new(id, dateCreated, dateModified, name, _supportedLayouts, new List<ContentBlock>(), PageTemplateState.Public);
 
         Assert.Multiple(() =>
         {
             Assert.That(pageTemplate.Id, Is.EqualTo(id));
             Assert.That(pageTemplate.Name, Is.EqualTo(name));
             Assert.That(pageTemplate.SupportedLayouts, Is.EquivalentTo(_supportedLayouts));
+            Assert.That(pageTemplate.Blocks, Is.Empty);
             Assert.That(pageTemplate.State, Is.EqualTo(PageTemplateState.Public));
             Assert.That(pageTemplate.DateCreated, Is.EqualTo(dateCreated));
             Assert.That(pageTemplate.DateModified, Is.EqualTo(dateModified));
@@ -51,7 +54,7 @@ public class PageTemplateTests
     {
         const string name = "";
 
-        Assert.That(() => new PageTemplate(name, _supportedLayouts, PageTemplateState.Public), Throws.ArgumentException);
+        Assert.That(() => new PageTemplate(name, _supportedLayouts, new List<ContentBlock>(), PageTemplateState.Public), Throws.ArgumentException);
     }
 
     [Test]
@@ -59,7 +62,7 @@ public class PageTemplateTests
     {
         string name = new string('a', 101);
 
-        Assert.That(() => new PageTemplate(name, _supportedLayouts, PageTemplateState.Public), Throws.ArgumentException);
+        Assert.That(() => new PageTemplate(name, _supportedLayouts, new List<ContentBlock>(), PageTemplateState.Public), Throws.ArgumentException);
     }
 
     [Test]
@@ -68,6 +71,6 @@ public class PageTemplateTests
         const string name = "test_template";
         ISet<Layouts> nullSupportedLayouts = null!;
 
-        Assert.That(() => new PageTemplate(name, nullSupportedLayouts, PageTemplateState.Public), Throws.ArgumentException);
+        Assert.That(() => new PageTemplate(name, nullSupportedLayouts, new List<ContentBlock>(), PageTemplateState.Public), Throws.ArgumentException);
     }
 }

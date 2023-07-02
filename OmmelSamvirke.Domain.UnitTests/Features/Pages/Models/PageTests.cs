@@ -1,7 +1,9 @@
 ﻿using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Models;
+using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Domain.UnitTests.Features.Pages.Models;
+
 [TestFixture]
 public class PageTests
 {
@@ -15,7 +17,12 @@ public class PageTests
             Layouts.Desktop,
             Layouts.Mobile
         };
-        _template = new PageTemplate("page_template", supportedLayouts, PageTemplateState.Public);
+        _template = new PageTemplate(
+            "page_template",
+            supportedLayouts,
+            new List<ContentBlock>(),
+            PageTemplateState.Public
+        );
     }
 
     [Test]
