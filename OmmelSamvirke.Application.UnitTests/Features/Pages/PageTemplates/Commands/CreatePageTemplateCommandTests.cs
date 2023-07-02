@@ -1,6 +1,7 @@
 ﻿using OmmelSamvirke.Application.Exceptions;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
+using OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands.Common;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
@@ -8,19 +9,16 @@ using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands;
 
 [TestFixture]
-public class CreatePageTemplateCommandTests
+public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
 {
-    private Mock<IMapper> _mapper = null!;
-    private Mock<IPageTemplateRepository> _pageTemplateRepository = null!;
     private CreatePageTemplateCommandHandler _createPageTemplateCommandHandler = null!;
     private CreatePageTemplateCommand _defaultCreatePageTemplateCommand = null!;
     
     [SetUp]
-    public void SetUp()
+    public override void SetUp()
     {
-        _mapper = new Mock<IMapper>();
-        _pageTemplateRepository = new Mock<IPageTemplateRepository>();
-        _createPageTemplateCommandHandler = new CreatePageTemplateCommandHandler(_mapper.Object, _pageTemplateRepository.Object);
+        base.SetUp();
+        _createPageTemplateCommandHandler = new CreatePageTemplateCommandHandler(Mapper.Object, PageTemplateRepository.Object);
         _defaultCreatePageTemplateCommand = new CreatePageTemplateCommand(
             "Test",
             new HashSet<Layouts>() { Layouts.Desktop },
@@ -32,25 +30,15 @@ public class CreatePageTemplateCommandTests
     [Test]
     public async Task Handle_WhenCalledWithValidRequest_ShouldCreatePageTemplate()
     {
-        PageTemplate pageTemplate = new("TestTemplate", new HashSet<Layouts>(), new List<ContentBlock>(), PageTemplateState.Public);
-        _mapper.Setup(m => m.Map<PageTemplate>(It.IsAny<CreatePageTemplateCommand>())).Returns(pageTemplate);
-
-        PageTemplateDto pageTemplateDto = new(
-            1, 
-            "TestTemplate", 
-            new HashSet<Layouts>(), 
-            new List<ContentBlock>(),
-            PageTemplateState.Public
-        );
-        
-        _mapper.Setup(m => m.Map<PageTemplateDto>(It.IsAny<PageTemplate>())).Returns(pageTemplateDto);
+        Mapper.Setup(m => m.Map<PageTemplate>(It.IsAny<CreatePageTemplateCommand>())).Returns(DefaultPageTemplate);
+        Mapper.Setup(m => m.Map<PageTemplateDto>(It.IsAny<PageTemplate>())).Returns(DefaultPageTemplateDto);
 
         // Act
         PageTemplateDto result = await _createPageTemplateCommandHandler.Handle(_defaultCreatePageTemplateCommand, CancellationToken.None);
 
         // Assert
-        result.ShouldBe(pageTemplateDto);
-        _pageTemplateRepository.Verify(r => r.CreateAsync(pageTemplate), Times.Once);
+        result.ShouldBe(DefaultPageTemplateDto);
+        PageTemplateRepository.Verify(r => r.CreateAsync(DefaultPageTemplate), Times.Once);
     }
     
     [TestCase(0)]
@@ -136,11 +124,9 @@ public class CreatePageTemplateCommandTests
             new List<ContentBlock>() { new TextBlock(false, 0, 0, 100, null) },
             PageTemplateState.Public
         );
-
-        PageTemplate pageTemplate = new("TestTemplate", new HashSet<Layouts>(), new List<ContentBlock>(), PageTemplateState.Public);
-        _mapper.Setup(m => m.Map<PageTemplate>(It.IsAny<CreatePageTemplateCommand>())).Returns(pageTemplate);
-
-        _pageTemplateRepository.Setup(r => r.CreateAsync(It.IsAny<PageTemplate>()))
+        
+        Mapper.Setup(m => m.Map<PageTemplate>(It.IsAny<CreatePageTemplateCommand>())).Returns(DefaultPageTemplate);
+        PageTemplateRepository.Setup(r => r.CreateAsync(It.IsAny<PageTemplate>()))
             .ThrowsAsync(new Exception(exceptionMessage));
 
         // Act

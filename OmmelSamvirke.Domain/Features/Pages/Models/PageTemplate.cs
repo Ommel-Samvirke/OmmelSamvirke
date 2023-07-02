@@ -31,7 +31,7 @@ public class PageTemplate : BaseModel
     /// <summary>
     /// Describes the state of the page template.
     /// </summary>
-    public PageTemplateState State { get; private set; }
+    public PageTemplateState State { get; set; }
 
     /// <summary>
     /// Create a new instance of a page template.
