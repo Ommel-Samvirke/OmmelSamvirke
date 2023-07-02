@@ -2,7 +2,7 @@
 using FluentValidation.Results;
 using JetBrains.Annotations;
 using MediatR;
-using OmmelSamvirke.Application.Exceptions;
+using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
@@ -50,8 +50,7 @@ public class CreatePageTemplateCommandHandler : IRequestHandler<CreatePageTempla
         CreatePageTemplateCommandValidator validator = new();
         ValidationResult validationResult = await validator.ValidateAsync(request, cancellationToken);
 
-        if (validationResult.Errors.Any())
-            throw new BadRequestException("Invalid PageTemplate request", validationResult);
+        ValidationResultHandler.Handle(validationResult, request);
 
         PageTemplate pageTemplate = _mapper.Map<PageTemplate>(request);
         await _pageTemplateRepository.CreateAsync(pageTemplate);
