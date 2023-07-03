@@ -5,93 +5,92 @@ using OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands.
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
-namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands
+namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands;
+
+[TestFixture]
+public class AddContentBlockToPageTemplateCommandHandlerTests : PageTemplateCommandsTestBase
 {
-    [TestFixture]
-    public class AddContentBlockToPageTemplateCommandHandlerTests : PageTemplateCommandsTestBase
+    private Mock<IPageTemplateRepository> _pageTemplateRepository = null!;
+    private Mock<IContentBlockRepository> _contentBlockRepository = null!;
+    private Mock<IMapper> _mapper = null!;
+    private AddContentBlockToPageTemplateCommandHandler _addContentBlockToPageTemplateCommandHandler = null!;
+    
+    [SetUp]
+    public override void SetUp()
     {
-        private Mock<IPageTemplateRepository> _pageTemplateRepository = null!;
-        private Mock<IContentBlockRepository> _contentBlockRepository = null!;
-        private Mock<IMapper> _mapper = null!;
-        private AddContentBlockToPageTemplateCommandHandler _addContentBlockToPageTemplateCommandHandler = null!;
+        base.SetUp();
+        _pageTemplateRepository = new Mock<IPageTemplateRepository>();
+        _contentBlockRepository = new Mock<IContentBlockRepository>();
+        _mapper = new Mock<IMapper>();
+        _addContentBlockToPageTemplateCommandHandler = new AddContentBlockToPageTemplateCommandHandler(
+            _pageTemplateRepository.Object, 
+            _contentBlockRepository.Object, 
+            _mapper.Object);
+    }
+
+    [Test]
+    public async Task Handle_GivenValidRequest_ShouldAddContentBlockToPageTemplate()
+    {
+        // Arrange
+        ContentBlock contentBlock = new HeadlineBlock(false, 0, 0, 1, 1);
+        _contentBlockRepository.Setup(repo => repo.CreateAsync(contentBlock)).ReturnsAsync(contentBlock);
+        _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
+        _pageTemplateRepository.Setup(repo => repo.UpdateAsync(It.IsAny<PageTemplate>())).ReturnsAsync(DefaultPageTemplate);
+        _mapper.Setup(m => m.Map<PageTemplateDto>(It.IsAny<PageTemplate>())).Returns(DefaultPageTemplateDto);
+
+        AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplate, contentBlock);
+
+        // Act
+        PageTemplateDto result = await _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None);
         
-        [SetUp]
-        public override void SetUp()
+        // Assert
+        Assert.Multiple(() =>
         {
-            base.SetUp();
-            _pageTemplateRepository = new Mock<IPageTemplateRepository>();
-            _contentBlockRepository = new Mock<IContentBlockRepository>();
-            _mapper = new Mock<IMapper>();
-            _addContentBlockToPageTemplateCommandHandler = new AddContentBlockToPageTemplateCommandHandler(
-                _pageTemplateRepository.Object, 
-                _contentBlockRepository.Object, 
-                _mapper.Object);
-        }
+            Assert.That(result, Is.Not.Null);
+            Assert.That(DefaultPageTemplate.Blocks, Does.Contain(contentBlock));
+        });
+    }
 
-        [Test]
-        public async Task Handle_GivenValidRequest_ShouldAddContentBlockToPageTemplate()
-        {
-            // Arrange
-            ContentBlock contentBlock = new HeadlineBlock(false, 0, 0, 1, 1);
-            _contentBlockRepository.Setup(repo => repo.CreateAsync(contentBlock)).ReturnsAsync(contentBlock);
-            _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
-            _pageTemplateRepository.Setup(repo => repo.UpdateAsync(It.IsAny<PageTemplate>())).ReturnsAsync(DefaultPageTemplate);
-            _mapper.Setup(m => m.Map<PageTemplateDto>(It.IsAny<PageTemplate>())).Returns(DefaultPageTemplateDto);
+    [Test]
+    public void Handle_GivenInvalidRequest_ShouldThrowNotFoundException()
+    {
+        // Arrange
+        AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplate, null!);
 
-            AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplate, contentBlock);
+        // Act / Assert
+        Assert.ThrowsAsync<NotFoundException>(() =>
+            _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None));
+    }
 
-            // Act
-            PageTemplateDto result = await _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None);
-            
-            // Assert
-            Assert.Multiple(() =>
-            {
-                Assert.That(result, Is.Not.Null);
-                Assert.That(DefaultPageTemplate.Blocks, Does.Contain(contentBlock));
-            });
-        }
+    [Test]
+    public void Handle_GivenNonExistentPageTemplate_ShouldThrowNotFoundException()
+    {
+        // Arrange
+        ContentBlock contentBlock = new HeadlineBlock(false, 0, 0, 1, 1);
+        _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((PageTemplate)null!);
 
-        [Test]
-        public void Handle_GivenInvalidRequest_ShouldThrowNotFoundException()
-        {
-            // Arrange
-            AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplate, null!);
+        AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplate, contentBlock);
 
-            // Act / Assert
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None));
-        }
+        // Act / Assert
+        Assert.ThrowsAsync<NotFoundException>(() =>
+            _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None));
+    }
 
-        [Test]
-        public void Handle_GivenNonExistentPageTemplate_ShouldThrowNotFoundException()
-        {
-            // Arrange
-            ContentBlock contentBlock = new HeadlineBlock(false, 0, 0, 1, 1);
-            _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((PageTemplate)null!);
+    [Test]
+    public void Handle_WhenRepositoryThrowsException_ShouldRethrowException()
+    {
+        // Arrange
+        const string exceptionMessage = "Repository failure";
+        ContentBlock contentBlock = new HeadlineBlock(false, 0, 0, 1, 1);
+        _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception(exceptionMessage));
 
-            AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplate, contentBlock);
+        AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplate, contentBlock);
 
-            // Act / Assert
-            Assert.ThrowsAsync<NotFoundException>(() =>
-                _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None));
-        }
+        // Act
+        Exception? ex = Assert.ThrowsAsync<Exception>(() =>
+            _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None));
 
-        [Test]
-        public void Handle_WhenRepositoryThrowsException_ShouldRethrowException()
-        {
-            // Arrange
-            const string exceptionMessage = "Repository failure";
-            ContentBlock contentBlock = new HeadlineBlock(false, 0, 0, 1, 1);
-            _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception(exceptionMessage));
-
-            AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplate, contentBlock);
-
-            // Act
-            Exception? ex = Assert.ThrowsAsync<Exception>(() =>
-                _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None));
-
-            // Assert
-            ex?.Message.ShouldBe(exceptionMessage);
-        }
+        // Assert
+        ex?.Message.ShouldBe(exceptionMessage);
     }
 }
