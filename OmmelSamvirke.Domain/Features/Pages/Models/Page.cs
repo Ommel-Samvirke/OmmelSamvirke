@@ -19,7 +19,7 @@ public class Page : BaseModel
     /// <summary>
     /// Represents the template which is used to create this page.
     /// </summary>
-    public PageTemplate Template { get; private set; } = null!;
+    public PageTemplate Template { get; set; } = null!;
 
     /// <summary>
     /// Create a new instance of a page.

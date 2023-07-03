@@ -1,5 +1,6 @@
 ﻿using OmmelSamvirke.Domain.Common;
 using OmmelSamvirke.Domain.Common.Validators;
+using OmmelSamvirke.Domain.Features.Pages.Interfaces.ContentBlockData;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
@@ -9,12 +10,19 @@ namespace OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
 /// <see cref="ContentBlock"/>. It is intended to be extended for various
 /// types of content blocks.
 /// </summary>
-public abstract class ContentBlockData<T>: BaseModel where T : ContentBlock
+public abstract class ContentBlockData<T> : BaseModel, IContentBlockData where T : ContentBlock
 {
     /// <summary>
     /// Represents the content block that this data is associated with.
     /// </summary>
     public T ContentBlock { get; private set; } = null!;
+    
+    /// <summary>
+    /// This property is identical to <see cref="ContentBlock"/> but is of type <see cref="ContentBlock"/>.
+    /// It is used to satisfy the <see cref="IContentBlockData"/> interface.
+    /// Without this property it is not possible to create collections with mixed types of <see cref="ContentBlockData{T}"/>.
+    /// </summary>
+    public ContentBlock BaseContentBlock => ContentBlock;
     
     /// <summary>
     /// The ID of the page that this content block data is associated with.

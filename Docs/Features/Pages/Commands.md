@@ -6,7 +6,7 @@ The following describes the commands the application layer supports.
 - Delete a template ✅
 - Archive a template ✅
 - Change status from Archived to Public ✅
-- Create a custom template from a page ❌
+- Create a custom template from a page ✅
 - Add a ContentBlock to a template ❌
 - Remove a ContentBlock from a template ❌
 - Update the position of a ContentBlock in a template ❌
