@@ -8,7 +8,7 @@ The following describes the commands the application layer supports.
 - Change status from Archived to Public ✅
 - Create a custom template from a page ✅
 - Add a ContentBlock to a template ✅
-- Remove a ContentBlock from a template ❌
+- Remove a ContentBlock from a template ✅
 - Update the position of a ContentBlock in a template ❌
 - Update the width and height of a ContentBlock in a template ❌
 - Update the IsOptional field of a ContentBlock in a template ❌
