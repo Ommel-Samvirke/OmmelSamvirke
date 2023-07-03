@@ -6,11 +6,11 @@ using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 
-public class AddContentBlockToTemplateCommandValidator : AbstractValidator<AddContentBlockToTemplateCommand>
+public class AddContentBlockToPageTemplateCommandValidator : AbstractValidator<AddContentBlockToPageTemplateCommand>
 {
     private readonly IPageTemplateRepository _pageTemplateRepository;
 
-    public AddContentBlockToTemplateCommandValidator(IPageTemplateRepository pageTemplateRepository)
+    public AddContentBlockToPageTemplateCommandValidator(IPageTemplateRepository pageTemplateRepository)
     {
         _pageTemplateRepository = pageTemplateRepository;
         RuleFor(x => x.ContentBlock)

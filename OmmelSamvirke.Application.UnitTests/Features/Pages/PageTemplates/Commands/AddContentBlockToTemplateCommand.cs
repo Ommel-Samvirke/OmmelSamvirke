@@ -4,17 +4,16 @@ using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 using OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands.Common;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
-using AddContentBlockToTemplateCommand = OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands.AddContentBlockToTemplateCommand;
 
 namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands
 {
     [TestFixture]
-    public class AddContentBlockToTemplateCommandHandlerTests : PageTemplateCommandsTestBase
+    public class AddContentBlockToPageTemplateCommandHandlerTests : PageTemplateCommandsTestBase
     {
         private Mock<IPageTemplateRepository> _pageTemplateRepository = null!;
         private Mock<IContentBlockRepository> _contentBlockRepository = null!;
         private Mock<IMapper> _mapper = null!;
-        private AddContentBlockToTemplateCommandHandler _addContentBlockToTemplateCommandHandler = null!;
+        private AddContentBlockToPageTemplateCommandHandler _addContentBlockToPageTemplateCommandHandler = null!;
         
         [SetUp]
         public override void SetUp()
@@ -23,7 +22,7 @@ namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Comma
             _pageTemplateRepository = new Mock<IPageTemplateRepository>();
             _contentBlockRepository = new Mock<IContentBlockRepository>();
             _mapper = new Mock<IMapper>();
-            _addContentBlockToTemplateCommandHandler = new AddContentBlockToTemplateCommandHandler(
+            _addContentBlockToPageTemplateCommandHandler = new AddContentBlockToPageTemplateCommandHandler(
                 _pageTemplateRepository.Object, 
                 _contentBlockRepository.Object, 
                 _mapper.Object);
@@ -39,10 +38,10 @@ namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Comma
             _pageTemplateRepository.Setup(repo => repo.UpdateAsync(It.IsAny<PageTemplate>())).ReturnsAsync(DefaultPageTemplate);
             _mapper.Setup(m => m.Map<PageTemplateDto>(It.IsAny<PageTemplate>())).Returns(DefaultPageTemplateDto);
 
-            AddContentBlockToTemplateCommand command = new(DefaultPageTemplate, contentBlock);
+            AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplate, contentBlock);
 
             // Act
-            PageTemplateDto result = await _addContentBlockToTemplateCommandHandler.Handle(command, CancellationToken.None);
+            PageTemplateDto result = await _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None);
             
             // Assert
             Assert.Multiple(() =>
@@ -56,11 +55,11 @@ namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Comma
         public void Handle_GivenInvalidRequest_ShouldThrowNotFoundException()
         {
             // Arrange
-            AddContentBlockToTemplateCommand command = new(DefaultPageTemplate, null!);
+            AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplate, null!);
 
             // Act / Assert
             Assert.ThrowsAsync<NotFoundException>(() =>
-                _addContentBlockToTemplateCommandHandler.Handle(command, CancellationToken.None));
+                _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None));
         }
 
         [Test]
@@ -70,11 +69,11 @@ namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Comma
             ContentBlock contentBlock = new HeadlineBlock(false, 0, 0, 1, 1);
             _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((PageTemplate)null!);
 
-            AddContentBlockToTemplateCommand command = new(DefaultPageTemplate, contentBlock);
+            AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplate, contentBlock);
 
             // Act / Assert
             Assert.ThrowsAsync<NotFoundException>(() =>
-                _addContentBlockToTemplateCommandHandler.Handle(command, CancellationToken.None));
+                _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None));
         }
 
         [Test]
@@ -85,11 +84,11 @@ namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Comma
             ContentBlock contentBlock = new HeadlineBlock(false, 0, 0, 1, 1);
             _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception(exceptionMessage));
 
-            AddContentBlockToTemplateCommand command = new(DefaultPageTemplate, contentBlock);
+            AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplate, contentBlock);
 
             // Act
             Exception? ex = Assert.ThrowsAsync<Exception>(() =>
-                _addContentBlockToTemplateCommandHandler.Handle(command, CancellationToken.None));
+                _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None));
 
             // Assert
             ex?.Message.ShouldBe(exceptionMessage);

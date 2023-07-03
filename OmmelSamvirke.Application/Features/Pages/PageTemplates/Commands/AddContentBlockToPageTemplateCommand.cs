@@ -9,25 +9,25 @@ using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
-public class AddContentBlockToTemplateCommand : IRequest<PageTemplateDto>
+public class AddContentBlockToPageTemplateCommand : IRequest<PageTemplateDto>
 {
     public ContentBlock ContentBlock { get; }
     public PageTemplate PageTemplate { get; }
     
-    public AddContentBlockToTemplateCommand(PageTemplate pageTemplate, ContentBlock contentBlock)
+    public AddContentBlockToPageTemplateCommand(PageTemplate pageTemplate, ContentBlock contentBlock)
     {
         PageTemplate = pageTemplate;
         ContentBlock = contentBlock;
     }
 }
 
-public class AddContentBlockToTemplateCommandHandler : IRequestHandler<AddContentBlockToTemplateCommand, PageTemplateDto>
+public class AddContentBlockToPageTemplateCommandHandler : IRequestHandler<AddContentBlockToPageTemplateCommand, PageTemplateDto>
 {
     private readonly IPageTemplateRepository _pageTemplateRepository;
     private readonly IContentBlockRepository _contentBlockRepository;
     private readonly IMapper _mapper;
 
-    public AddContentBlockToTemplateCommandHandler(
+    public AddContentBlockToPageTemplateCommandHandler(
         IPageTemplateRepository pageTemplateRepository,
         IContentBlockRepository contentBlockRepository,
         IMapper mapper
@@ -37,9 +37,9 @@ public class AddContentBlockToTemplateCommandHandler : IRequestHandler<AddConten
         _contentBlockRepository = contentBlockRepository;
         _mapper = mapper;
     }
-    public async Task<PageTemplateDto> Handle(AddContentBlockToTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<PageTemplateDto> Handle(AddContentBlockToPageTemplateCommand request, CancellationToken cancellationToken)
     {
-        AddContentBlockToTemplateCommandValidator validator = new(_pageTemplateRepository);
+        AddContentBlockToPageTemplateCommandValidator validator = new(_pageTemplateRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
         ContentBlock contentBlock = await _contentBlockRepository.CreateAsync(request.ContentBlock);
