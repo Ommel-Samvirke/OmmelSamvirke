@@ -9,9 +9,7 @@ The following describes the commands the application layer supports.
 - Create a custom template from a page ✅
 - Add a ContentBlock to a template ✅
 - Remove a ContentBlock from a template ✅
-- Update the position of a ContentBlock in a template ❌
-- Update the width and height of a ContentBlock in a template ❌
-- Update the IsOptional field of a ContentBlock in a template ❌
+- Update a ContentBlock in a template ✅
 - Add a supported layout - TODO: Rethink layouts ❌
 - Remove a supported layout - TODO: Rethink layouts ❌
 
