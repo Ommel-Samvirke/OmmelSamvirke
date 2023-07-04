@@ -61,8 +61,7 @@ public class CreatePageTemplateFromPageCommandTests : PageTemplateCommandsTestBa
     public async Task Handle_PageIsValid_CreatesPageTemplate()
     {
         // Arrange
-        HeadlineBlock testContentBlock = new(false, 0, 0, 1, 1);
-        HeadlineBlockData testContentBlockData = new(testContentBlock, "TestHeadline", 1);
+        HeadlineBlockData testContentBlockData = new(DefaultContentBlock, "TestHeadline", 1);
         PageTemplate newPage = new(
             "CustomPageTemplate",
             new HashSet<Layouts>(),

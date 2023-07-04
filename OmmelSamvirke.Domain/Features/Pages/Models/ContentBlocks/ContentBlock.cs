@@ -1,5 +1,4 @@
 ﻿using OmmelSamvirke.Domain.Common;
-using OmmelSamvirke.Domain.Common.Validators;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
@@ -15,37 +14,36 @@ public abstract class ContentBlock : BaseModel
     public bool IsOptional { get; private set; }
 
     /// <summary>
-    /// The X position of the block on the page.
+    /// The layout configuration for Desktop devices.
     /// </summary>
-    public int XPosition { get; private set; }
+    public ContentBlockLayoutConfiguration DesktopConfiguration { get; set; } = null!;
 
     /// <summary>
-    /// The Y position of the block on the page.
+    /// The layout configuration for Tablet devices.
     /// </summary>
-    public int YPosition { get; private set; }
+    public ContentBlockLayoutConfiguration TabletConfiguration { get; set; } = null!;
 
     /// <summary>
-    /// The width of the block.
+    /// The layout configuration for Mobile devices.
     /// </summary>
-    public int Width { get; private set; }
-
-    /// <summary>
-    /// The height of the block.
-    /// </summary>
-    public int? Height { get; private set; }
+    public ContentBlockLayoutConfiguration MobileConfiguration { get; set; } = null!;
 
     /// <summary>
     /// Create a new instance of a ContentBlock.
     /// This constructor should be used when the model has not yet been saved to the database.
     /// </summary>
     /// <param name="isOptional"><see cref="IsOptional"/></param>
-    /// <param name="xPosition"><see cref="XPosition"/></param>
-    /// <param name="yPosition"><see cref="YPosition"/></param>
-    /// <param name="width"><see cref="Width"/></param>
-    /// <param name="height"><see cref="Height"/></param>
-    protected ContentBlock(bool isOptional, int xPosition, int yPosition, int width, int? height)
+    /// <param name="desktopConfiguration"><see cref="DesktopConfiguration"/></param>
+    /// <param name="tabletConfiguration"><see cref="TabletConfiguration"/></param>
+    /// <param name="mobileConfiguration"><see cref="MobileConfiguration"/></param>
+    protected ContentBlock(
+        bool isOptional,
+        ContentBlockLayoutConfiguration desktopConfiguration,
+        ContentBlockLayoutConfiguration tabletConfiguration,
+        ContentBlockLayoutConfiguration mobileConfiguration
+    )
     {
-        Initialize(isOptional, xPosition, yPosition, width, height);
+        Initialize(isOptional, desktopConfiguration, tabletConfiguration, mobileConfiguration);
     }
     
     /// <summary>
@@ -55,33 +53,32 @@ public abstract class ContentBlock : BaseModel
     /// <param name="dateCreated"><see cref="BaseModel.DateCreated"/></param>
     /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
     /// <param name="isOptional"><see cref="IsOptional"/></param>
-    /// <param name="xPosition"><see cref="XPosition"/></param>
-    /// <param name="yPosition"><see cref="YPosition"/></param>
-    /// <param name="width"><see cref="Width"/></param>
-    /// <param name="height"><see cref="Height"/></param>
+    /// <param name="desktopConfiguration"><see cref="DesktopConfiguration"/></param>
+    /// <param name="tabletConfiguration"><see cref="TabletConfiguration"/></param>
+    /// <param name="mobileConfiguration"><see cref="MobileConfiguration"/></param>
     protected ContentBlock(
         int id,
         DateTime dateCreated,
         DateTime dateModified,
         bool isOptional,
-        int xPosition,
-        int yPosition,
-        int width,
-        int? height
+        ContentBlockLayoutConfiguration desktopConfiguration,
+        ContentBlockLayoutConfiguration tabletConfiguration,
+        ContentBlockLayoutConfiguration mobileConfiguration
     ) : base(id, dateCreated, dateModified)
     {
-        Initialize(isOptional, xPosition, yPosition, width, height);
+        Initialize(isOptional, desktopConfiguration, tabletConfiguration, mobileConfiguration);
     }
 
-    private void Initialize(bool isOptional, int xPosition, int yPosition, int width, int? height)
+    private void Initialize(
+        bool isOptional, 
+        ContentBlockLayoutConfiguration desktopConfiguration,
+        ContentBlockLayoutConfiguration tabletConfiguration,
+        ContentBlockLayoutConfiguration mobileConfiguration
+    )
     {
         IsOptional = isOptional;
-        IntegerValidator.Validate(xPosition, 0);
-        IntegerValidator.Validate(yPosition, 0);
-        IntegerValidator.Validate(width, 1);
-        XPosition = xPosition;
-        YPosition = yPosition;
-        Width = width;
-        Height = height;
+        DesktopConfiguration = desktopConfiguration;
+        TabletConfiguration = tabletConfiguration;
+        MobileConfiguration = mobileConfiguration;
     }
 }

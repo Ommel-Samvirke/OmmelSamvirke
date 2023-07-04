@@ -4,14 +4,12 @@ using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 namespace OmmelSamvirke.Domain.UnitTests.Features.Pages.Models.ContentBlockData;
 
 [TestFixture]
-public class ImageBlockDataTests
+public class ImageBlockDataTests : PagesBaseTestModel
 {
-    private ImageBlock _imageBlock = null!;
-
     [SetUp]
-    public void Setup()
+    public override void SetUp()
     {
-        _imageBlock = new ImageBlock(true, 0, 0, 200, 100);
+        base.SetUp();
     }
 
     [Test]
@@ -19,11 +17,11 @@ public class ImageBlockDataTests
     {
         const int pageId = 1;
         const string imageUrl = "https://example.com/someimage.jpg";
-        ImageBlockData imageBlockData = new(_imageBlock, imageUrl, pageId);
+        ImageBlockData imageBlockData = new(DefaultImageBlock, imageUrl, pageId);
 
         Assert.Multiple(() =>
         {
-            Assert.That(imageBlockData.ContentBlock, Is.EqualTo(_imageBlock));
+            Assert.That(imageBlockData.ContentBlock, Is.EqualTo(DefaultImageBlock));
             Assert.That(imageBlockData.ImageUrl, Is.EqualTo(imageUrl));
             Assert.That(imageBlockData.PageId, Is.EqualTo(pageId));
         });
@@ -37,12 +35,12 @@ public class ImageBlockDataTests
         const string imageUrl = "https://example.com/someimage.jpg";
         DateTime dateCreated = DateTime.Now;
         DateTime dateModified = DateTime.Now;
-        ImageBlockData imageBlockData = new(id, dateCreated, dateModified, _imageBlock, imageUrl, pageId);
+        ImageBlockData imageBlockData = new(id, dateCreated, dateModified, DefaultImageBlock, imageUrl, pageId);
 
         Assert.Multiple(() =>
         {
             Assert.That(imageBlockData.Id, Is.EqualTo(id));
-            Assert.That(imageBlockData.ContentBlock, Is.EqualTo(_imageBlock));
+            Assert.That(imageBlockData.ContentBlock, Is.EqualTo(DefaultImageBlock));
             Assert.That(imageBlockData.ImageUrl, Is.EqualTo(imageUrl));
             Assert.That(imageBlockData.PageId, Is.EqualTo(pageId));
             Assert.That(imageBlockData.DateCreated, Is.EqualTo(dateCreated));
@@ -66,7 +64,7 @@ public class ImageBlockDataTests
         const int pageId = 1;
         const string imageUrl = "";
 
-        Assert.That(() => new ImageBlockData(_imageBlock, imageUrl, pageId), Throws.ArgumentException);
+        Assert.That(() => new ImageBlockData(DefaultImageBlock, imageUrl, pageId), Throws.ArgumentException);
     }
 
     [Test]
@@ -75,6 +73,6 @@ public class ImageBlockDataTests
         const int pageId = 1;
         string imageUrl = new string('a', 2001);
 
-        Assert.That(() => new ImageBlockData(_imageBlock, imageUrl, pageId), Throws.ArgumentException);
+        Assert.That(() => new ImageBlockData(DefaultImageBlock, imageUrl, pageId), Throws.ArgumentException);
     }
 }

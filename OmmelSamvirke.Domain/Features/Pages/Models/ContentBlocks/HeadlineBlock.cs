@@ -13,12 +13,16 @@ public class HeadlineBlock : ContentBlock
     /// This constructor should be used when the model has not yet been saved to the database.
     /// </summary>
     /// <param name="isOptional"><see cref="ContentBlock.IsOptional"/></param>
-    /// <param name="xPosition"><see cref="ContentBlock.XPosition"/></param>
-    /// <param name="yPosition"><see cref="ContentBlock.YPosition"/></param>
-    /// <param name="width"><see cref="ContentBlock.Width"/></param>
-    /// <param name="height"><see cref="ContentBlock.Height"/></param>
-    public HeadlineBlock(bool isOptional, int xPosition, int yPosition, int width, int? height)
-        : base(isOptional, xPosition, yPosition, width, height)
+    /// <param name="desktopConfiguration"><see cref="ContentBlock.DesktopConfiguration"/></param>
+    /// <param name="tabletConfiguration"><see cref="ContentBlock.TabletConfiguration"/></param>
+    /// <param name="mobileConfiguration"><see cref="ContentBlock.MobileConfiguration"/></param>
+    public HeadlineBlock(
+        bool isOptional,
+        ContentBlockLayoutConfiguration desktopConfiguration,
+        ContentBlockLayoutConfiguration tabletConfiguration,
+        ContentBlockLayoutConfiguration mobileConfiguration
+    )
+        : base(isOptional, desktopConfiguration, tabletConfiguration, mobileConfiguration)
     {
     }
     
@@ -29,20 +33,18 @@ public class HeadlineBlock : ContentBlock
     /// <param name="dateCreated"><see cref="BaseModel.DateCreated"/></param>
     /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
     /// <param name="isOptional"><see cref="ContentBlock.IsOptional"/></param>
-    /// <param name="xPosition"><see cref="ContentBlock.XPosition"/></param>
-    /// <param name="yPosition"><see cref="ContentBlock.YPosition"/></param>
-    /// <param name="width"><see cref="ContentBlock.Width"/></param>
-    /// <param name="height"><see cref="ContentBlock.Height"/></param>
+    /// <param name="desktopConfiguration"><see cref="ContentBlock.DesktopConfiguration"/></param>
+    /// <param name="tabletConfiguration"><see cref="ContentBlock.TabletConfiguration"/></param>
+    /// <param name="mobileConfiguration"><see cref="ContentBlock.MobileConfiguration"/></param>
     public HeadlineBlock(
         int id,
         DateTime dateCreated,
         DateTime dateModified,
         bool isOptional,
-        int xPosition,
-        int yPosition,
-        int width,
-        int? height
-    ) : base(id, dateCreated, dateModified, isOptional, xPosition, yPosition, width, height)
+        ContentBlockLayoutConfiguration desktopConfiguration,
+        ContentBlockLayoutConfiguration tabletConfiguration,
+        ContentBlockLayoutConfiguration mobileConfiguration
+    ) : base(id, dateCreated, dateModified, isOptional, desktopConfiguration, tabletConfiguration, mobileConfiguration)
     {
     }
 }

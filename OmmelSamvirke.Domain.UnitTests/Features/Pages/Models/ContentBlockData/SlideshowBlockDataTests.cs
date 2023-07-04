@@ -4,14 +4,13 @@ using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 namespace OmmelSamvirke.Domain.UnitTests.Features.Pages.Models.ContentBlockData;
 
 [TestFixture]
-public class SlideshowBlockDataTests
+public class SlideshowBlockDataTests : PagesBaseTestModel
 {
-    private SlideshowBlock _slideshowBlock = null!;
 
     [SetUp]
-    public void Setup()
+    public override void SetUp()
     {
-        _slideshowBlock = new SlideshowBlock(true, 0, 0, 200, 100);
+        base.SetUp();
     }
 
     [Test]
@@ -19,11 +18,11 @@ public class SlideshowBlockDataTests
     {
         const int pageId = 1;
         List<string> imageUrls = new() { "https://example.com/image1.jpg", "https://example.com/image2.jpg" };
-        SlideshowBlockData slideshowBlockData = new(_slideshowBlock, imageUrls, pageId);
+        SlideshowBlockData slideshowBlockData = new(DefaultSlideshowBlock, imageUrls, pageId);
 
         Assert.Multiple(() =>
         {
-            Assert.That(slideshowBlockData.ContentBlock, Is.EqualTo(_slideshowBlock));
+            Assert.That(slideshowBlockData.ContentBlock, Is.EqualTo(DefaultSlideshowBlock));
             CollectionAssert.AreEqual(slideshowBlockData.ImageUrls, imageUrls);
             Assert.That(slideshowBlockData.PageId, Is.EqualTo(pageId));
         });
@@ -37,12 +36,12 @@ public class SlideshowBlockDataTests
         List<string> imageUrls = new() { "https://example.com/image1.jpg", "https://example.com/image2.jpg" };
         DateTime dateCreated = DateTime.Now;
         DateTime dateModified = DateTime.Now;
-        SlideshowBlockData slideshowBlockData = new(id, dateCreated, dateModified, _slideshowBlock, imageUrls, pageId);
+        SlideshowBlockData slideshowBlockData = new(id, dateCreated, dateModified, DefaultSlideshowBlock, imageUrls, pageId);
 
         Assert.Multiple(() =>
         {
             Assert.That(slideshowBlockData.Id, Is.EqualTo(id));
-            Assert.That(slideshowBlockData.ContentBlock, Is.EqualTo(_slideshowBlock));
+            Assert.That(slideshowBlockData.ContentBlock, Is.EqualTo(DefaultSlideshowBlock));
             CollectionAssert.AreEqual(slideshowBlockData.ImageUrls, imageUrls);
             Assert.That(slideshowBlockData.PageId, Is.EqualTo(pageId));
             Assert.That(slideshowBlockData.DateCreated, Is.EqualTo(dateCreated));
@@ -66,7 +65,7 @@ public class SlideshowBlockDataTests
         const int pageId = 1;
         List<string> nullImageUrls = null!;
 
-        Assert.That(() => new SlideshowBlockData(_slideshowBlock, nullImageUrls, pageId), Throws.ArgumentException);
+        Assert.That(() => new SlideshowBlockData(DefaultSlideshowBlock, nullImageUrls, pageId), Throws.ArgumentException);
     }
 
     [Test]
@@ -75,7 +74,7 @@ public class SlideshowBlockDataTests
         const int pageId = 1;
         List<string> imageUrls = new() { "https://example.com/image1.jpg", "" };
 
-        Assert.That(() => new SlideshowBlockData(_slideshowBlock, imageUrls, pageId), Throws.ArgumentException);
+        Assert.That(() => new SlideshowBlockData(DefaultSlideshowBlock, imageUrls, pageId), Throws.ArgumentException);
     }
 
     [Test]
@@ -85,6 +84,6 @@ public class SlideshowBlockDataTests
         string longUrl = new('a', 2001);
         List<string> imageUrls = new() { "https://example.com/image1.jpg", longUrl };
 
-        Assert.That(() => new SlideshowBlockData(_slideshowBlock, imageUrls, pageId), Throws.ArgumentException);
+        Assert.That(() => new SlideshowBlockData(DefaultSlideshowBlock, imageUrls, pageId), Throws.ArgumentException);
     }
 }

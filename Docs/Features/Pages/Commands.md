@@ -19,8 +19,9 @@ The following describes the commands the application layer supports.
 - Delete a page ❌
 - Update the Data of a ContentBlockData element 
   (Probably needs an update action for each type) ❌
-- Save a page: Updates should not be saved immediately, a copy of the page 
-  should be saved each time a ContentBlockData element is edited. 
-  Only when a "Save" button is clicked, should the temporary
+- Save a page ❌
+- Save temporary page: Updates should not be saved immediately, 
+  a temporary copy of the page should be saved each time a ContentBlockData element 
+  is edited. Only when a "Save" button is clicked, should the temporary
   page overwrite the original page. ❌
 - Add page to history: Save all published versions of a page in a table ❌

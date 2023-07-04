@@ -22,7 +22,7 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         _defaultCreatePageTemplateCommand = new CreatePageTemplateCommand(
             "Test",
             new HashSet<Layouts>() { Layouts.Desktop },
-            new List<ContentBlock>() { new TextBlock(false, 0, 0, 100, null) },
+            new List<ContentBlock>() { DefaultContentBlock },
             PageTemplateState.Public
         );
     }
@@ -51,7 +51,7 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         CreatePageTemplateCommand createPageTemplateCommand = new(
             new string('a', nameLength),
             new HashSet<Layouts>() { Layouts.Desktop },
-            new List<ContentBlock>() { new TextBlock(false, 0, 0, 100, null) },
+            new List<ContentBlock>() { DefaultContentBlock },
             PageTemplateState.Public
         );
 
@@ -68,7 +68,7 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         CreatePageTemplateCommand createPageTemplateCommand = new(
             "TestTemplate",
             new HashSet<Layouts>(),
-            new List<ContentBlock>() { new TextBlock(false, 0, 0, 100, null) },
+            new List<ContentBlock>() { DefaultContentBlock },
             PageTemplateState.Public
         );
 
@@ -102,7 +102,7 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         CreatePageTemplateCommand createPageTemplateCommand = new(
             "TestTemplate",
             new HashSet<Layouts>() { Layouts.Desktop },
-            new List<ContentBlock>() { new TextBlock(false, 0, 0, 100, null) },
+            new List<ContentBlock>() { DefaultContentBlock },
             (PageTemplateState)9999
         );
 
@@ -121,7 +121,7 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         CreatePageTemplateCommand createPageTemplateCommand = new(
             "Test",
             new HashSet<Layouts>() { Layouts.Desktop },
-            new List<ContentBlock>() { new TextBlock(false, 0, 0, 100, null) },
+            new List<ContentBlock>() { DefaultContentBlock },
             PageTemplateState.Public
         );
         

@@ -4,14 +4,13 @@ using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 namespace OmmelSamvirke.Domain.UnitTests.Features.Pages.Models.ContentBlockData;
 
 [TestFixture]
-public class TextBlockDataTests
+public class TextBlockDataTests : PagesBaseTestModel
 {
-    private TextBlock _textBlock = null!;
 
     [SetUp]
-    public void Setup()
+    public override void SetUp()
     {
-        _textBlock = new TextBlock(true, 0, 0, 200, 100);
+        base.SetUp();
     }
 
     [Test]
@@ -19,11 +18,11 @@ public class TextBlockDataTests
     {
         const int pageId = 1;
         const string text = "Some valid text";
-        TextBlockData textBlockData = new(_textBlock, text, pageId);
+        TextBlockData textBlockData = new(DefaultTextBlock, text, pageId);
 
         Assert.Multiple(() =>
         {
-            Assert.That(textBlockData.ContentBlock, Is.EqualTo(_textBlock));
+            Assert.That(textBlockData.ContentBlock, Is.EqualTo(DefaultTextBlock));
             Assert.That(textBlockData.Text, Is.EqualTo(text));
             Assert.That(textBlockData.PageId, Is.EqualTo(pageId));
         });
@@ -37,12 +36,12 @@ public class TextBlockDataTests
         const string text = "Some valid text";
         DateTime dateCreated = DateTime.Now;
         DateTime dateModified = DateTime.Now;
-        TextBlockData textBlockData = new(id, dateCreated, dateModified, _textBlock, text, pageId);
+        TextBlockData textBlockData = new(id, dateCreated, dateModified, DefaultTextBlock, text, pageId);
 
         Assert.Multiple(() =>
         {
             Assert.That(textBlockData.Id, Is.EqualTo(id));
-            Assert.That(textBlockData.ContentBlock, Is.EqualTo(_textBlock));
+            Assert.That(textBlockData.ContentBlock, Is.EqualTo(DefaultTextBlock));
             Assert.That(textBlockData.Text, Is.EqualTo(text));
             Assert.That(textBlockData.PageId, Is.EqualTo(pageId));
             Assert.That(textBlockData.DateCreated, Is.EqualTo(dateCreated));
@@ -66,7 +65,7 @@ public class TextBlockDataTests
         const int pageId = 1;
         const string text = "";
 
-        Assert.That(() => new TextBlockData(_textBlock, text, pageId), Throws.ArgumentException);
+        Assert.That(() => new TextBlockData(DefaultTextBlock, text, pageId), Throws.ArgumentException);
     }
 
     [Test]
@@ -75,6 +74,6 @@ public class TextBlockDataTests
         const int pageId = 1;
         string text = new string('a', 5001);
 
-        Assert.That(() => new TextBlockData(_textBlock, text, pageId), Throws.ArgumentException);
+        Assert.That(() => new TextBlockData(DefaultTextBlock, text, pageId), Throws.ArgumentException);
     }
 }

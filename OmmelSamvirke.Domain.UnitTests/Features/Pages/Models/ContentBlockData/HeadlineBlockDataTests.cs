@@ -4,14 +4,12 @@ using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 namespace OmmelSamvirke.Domain.UnitTests.Features.Pages.Models.ContentBlockData;
 
 [TestFixture]
-public class HeadlineBlockDataTests
+public class HeadlineBlockDataTests : PagesBaseTestModel
 {
-    private HeadlineBlock _headlineBlock = null!;
-
     [SetUp]
-    public void Setup()
+    public override void SetUp()
     {
-        _headlineBlock = new HeadlineBlock(true, 0, 0, 200, 100);
+        base.SetUp();
     }
 
     [Test]
@@ -19,11 +17,11 @@ public class HeadlineBlockDataTests
     {
         const int pageId = 1;
         const string headline = "Some valid headline";
-        HeadlineBlockData headlineBlockData = new(_headlineBlock, headline, pageId);
+        HeadlineBlockData headlineBlockData = new(DefaultHeadlineBlock, headline, pageId);
 
         Assert.Multiple(() =>
         {
-            Assert.That(headlineBlockData.ContentBlock, Is.EqualTo(_headlineBlock));
+            Assert.That(headlineBlockData.ContentBlock, Is.EqualTo(DefaultHeadlineBlock));
             Assert.That(headlineBlockData.Headline, Is.EqualTo(headline));
             Assert.That(headlineBlockData.PageId, Is.EqualTo(pageId));
         });
@@ -37,12 +35,12 @@ public class HeadlineBlockDataTests
         const string headline = "Some valid headline";
         DateTime dateCreated = DateTime.Now;
         DateTime dateModified = DateTime.Now;
-        HeadlineBlockData headlineBlockData = new(id, dateCreated, dateModified, _headlineBlock, headline, pageId);
+        HeadlineBlockData headlineBlockData = new(id, dateCreated, dateModified, DefaultHeadlineBlock, headline, pageId);
 
         Assert.Multiple(() =>
         {
             Assert.That(headlineBlockData.Id, Is.EqualTo(id));
-            Assert.That(headlineBlockData.ContentBlock, Is.EqualTo(_headlineBlock));
+            Assert.That(headlineBlockData.ContentBlock, Is.EqualTo(DefaultHeadlineBlock));
             Assert.That(headlineBlockData.Headline, Is.EqualTo(headline));
             Assert.That(headlineBlockData.PageId, Is.EqualTo(pageId));
             Assert.That(headlineBlockData.DateCreated, Is.EqualTo(dateCreated));
@@ -66,7 +64,7 @@ public class HeadlineBlockDataTests
         const int pageId = 1;
         const string headline = "";
 
-        Assert.That(() => new HeadlineBlockData(_headlineBlock, headline, pageId), Throws.ArgumentException);
+        Assert.That(() => new HeadlineBlockData(DefaultHeadlineBlock, headline, pageId), Throws.ArgumentException);
     }
 
     [Test]
@@ -75,6 +73,6 @@ public class HeadlineBlockDataTests
         const int pageId = 1;
         string headline = new string('a', 201);
 
-        Assert.That(() => new HeadlineBlockData(_headlineBlock, headline, pageId), Throws.ArgumentException);
+        Assert.That(() => new HeadlineBlockData(DefaultHeadlineBlock, headline, pageId), Throws.ArgumentException);
     }
 }

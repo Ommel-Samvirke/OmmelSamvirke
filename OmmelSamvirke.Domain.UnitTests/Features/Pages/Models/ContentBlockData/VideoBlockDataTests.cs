@@ -4,14 +4,13 @@ using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 namespace OmmelSamvirke.Domain.UnitTests.Features.Pages.Models.ContentBlockData;
 
 [TestFixture]
-public class VideoBlockDataTests
+public class VideoBlockDataTests : PagesBaseTestModel
 {
-    private VideoBlock _videoBlock = null!;
 
     [SetUp]
-    public void Setup()
+    public override void SetUp()
     {
-        _videoBlock = new VideoBlock(true, 0, 0, 200, 100);
+        base.SetUp();
     }
 
     [Test]
@@ -19,11 +18,11 @@ public class VideoBlockDataTests
     {
         const int pageId = 1;
         const string videoUrl = "https://example.com/somevideo.mp4";
-        VideoBlockData videoBlockData = new(_videoBlock, videoUrl, pageId);
+        VideoBlockData videoBlockData = new(DefaultVideoBlock, videoUrl, pageId);
 
         Assert.Multiple(() =>
         {
-            Assert.That(videoBlockData.ContentBlock, Is.EqualTo(_videoBlock));
+            Assert.That(videoBlockData.ContentBlock, Is.EqualTo(DefaultVideoBlock));
             Assert.That(videoBlockData.VideoUrl, Is.EqualTo(videoUrl));
             Assert.That(videoBlockData.PageId, Is.EqualTo(pageId));
         });
@@ -37,12 +36,12 @@ public class VideoBlockDataTests
         const string videoUrl = "https://example.com/somevideo.mp4";
         DateTime dateCreated = DateTime.Now;
         DateTime dateModified = DateTime.Now;
-        VideoBlockData videoBlockData = new(id, dateCreated, dateModified, _videoBlock, videoUrl, pageId);
+        VideoBlockData videoBlockData = new(id, dateCreated, dateModified, DefaultVideoBlock, videoUrl, pageId);
 
         Assert.Multiple(() =>
         {
             Assert.That(videoBlockData.Id, Is.EqualTo(id));
-            Assert.That(videoBlockData.ContentBlock, Is.EqualTo(_videoBlock));
+            Assert.That(videoBlockData.ContentBlock, Is.EqualTo(DefaultVideoBlock));
             Assert.That(videoBlockData.VideoUrl, Is.EqualTo(videoUrl));
             Assert.That(videoBlockData.PageId, Is.EqualTo(pageId));
             Assert.That(videoBlockData.DateCreated, Is.EqualTo(dateCreated));
@@ -66,7 +65,7 @@ public class VideoBlockDataTests
         const int pageId = 1;
         const string videoUrl = "";
 
-        Assert.That(() => new VideoBlockData(_videoBlock, videoUrl, pageId), Throws.ArgumentException);
+        Assert.That(() => new VideoBlockData(DefaultVideoBlock, videoUrl, pageId), Throws.ArgumentException);
     }
 
     [Test]
@@ -75,6 +74,6 @@ public class VideoBlockDataTests
         const int pageId = 1;
         string videoUrl = new string('a', 2001);
 
-        Assert.That(() => new VideoBlockData(_videoBlock, videoUrl, pageId), Throws.ArgumentException);
+        Assert.That(() => new VideoBlockData(DefaultVideoBlock, videoUrl, pageId), Throws.ArgumentException);
     }
 }

@@ -4,14 +4,12 @@ using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 namespace OmmelSamvirke.Domain.UnitTests.Features.Pages.Models.ContentBlockData;
 
 [TestFixture]
-public class PdfBlockDataTests
+public class PdfBlockDataTests : PagesBaseTestModel
 {
-    private PdfBlock _pdfBlock = null!;
-
     [SetUp]
-    public void Setup()
+    public override void SetUp()
     {
-        _pdfBlock = new PdfBlock(true, 0, 0, 200, 100);
+        base.SetUp();
     }
 
     [Test]
@@ -19,11 +17,11 @@ public class PdfBlockDataTests
     {
         const int pageId = 1;
         const string pdfUrl = "https://example.com/somepdf.pdf";
-        PdfBlockData pdfBlockData = new(_pdfBlock, pdfUrl, pageId);
+        PdfBlockData pdfBlockData = new(DefaultPdfBlock, pdfUrl, pageId);
 
         Assert.Multiple(() =>
         {
-            Assert.That(pdfBlockData.ContentBlock, Is.EqualTo(_pdfBlock));
+            Assert.That(pdfBlockData.ContentBlock, Is.EqualTo(DefaultPdfBlock));
             Assert.That(pdfBlockData.PdfUrl, Is.EqualTo(pdfUrl));
             Assert.That(pdfBlockData.PageId, Is.EqualTo(pageId));
         });
@@ -37,12 +35,12 @@ public class PdfBlockDataTests
         const string pdfUrl = "https://example.com/somepdf.pdf";
         DateTime dateCreated = DateTime.Now;
         DateTime dateModified = DateTime.Now;
-        PdfBlockData pdfBlockData = new(id, dateCreated, dateModified, _pdfBlock, pdfUrl, pageId);
+        PdfBlockData pdfBlockData = new(id, dateCreated, dateModified, DefaultPdfBlock, pdfUrl, pageId);
 
         Assert.Multiple(() =>
         {
             Assert.That(pdfBlockData.Id, Is.EqualTo(id));
-            Assert.That(pdfBlockData.ContentBlock, Is.EqualTo(_pdfBlock));
+            Assert.That(pdfBlockData.ContentBlock, Is.EqualTo(DefaultPdfBlock));
             Assert.That(pdfBlockData.PdfUrl, Is.EqualTo(pdfUrl));
             Assert.That(pdfBlockData.PageId, Is.EqualTo(pageId));
             Assert.That(pdfBlockData.DateCreated, Is.EqualTo(dateCreated));
@@ -66,7 +64,7 @@ public class PdfBlockDataTests
         const int pageId = 1;
         const string pdfUrl = "";
 
-        Assert.That(() => new PdfBlockData(_pdfBlock, pdfUrl, pageId), Throws.ArgumentException);
+        Assert.That(() => new PdfBlockData(DefaultPdfBlock, pdfUrl, pageId), Throws.ArgumentException);
     }
 
     [Test]
@@ -75,6 +73,6 @@ public class PdfBlockDataTests
         const int pageId = 1;
         string pdfUrl = new string('a', 2001);
 
-        Assert.That(() => new PdfBlockData(_pdfBlock, pdfUrl, pageId), Throws.ArgumentException);
+        Assert.That(() => new PdfBlockData(DefaultPdfBlock, pdfUrl, pageId), Throws.ArgumentException);
     }
 }

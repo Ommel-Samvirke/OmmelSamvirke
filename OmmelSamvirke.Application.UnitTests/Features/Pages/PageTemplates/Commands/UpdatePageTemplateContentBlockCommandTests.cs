@@ -11,24 +11,13 @@ namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Comma
 public class UpdatePageTemplateContentBlockCommandTests : PageTemplateCommandsTestBase
 {
     private UpdatePageTemplateContentBlockCommandHandler _updatePageTemplateContentBlockCommandHandler = null!;
-    private ContentBlock _defaultContentBlock = null!;
     private Mock<IContentBlockRepository> _contentBlockRepository = null!;
 
     [SetUp]
     public override void SetUp()
     {
         base.SetUp();
-        _defaultContentBlock = new TextBlock(
-            1,
-            DateTime.Now,
-            DateTime.Now,
-            false,
-            0,
-            0,
-            100,
-            null
-        );
-        DefaultPageTemplate.Blocks.Add(_defaultContentBlock);
+        DefaultPageTemplate.Blocks.Add(DefaultContentBlock);
         _contentBlockRepository = new Mock<IContentBlockRepository>();
         _updatePageTemplateContentBlockCommandHandler = new UpdatePageTemplateContentBlockCommandHandler(Mapper.Object, PageTemplateRepository.Object, _contentBlockRepository.Object);
     }
@@ -37,12 +26,12 @@ public class UpdatePageTemplateContentBlockCommandTests : PageTemplateCommandsTe
     public async Task Handle_GivenValidRequest_ShouldUpdatePageTemplateContentBlock()
     {
         // Arrange
-        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplate, _defaultContentBlock);
+        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplate, DefaultContentBlock);
 
         PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
         PageTemplateRepository.Setup(repo => repo.UpdateAsync(It.IsAny<PageTemplate>())).ReturnsAsync(DefaultPageTemplate);
-        _contentBlockRepository.Setup(repo => repo.UpdateAsync(It.IsAny<ContentBlock>())).ReturnsAsync(_defaultContentBlock);
-        _contentBlockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(_defaultContentBlock);
+        _contentBlockRepository.Setup(repo => repo.UpdateAsync(It.IsAny<ContentBlock>())).ReturnsAsync(DefaultContentBlock);
+        _contentBlockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultContentBlock);
         Mapper.Setup(m => m.Map<PageTemplateDto>(It.IsAny<PageTemplate>())).Returns(DefaultPageTemplateDto);
 
         // Act
@@ -57,7 +46,7 @@ public class UpdatePageTemplateContentBlockCommandTests : PageTemplateCommandsTe
     {
         // Arrange
         PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((PageTemplate)null!);
-        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplate, _defaultContentBlock);
+        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplate, DefaultContentBlock);
 
         // Act / Assert
         Assert.ThrowsAsync<NotFoundException>(() =>
@@ -70,7 +59,7 @@ public class UpdatePageTemplateContentBlockCommandTests : PageTemplateCommandsTe
     {
         // Arrange
         _contentBlockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((ContentBlock)null!);
-        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplate, _defaultContentBlock);
+        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplate, DefaultContentBlock);
 
         // Act / Assert
         Assert.ThrowsAsync<NotFoundException>(() =>
@@ -84,7 +73,7 @@ public class UpdatePageTemplateContentBlockCommandTests : PageTemplateCommandsTe
         // Arrange
         const string exceptionMessage = "Repository failure";
         PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception(exceptionMessage));
-        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplate, _defaultContentBlock);
+        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplate, DefaultContentBlock);
         
         // Act
         Exception? ex = Assert.ThrowsAsync<Exception>(() => _updatePageTemplateContentBlockCommandHandler.Handle(command, CancellationToken.None));

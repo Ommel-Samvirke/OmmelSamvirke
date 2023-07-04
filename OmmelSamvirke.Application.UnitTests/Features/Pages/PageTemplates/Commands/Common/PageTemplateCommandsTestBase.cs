@@ -1,7 +1,6 @@
 ﻿using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Models;
-using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands.Common;
@@ -16,6 +15,8 @@ public abstract class PageTemplateCommandsTestBase
     protected PageTemplate DefaultArchivedPageTemplate = null!;
     protected PageTemplateDto DefaultPageTemplateDto = null!;
     protected Page DefaultPage = null!;
+    protected HeadlineBlock DefaultContentBlock { get; private set; } = null!;
+    protected ContentBlockLayoutConfiguration DefaultContentBlockLayoutConfiguration { get; private set; } = null!;
     protected const int DefaultPageTemplateId = 1;
 
     [SetUp]
@@ -53,6 +54,21 @@ public abstract class PageTemplateCommandsTestBase
             DateTime.Now,
             "TestPage",
             DefaultPageTemplate
+        );
+        
+        DefaultContentBlockLayoutConfiguration = new ContentBlockLayoutConfiguration(
+            1,
+            1,
+            1
+        );
+        DefaultContentBlock = new HeadlineBlock(
+            1,
+            DateTime.Now,
+            DateTime.Now,
+            false,
+            DefaultContentBlockLayoutConfiguration,
+            DefaultContentBlockLayoutConfiguration,
+            DefaultContentBlockLayoutConfiguration
         );
     }
 }
