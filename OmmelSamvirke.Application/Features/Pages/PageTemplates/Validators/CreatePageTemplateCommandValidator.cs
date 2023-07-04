@@ -11,12 +11,6 @@ public class CreatePageTemplateCommandValidator : AbstractValidator<CreatePageTe
             .IsInEnum()
             .WithMessage("{PropertyName} must be a valid value in the PageTemplateState enum");
 
-        RuleFor(p => p.SupportedLayouts)
-            .NotNull()
-            .WithMessage("{PropertyName} cannot be null")
-            .Must(p => p.Count > 0)
-            .WithMessage("{PropertyName} cannot have a size less than 1");
-        
         RuleFor(p => p.ContentBlocks)
             .NotNull()
             .WithMessage("{PropertyName} cannot be null")

@@ -14,19 +14,16 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 public class CreatePageTemplateCommand : IRequest<PageTemplateDto>
 {
     public string Name { get; }
-    public ISet<Layouts> SupportedLayouts { get;}
     public List<ContentBlock> ContentBlocks { get;}
     public PageTemplateState PageTemplateState { get; }
     
     public CreatePageTemplateCommand(
         string name,
-        ISet<Layouts> supportedLayouts, 
         List<ContentBlock> contentBlocks,
         PageTemplateState pageTemplateState
     )
     {
         Name = name;
-        SupportedLayouts = supportedLayouts;
         ContentBlocks = contentBlocks;
         PageTemplateState = pageTemplateState;
     }

@@ -10,8 +10,6 @@ The following describes the commands the application layer supports.
 - Add a ContentBlock to a template ✅
 - Remove a ContentBlock from a template ✅
 - Update a ContentBlock in a template ✅
-- Add a supported layout - TODO: Rethink layouts ❌
-- Remove a supported layout - TODO: Rethink layouts ❌
 
 ## Page
 - Create a new page from a template ❌
@@ -25,3 +23,6 @@ The following describes the commands the application layer supports.
   is edited. Only when a "Save" button is clicked, should the temporary
   page overwrite the original page. ❌
 - Add page to history: Save all published versions of a page in a table ❌
+
+## General/Fixes
+- Commands and queries should take DTOs as parameters and return DTOs as results, never domain entities ❌

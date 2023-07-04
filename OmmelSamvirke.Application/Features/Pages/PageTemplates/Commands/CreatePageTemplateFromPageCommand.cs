@@ -56,7 +56,6 @@ public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePa
         
         PageTemplate customPageTemplate = new(
             $"{request.Page.Name}",
-            request.Page.Template.SupportedLayouts,
             contentBlocks,
             PageTemplateState.Custom
         );

@@ -31,20 +31,17 @@ public abstract class PageTemplateCommandsTestBase
             DateTime.Now, 
             DateTime.Now,
             "TestTemplate",
-            new HashSet<Layouts>(),
             new List<ContentBlock>(),
             PageTemplateState.Public
         );
         DefaultArchivedPageTemplate = new PageTemplate(
             "TestTemplate",
-            new HashSet<Layouts>(),
             new List<ContentBlock>(),
             PageTemplateState.Public
         );
         DefaultPageTemplateDto = new PageTemplateDto(
             DefaultPageTemplateId,
             "TestTemplate",
-            new HashSet<Layouts>(),
             new List<ContentBlock>(),
             PageTemplateState.Public
         );

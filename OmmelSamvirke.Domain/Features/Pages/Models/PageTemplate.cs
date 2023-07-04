@@ -19,11 +19,6 @@ public class PageTemplate : BaseModel
     public string Name { get; private set; } = null!;
 
     /// <summary>
-    /// Represents a list of layouts that are supported by this template.
-    /// </summary>
-    public ISet<Layouts> SupportedLayouts { get; private set; } = new HashSet<Layouts>();
-
-    /// <summary>
     /// Represents the content blocks associated with this template.
     /// </summary>
     public List<ContentBlock> Blocks { get; private set; } = new();
@@ -38,12 +33,11 @@ public class PageTemplate : BaseModel
     /// This constructor should be used when the model has not yet been saved to the database.
     /// </summary>
     /// <param name="name"><see cref="Name"/></param>
-    /// <param name="supportedLayouts"><see cref="SupportedLayouts"/></param>
     /// <param name="contentBlocks"><see cref="Blocks"/></param>
     /// <param name="state"><see cref="State"/></param>
-    public PageTemplate(string name, ISet<Layouts> supportedLayouts, List<ContentBlock> contentBlocks, PageTemplateState state)
+    public PageTemplate(string name, List<ContentBlock> contentBlocks, PageTemplateState state)
     {
-        Initialize(name, supportedLayouts, contentBlocks, state);
+        Initialize(name, contentBlocks, state);
     }
 
     /// <summary>
@@ -53,7 +47,6 @@ public class PageTemplate : BaseModel
     /// <param name="dateCreated"><see cref="BaseModel.DateCreated"/></param>
     /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
     /// <param name="name"><see cref="Name"/></param>
-    /// <param name="supportedLayouts"><see cref="SupportedLayouts"/></param>
     /// <param name="contentBlocks"><see cref="Blocks"/></param>
     /// <param name="state"><see cref="State"/></param>
     public PageTemplate(
@@ -61,29 +54,25 @@ public class PageTemplate : BaseModel
         DateTime dateCreated,
         DateTime dateModified,
         string name,
-        ISet<Layouts> supportedLayouts,
         List<ContentBlock> contentBlocks,
         PageTemplateState state
     ) : base(id, dateCreated, dateModified)
     {
-        Initialize(name, supportedLayouts, contentBlocks, state);
+        Initialize(name, contentBlocks, state);
     }
 
     /// <summary>
     /// Initializes the PageTemplate object after validation.
     /// </summary>
     /// <param name="name"><see cref="Name"/></param>
-    /// <param name="supportedLayouts"><see cref="SupportedLayouts"/></param>
     /// <param name="contentBlocks"><see cref="Blocks"/></param>
     /// <param name="state"><see cref="State"/></param>
-    private void Initialize(string name, ISet<Layouts> supportedLayouts, List<ContentBlock> contentBlocks, PageTemplateState state)
+    private void Initialize(string name, List<ContentBlock> contentBlocks, PageTemplateState state)
     {
         StringLengthValidator.Validate(name, 1, 100);
-        NullValidator.Validate(supportedLayouts);
         NullValidator.Validate(contentBlocks);
         
         Name = name;
-        SupportedLayouts = supportedLayouts;
         Blocks = contentBlocks;
         State = state;
     }

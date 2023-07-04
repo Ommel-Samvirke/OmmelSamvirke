@@ -21,7 +21,6 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         _createPageTemplateCommandHandler = new CreatePageTemplateCommandHandler(Mapper.Object, PageTemplateRepository.Object);
         _defaultCreatePageTemplateCommand = new CreatePageTemplateCommand(
             "Test",
-            new HashSet<Layouts>() { Layouts.Desktop },
             new List<ContentBlock>() { DefaultContentBlock },
             PageTemplateState.Public
         );
@@ -50,7 +49,6 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         // Arrange
         CreatePageTemplateCommand createPageTemplateCommand = new(
             new string('a', nameLength),
-            new HashSet<Layouts>() { Layouts.Desktop },
             new List<ContentBlock>() { DefaultContentBlock },
             PageTemplateState.Public
         );
@@ -61,30 +59,12 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         );
     }
 
-    [Test]
-    public void Handle_WhenCalledWithEmptySupportedLayouts_ShouldThrowBadRequestException()
-    {
-        // Arrange
-        CreatePageTemplateCommand createPageTemplateCommand = new(
-            "TestTemplate",
-            new HashSet<Layouts>(),
-            new List<ContentBlock>() { DefaultContentBlock },
-            PageTemplateState.Public
-        );
-
-        // Act / Assert
-        Assert.ThrowsAsync<BadRequestException>(() =>
-            _createPageTemplateCommandHandler.Handle(createPageTemplateCommand, CancellationToken.None)
-        );
-    }
-    
     [Test]
     public void Handle_WhenCalledWithEmptyContentBlocks_ShouldThrowBadRequestException()
     {
         // Arrange
         CreatePageTemplateCommand createPageTemplateCommand = new(
             "TestTemplate",
-            new HashSet<Layouts>() { Layouts.Desktop },
             new List<ContentBlock>(),
             PageTemplateState.Public
         );
@@ -101,7 +81,6 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         // Arrange
         CreatePageTemplateCommand createPageTemplateCommand = new(
             "TestTemplate",
-            new HashSet<Layouts>() { Layouts.Desktop },
             new List<ContentBlock>() { DefaultContentBlock },
             (PageTemplateState)9999
         );
@@ -120,7 +99,6 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
 
         CreatePageTemplateCommand createPageTemplateCommand = new(
             "Test",
-            new HashSet<Layouts>() { Layouts.Desktop },
             new List<ContentBlock>() { DefaultContentBlock },
             PageTemplateState.Public
         );

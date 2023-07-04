@@ -64,7 +64,6 @@ public class CreatePageTemplateFromPageCommandTests : PageTemplateCommandsTestBa
         HeadlineBlockData testContentBlockData = new(DefaultContentBlock, "TestHeadline", 1);
         PageTemplate newPage = new(
             "CustomPageTemplate",
-            new HashSet<Layouts>(),
             new List<ContentBlock>(),
             PageTemplateState.Public
         );

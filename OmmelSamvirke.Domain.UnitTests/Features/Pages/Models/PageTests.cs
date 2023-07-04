@@ -12,14 +12,8 @@ public class PageTests
     [SetUp]
     public void Setup()
     {
-        ISet<Layouts> supportedLayouts = new HashSet<Layouts>()
-        {
-            Layouts.Desktop,
-            Layouts.Mobile
-        };
         _template = new PageTemplate(
             "page_template",
-            supportedLayouts,
             new List<ContentBlock>(),
             PageTemplateState.Public
         );

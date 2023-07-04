@@ -6,8 +6,8 @@ namespace OmmelSamvirke.Domain.Features.Pages.Interfaces.Services;
 
 public interface IPageTemplateService
 {
-    Task<PageTemplate> CreatePageTemplate(string name, IList<Layouts> supportedLayouts, IList<ContentBlock> blocks);
-    Task<PageTemplate> UpdatePageTemplate(int id, string name, IList<Layouts> supportedLayouts, IList<ContentBlock> blocks);
+    Task<PageTemplate> CreatePageTemplate(string name, IList<ContentBlock> blocks);
+    Task<PageTemplate> UpdatePageTemplate(int id, string name, IList<ContentBlock> blocks);
     Task<bool> DeletePageTemplate(int id);
     Task<bool> ArchivePageTemplate(int id);
     Task<bool> CheckIfTemplateCanBeDeleted(int id);
