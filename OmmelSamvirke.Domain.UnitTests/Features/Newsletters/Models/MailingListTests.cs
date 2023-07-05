@@ -10,7 +10,7 @@ public class MailingListTests
     [SetUp]
     public void Setup()
     {
-        _newsletterSubscribers = new HashSet<NewsletterSubscriber>()
+        _newsletterSubscribers = new HashSet<NewsletterSubscriber>
         {
             new("test@example.com")
         };

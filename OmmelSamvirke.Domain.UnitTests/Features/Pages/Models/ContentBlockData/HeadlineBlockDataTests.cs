@@ -71,7 +71,7 @@ public class HeadlineBlockDataTests : PagesBaseTestModel
     public void Should_Throw_Exception_When_Headline_Is_Too_Long()
     {
         const int pageId = 1;
-        string headline = new string('a', 201);
+        string headline = new('a', 201);
 
         Assert.That(() => new HeadlineBlockData(DefaultHeadlineBlock, headline, pageId), Throws.ArgumentException);
     }

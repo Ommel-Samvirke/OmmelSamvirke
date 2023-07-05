@@ -1,5 +1,4 @@
 ﻿using OmmelSamvirke.Domain.Features.Pages.Enums;
-using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 
@@ -10,11 +9,6 @@ public class PageTemplateDto
     public List<ContentBlockDto> ContentBlocks { get; set; }
     public PageTemplateState PageTemplateState { get; set;  }
 
-    public PageTemplateDto()
-    {
-        ContentBlocks = new List<ContentBlockDto>();
-    }
-    
     public PageTemplateDto(
         int id,
         string name,

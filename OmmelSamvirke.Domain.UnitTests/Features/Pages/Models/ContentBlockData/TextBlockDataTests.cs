@@ -72,7 +72,7 @@ public class TextBlockDataTests : PagesBaseTestModel
     public void Should_Throw_Exception_When_Text_Is_Too_Long()
     {
         const int pageId = 1;
-        string text = new string('a', 5001);
+        string text = new('a', 5001);
 
         Assert.That(() => new TextBlockData(DefaultTextBlock, text, pageId), Throws.ArgumentException);
     }

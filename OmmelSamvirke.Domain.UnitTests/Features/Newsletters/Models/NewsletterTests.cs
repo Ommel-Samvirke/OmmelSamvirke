@@ -247,7 +247,7 @@ public class NewsletterTests
             _defaultAdminId,
             _defaultSentDate
         );
-        string newPlainContent = new string('a', 50);
+        string newPlainContent = new('a', 50);
 
         newsletter.PlainContent = newPlainContent;
         

@@ -10,7 +10,7 @@ public class NewsletterCommunityAssociationsTests
     [SetUp]
     public void SetUp()
     {
-        _defaultNewsletterCommunities = new HashSet<int>()
+        _defaultNewsletterCommunities = new HashSet<int>
         {
             1,
             2
@@ -110,7 +110,7 @@ public class NewsletterCommunityAssociationsTests
     public void NewsletterCommunities_SettingNewsletterCommunities_ReplacesSet()
     {
         NewsletterCommunityAssociations newsletterCommunityAssociations = new(1, _defaultNewsletterCommunities);
-        ISet<int> newNewsletterCommunities = new HashSet<int>() { 1, 2, 3, 4 };
+        ISet<int> newNewsletterCommunities = new HashSet<int> { 1, 2, 3, 4 };
 
         newsletterCommunityAssociations.NewsletterCommunities = newNewsletterCommunities;
         

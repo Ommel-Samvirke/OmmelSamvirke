@@ -3,7 +3,7 @@
 /// <summary>
 /// Validates if an object is null
 /// </summary>
-public class NullValidator
+public static class NullValidator
 {
     /// <summary>
     /// Perform the validation action of <see cref="NullValidator"/>

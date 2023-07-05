@@ -71,7 +71,7 @@ public class ImageBlockDataTests : PagesBaseTestModel
     public void Should_Throw_Exception_When_ImageUrl_Is_Too_Long()
     {
         const int pageId = 1;
-        string imageUrl = new string('a', 2001);
+        string imageUrl = new('a', 2001);
 
         Assert.That(() => new ImageBlockData(DefaultImageBlock, imageUrl, pageId), Throws.ArgumentException);
     }

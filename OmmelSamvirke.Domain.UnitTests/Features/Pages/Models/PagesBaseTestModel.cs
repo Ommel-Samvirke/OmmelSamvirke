@@ -5,22 +5,22 @@ namespace OmmelSamvirke.Domain.UnitTests.Features.Pages.Models;
 
 public abstract class PagesBaseTestModel
 {
-    protected ContentBlockLayoutConfiguration DefaultDesktopConfiguration { get; set; }
-    protected ContentBlockLayoutConfiguration DefaultMobileConfiguration { get; set; }
-    protected ContentBlockLayoutConfiguration DefaultTabletConfiguration { get; set; }
-    
-    protected PdfBlock DefaultPdfBlock { get; set; }
+    protected ContentBlockLayoutConfiguration DefaultDesktopConfiguration { get; private set; } = null!;
+    protected ContentBlockLayoutConfiguration DefaultMobileConfiguration { get; private set; } = null!;
+    protected ContentBlockLayoutConfiguration DefaultTabletConfiguration { get; private set; } = null!;
 
-    protected SlideshowBlock DefaultSlideshowBlock { get; set; }
+    protected PdfBlock DefaultPdfBlock { get; private set; } = null!;
 
-    protected TextBlock DefaultTextBlock { get; set; }
+    protected SlideshowBlock DefaultSlideshowBlock { get; private set; } = null!;
 
-    protected VideoBlock DefaultVideoBlock { get; set; }
+    protected TextBlock DefaultTextBlock { get; private set; } = null!;
 
-    protected ImageBlock DefaultImageBlock { get; set; }
+    protected VideoBlock DefaultVideoBlock { get; private set; } = null!;
 
-    protected HeadlineBlock DefaultHeadlineBlock { get; set; }
-    
+    protected ImageBlock DefaultImageBlock { get; private set; } = null!;
+
+    protected HeadlineBlock DefaultHeadlineBlock { get; private set; } = null!;
+
     [SetUp]
     public virtual void SetUp()
     {

@@ -52,7 +52,7 @@ public class PageTemplateTests
     [Test]
     public void Should_Throw_Exception_When_Name_Is_Too_Long()
     {
-        string name = new string('a', 101);
+        string name = new('a', 101);
 
         Assert.That(() => new PageTemplate(name, new List<ContentBlock>(), PageTemplateState.Public), Throws.ArgumentException);
     }

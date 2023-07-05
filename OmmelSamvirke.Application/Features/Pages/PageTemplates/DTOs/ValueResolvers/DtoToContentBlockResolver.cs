@@ -19,25 +19,72 @@ public class DtoToContentBlockResolver : IValueResolver<PageTemplateDto, PageTem
                 context.Mapper.Map<ContentBlockLayoutConfiguration>(cbDto.TabletConfiguration);
             ContentBlockLayoutConfiguration mobileConfig =
                 context.Mapper.Map<ContentBlockLayoutConfiguration>(cbDto.MobileConfiguration);
+            DateTime datePlaceholder = DateTime.Now;
 
             ContentBlock contentBlock = cbDto.ContentBlockType switch
             {
                 ContentBlockType.HeadlineBlock => 
-                    new HeadlineBlock(cbDto.IsOptional, desktopConfig, tabletConfig, mobileConfig),
+                    new HeadlineBlock(
+                    cbDto.Id,
+                    datePlaceholder,
+                    datePlaceholder,
+                    cbDto.IsOptional,
+                    desktopConfig,
+                    tabletConfig,
+                    mobileConfig
+                ),
                 ContentBlockType.ImageBlock => 
-                    new ImageBlock(cbDto.IsOptional, desktopConfig, tabletConfig, mobileConfig),
+                    new ImageBlock(
+                    cbDto.Id,
+                    datePlaceholder,
+                    datePlaceholder,
+                    cbDto.IsOptional,
+                    desktopConfig,
+                    tabletConfig,
+                    mobileConfig
+                ),
                 ContentBlockType.PdfBlock => 
-                    new PdfBlock(cbDto.IsOptional, desktopConfig, tabletConfig, mobileConfig),
+                    new PdfBlock(
+                    cbDto.Id,
+                    datePlaceholder,
+                    datePlaceholder,
+                    cbDto.IsOptional,
+                    desktopConfig,
+                    tabletConfig,
+                    mobileConfig
+                ),
                 ContentBlockType.SlideshowBlock => 
-                    new SlideshowBlock(cbDto.IsOptional, desktopConfig, tabletConfig, mobileConfig),
+                    new SlideshowBlock(
+                    cbDto.Id,
+                    datePlaceholder,
+                    datePlaceholder,
+                    cbDto.IsOptional,
+                    desktopConfig,
+                    tabletConfig,
+                    mobileConfig
+                ),
                 ContentBlockType.TextBlock => 
-                    new TextBlock(cbDto.IsOptional, desktopConfig, tabletConfig, mobileConfig),
+                    new TextBlock(
+                    cbDto.Id,
+                    datePlaceholder,
+                    datePlaceholder,
+                    cbDto.IsOptional,
+                    desktopConfig,
+                    tabletConfig,
+                    mobileConfig
+                ),
                 ContentBlockType.VideoBlock => 
-                    new VideoBlock(cbDto.IsOptional, desktopConfig, tabletConfig, mobileConfig),
+                    new VideoBlock(
+                    cbDto.Id,
+                    datePlaceholder,
+                    datePlaceholder,
+                    cbDto.IsOptional,
+                    desktopConfig,
+                    tabletConfig,
+                    mobileConfig
+                ),
                 _ => throw new NotSupportedException($"ContentBlockType {cbDto.ContentBlockType} not supported")
             };
-            
-            contentBlock.Id = cbDto.Id;
 
             return contentBlock;
         }).ToList();

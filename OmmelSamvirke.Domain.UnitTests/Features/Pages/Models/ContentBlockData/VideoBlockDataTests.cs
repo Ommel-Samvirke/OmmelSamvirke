@@ -72,7 +72,7 @@ public class VideoBlockDataTests : PagesBaseTestModel
     public void Should_Throw_Exception_When_VideoUrl_Is_Too_Long()
     {
         const int pageId = 1;
-        string videoUrl = new string('a', 2001);
+        string videoUrl = new('a', 2001);
 
         Assert.That(() => new VideoBlockData(DefaultVideoBlock, videoUrl, pageId), Throws.ArgumentException);
     }

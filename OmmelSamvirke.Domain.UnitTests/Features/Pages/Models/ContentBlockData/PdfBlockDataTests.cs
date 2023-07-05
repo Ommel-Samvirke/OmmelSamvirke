@@ -71,7 +71,7 @@ public class PdfBlockDataTests : PagesBaseTestModel
     public void Should_Throw_Exception_When_PdfUrl_Is_Too_Long()
     {
         const int pageId = 1;
-        string pdfUrl = new string('a', 2001);
+        string pdfUrl = new('a', 2001);
 
         Assert.That(() => new PdfBlockData(DefaultPdfBlock, pdfUrl, pageId), Throws.ArgumentException);
     }

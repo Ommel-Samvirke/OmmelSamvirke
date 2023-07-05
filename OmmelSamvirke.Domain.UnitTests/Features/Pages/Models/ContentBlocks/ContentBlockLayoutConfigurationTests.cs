@@ -1,5 +1,4 @@
 ﻿using OmmelSamvirke.Domain.Features.Pages.Models;
-using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Domain.UnitTests.Features.Pages.Models.ContentBlocks;
 

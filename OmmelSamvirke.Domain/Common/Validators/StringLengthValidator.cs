@@ -24,7 +24,7 @@ public static class StringLengthValidator
         
         if (string.IsNullOrEmpty(testString))
         {
-            throw new ArgumentException($"The property must not be null or empty");
+            throw new ArgumentException("The property must not be null or empty");
         }
         
         if (testString.Length < minLength)

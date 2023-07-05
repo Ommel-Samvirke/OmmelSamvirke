@@ -3,8 +3,6 @@ using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
-using OmmelSamvirke.Domain.Features.Pages.Models;
-using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 
