@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
+using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.ContentBlockData;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
@@ -41,15 +42,15 @@ public class CreatePageTemplateFromPageCommandValidator : AbstractValidator<Crea
             .WithMessage("Page name must not be null");
     }
     
-    private async Task<bool> PageExists(Page page, CancellationToken cancellationToken)
+    private async Task<bool> PageExists(PageDto page, CancellationToken cancellationToken)
     {
-        Page? foundPage = await _pageRepository.GetByIdAsync((int)page.Id!);
+        Page? foundPage = await _pageRepository.GetByIdAsync(page.Id);
         return foundPage != null;
     }
     
-    private async Task<bool> PageMustHaveContentBlocks(Page page, CancellationToken cancellationToken)
+    private async Task<bool> PageMustHaveContentBlocks(PageDto page, CancellationToken cancellationToken)
     {
-        List<IContentBlockData> contentBlocks = await _contentBlockRepository.GetByPageIdAsync((int)page.Id!);
+        List<IContentBlockData> contentBlocks = await _contentBlockRepository.GetByPageIdAsync(page.Id);
         return contentBlocks.Count > 0;
     }
 }

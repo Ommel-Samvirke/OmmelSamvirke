@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
+using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
-using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 
@@ -25,8 +25,8 @@ public class AddContentBlockToPageTemplateCommandValidator : AbstractValidator<A
             .WithMessage("Page template does not exist.");
     }
     
-    private async Task<bool> PageTemplateMustExist(PageTemplate pageTemplate, CancellationToken cancellationToken)
+    private async Task<bool> PageTemplateMustExist(PageTemplateDto pageTemplate, CancellationToken cancellationToken)
     {
-        return await _pageTemplateRepository.GetByIdAsync((int)pageTemplate.Id!) is not null;
+        return await _pageTemplateRepository.GetByIdAsync(pageTemplate.Id) is not null;
     }
 }

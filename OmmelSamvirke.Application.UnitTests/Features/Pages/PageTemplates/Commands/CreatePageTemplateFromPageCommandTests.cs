@@ -20,7 +20,7 @@ public class CreatePageTemplateFromPageCommandTests : PageTemplateCommandsTestBa
     public override void SetUp()
     {
         base.SetUp();
-        _defaultCommand = new CreatePageTemplateFromPageCommand(DefaultPage); 
+        _defaultCommand = new CreatePageTemplateFromPageCommand(DefaultPageDto); 
         _defaultHandler = new CreatePageTemplateFromPageCommandHandler(
             Mapper.Object,
             PageRepository.Object,

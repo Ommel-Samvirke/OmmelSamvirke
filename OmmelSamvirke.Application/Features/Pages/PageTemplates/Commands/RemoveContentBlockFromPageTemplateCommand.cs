@@ -11,10 +11,10 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class RemoveContentBlockFromPageTemplateCommand : IRequest<PageTemplateDto>
 {
-    public PageTemplate PageTemplate { get; }
-    public ContentBlock ContentBlock { get; }
+    public PageTemplateDto PageTemplate { get; }
+    public ContentBlockDto ContentBlock { get; }
 
-    public RemoveContentBlockFromPageTemplateCommand(PageTemplate pageTemplate, ContentBlock contentBlock)
+    public RemoveContentBlockFromPageTemplateCommand(PageTemplateDto pageTemplate, ContentBlockDto contentBlock)
     {
         PageTemplate = pageTemplate;
         ContentBlock = contentBlock;
@@ -43,8 +43,9 @@ public class RemoveContentBlockFromPageTemplateCommandHandler : IRequestHandler<
         RemoveContentBlockFromPageTemplateCommandValidator validator = new(_pageTemplateRepository, _contentBlockRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync((int)request.PageTemplate.Id!))!;
-        pageTemplate.Blocks.Remove(request.ContentBlock);
+        PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync(request.PageTemplate.Id))!;
+        ContentBlock contentBlock = (await _contentBlockRepository.GetByIdAsync(request.ContentBlock.Id))!;
+        pageTemplate.ContentBlocks.Remove(contentBlock);
         
         PageTemplate updatedPageTemplate = await _pageTemplateRepository.UpdateAsync(pageTemplate);
         return _mapper.Map<PageTemplateDto>(updatedPageTemplate);

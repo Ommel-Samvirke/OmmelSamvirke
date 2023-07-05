@@ -21,7 +21,7 @@ public class PageTemplate : BaseModel
     /// <summary>
     /// Represents the content blocks associated with this template.
     /// </summary>
-    public List<ContentBlock> Blocks { get; private set; } = new();
+    public List<ContentBlock> ContentBlocks { get; private set; } = new();
 
     /// <summary>
     /// Describes the state of the page template.
@@ -33,7 +33,7 @@ public class PageTemplate : BaseModel
     /// This constructor should be used when the model has not yet been saved to the database.
     /// </summary>
     /// <param name="name"><see cref="Name"/></param>
-    /// <param name="contentBlocks"><see cref="Blocks"/></param>
+    /// <param name="contentBlocks"><see cref="ContentBlocks"/></param>
     /// <param name="state"><see cref="State"/></param>
     public PageTemplate(string name, List<ContentBlock> contentBlocks, PageTemplateState state)
     {
@@ -47,7 +47,7 @@ public class PageTemplate : BaseModel
     /// <param name="dateCreated"><see cref="BaseModel.DateCreated"/></param>
     /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
     /// <param name="name"><see cref="Name"/></param>
-    /// <param name="contentBlocks"><see cref="Blocks"/></param>
+    /// <param name="contentBlocks"><see cref="ContentBlocks"/></param>
     /// <param name="state"><see cref="State"/></param>
     public PageTemplate(
         int id,
@@ -65,7 +65,7 @@ public class PageTemplate : BaseModel
     /// Initializes the PageTemplate object after validation.
     /// </summary>
     /// <param name="name"><see cref="Name"/></param>
-    /// <param name="contentBlocks"><see cref="Blocks"/></param>
+    /// <param name="contentBlocks"><see cref="ContentBlocks"/></param>
     /// <param name="state"><see cref="State"/></param>
     private void Initialize(string name, List<ContentBlock> contentBlocks, PageTemplateState state)
     {
@@ -73,7 +73,7 @@ public class PageTemplate : BaseModel
         NullValidator.Validate(contentBlocks);
         
         Name = name;
-        Blocks = contentBlocks;
+        ContentBlocks = contentBlocks;
         State = state;
     }
 }

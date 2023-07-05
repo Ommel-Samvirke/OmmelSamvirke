@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
+using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
@@ -35,22 +36,20 @@ public class RemoveContentBlockFromPageTemplateCommandValidator : AbstractValida
             .WithMessage("Page template does not contain the provided content block.");
     }
     
-    private async Task<bool> ContentBlockMustExist(ContentBlock? contentBlock, CancellationToken cancellationToken)
+    private async Task<bool> ContentBlockMustExist(ContentBlockDto contentBlock, CancellationToken cancellationToken)
     {
-        if (contentBlock is null) return false;
-        return await _contentBlockRepository.GetByIdAsync((int)contentBlock.Id!) is not null;
+        return await _contentBlockRepository.GetByIdAsync(contentBlock.Id) is not null;
     }
     
-    private async Task<bool> PageTemplateMustExist(PageTemplate pageTemplate, CancellationToken cancellationToken)
+    private async Task<bool> PageTemplateMustExist(PageTemplateDto pageTemplate, CancellationToken cancellationToken)
     {
-        if (pageTemplate.Id is null) return false;
-        return await _pageTemplateRepository.GetByIdAsync((int)pageTemplate.Id!) is not null;
+        return await _pageTemplateRepository.GetByIdAsync(pageTemplate.Id) is not null;
     }
 
-    private async Task<bool> MustContainContentBlock(RemoveContentBlockFromPageTemplateCommand command, PageTemplate pageTemplate, CancellationToken cancellationToken)
+    private async Task<bool> MustContainContentBlock(RemoveContentBlockFromPageTemplateCommand command, PageTemplateDto pageTemplate, CancellationToken cancellationToken)
     {
-        if (pageTemplate.Id is null) return false;
-        PageTemplate pageTemplateFromDb = (await _pageTemplateRepository.GetByIdAsync((int)pageTemplate.Id!))!;
-        return pageTemplateFromDb.Blocks.Contains(command.ContentBlock);
+        PageTemplate pageTemplateFromDb = (await _pageTemplateRepository.GetByIdAsync(pageTemplate.Id))!;
+        ContentBlock contentBlock = (await _contentBlockRepository.GetByIdAsync(command.ContentBlock.Id))!;
+        return pageTemplateFromDb.ContentBlocks.Contains(contentBlock);
     }
 }

@@ -7,19 +7,18 @@ using OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
-using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class CreatePageTemplateCommand : IRequest<PageTemplateDto>
 {
     public string Name { get; }
-    public List<ContentBlock> ContentBlocks { get;}
+    public List<ContentBlockDto> ContentBlocks { get;}
     public PageTemplateState PageTemplateState { get; }
     
     public CreatePageTemplateCommand(
         string name,
-        List<ContentBlock> contentBlocks,
+        List<ContentBlockDto> contentBlocks,
         PageTemplateState pageTemplateState
     )
     {

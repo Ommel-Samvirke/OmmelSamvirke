@@ -11,10 +11,10 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class UpdatePageTemplateContentBlockCommand : IRequest<PageTemplateDto>
 {
-    public PageTemplate PageTemplate { get; }
-    public ContentBlock ContentBlock { get; }
+    public PageTemplateDto PageTemplate { get; }
+    public ContentBlockDto ContentBlock { get; }
 
-    public UpdatePageTemplateContentBlockCommand(PageTemplate pageTemplate, ContentBlock contentBlock)
+    public UpdatePageTemplateContentBlockCommand(PageTemplateDto pageTemplate, ContentBlockDto contentBlock)
     {
         PageTemplate = pageTemplate;
         ContentBlock = contentBlock;
@@ -43,12 +43,13 @@ public class UpdatePageTemplateContentBlockCommandHandler : IRequestHandler<Upda
         UpdatePageTemplateContentBlockCommandValidator validator = new(_pageTemplateRepository, _contentBlockRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync((int)request.PageTemplate.Id!))!;
-        pageTemplate.Blocks.Remove(pageTemplate.Blocks.First(x => x.Id == request.ContentBlock.Id));
-        pageTemplate.Blocks.Add(request.ContentBlock);
+        PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync(request.PageTemplate.Id))!;
+        ContentBlock contentBlock = (await _contentBlockRepository.GetByIdAsync(request.ContentBlock.Id))!;
+        pageTemplate.ContentBlocks.Remove(pageTemplate.ContentBlocks.First(x => x.Id == contentBlock.Id));
+        pageTemplate.ContentBlocks.Add(contentBlock);
         
         await _pageTemplateRepository.UpdateAsync(pageTemplate);
-        await _contentBlockRepository.UpdateAsync(request.ContentBlock);
+        await _contentBlockRepository.UpdateAsync(contentBlock);
 
         return _mapper.Map<PageTemplateDto>(pageTemplate);
     }

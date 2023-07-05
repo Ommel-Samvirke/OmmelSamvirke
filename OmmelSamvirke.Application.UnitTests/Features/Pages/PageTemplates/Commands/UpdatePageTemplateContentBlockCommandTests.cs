@@ -17,7 +17,7 @@ public class UpdatePageTemplateContentBlockCommandTests : PageTemplateCommandsTe
     public override void SetUp()
     {
         base.SetUp();
-        DefaultPageTemplate.Blocks.Add(DefaultContentBlock);
+        DefaultPageTemplate.ContentBlocks.Add(DefaultContentBlock);
         _contentBlockRepository = new Mock<IContentBlockRepository>();
         _updatePageTemplateContentBlockCommandHandler = new UpdatePageTemplateContentBlockCommandHandler(Mapper.Object, PageTemplateRepository.Object, _contentBlockRepository.Object);
     }
@@ -26,7 +26,16 @@ public class UpdatePageTemplateContentBlockCommandTests : PageTemplateCommandsTe
     public async Task Handle_GivenValidRequest_ShouldUpdatePageTemplateContentBlock()
     {
         // Arrange
-        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplate, DefaultContentBlock);
+        ContentBlockDto oldContentBlock = new(
+            DefaultContentBlockDto.Id,
+            true,
+            DefaultContentBlockLayoutConfigurationDto,
+            DefaultContentBlockLayoutConfigurationDto,
+            DefaultContentBlockLayoutConfigurationDto,
+            DefaultContentBlockDto.ContentBlockType
+        );
+        DefaultPageTemplateDto.ContentBlocks.Add(oldContentBlock);
+        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto);
 
         PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
         PageTemplateRepository.Setup(repo => repo.UpdateAsync(It.IsAny<PageTemplate>())).ReturnsAsync(DefaultPageTemplate);
@@ -46,7 +55,7 @@ public class UpdatePageTemplateContentBlockCommandTests : PageTemplateCommandsTe
     {
         // Arrange
         PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((PageTemplate)null!);
-        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplate, DefaultContentBlock);
+        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto);
 
         // Act / Assert
         Assert.ThrowsAsync<NotFoundException>(() =>
@@ -59,7 +68,7 @@ public class UpdatePageTemplateContentBlockCommandTests : PageTemplateCommandsTe
     {
         // Arrange
         _contentBlockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((ContentBlock)null!);
-        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplate, DefaultContentBlock);
+        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto);
 
         // Act / Assert
         Assert.ThrowsAsync<NotFoundException>(() =>
@@ -73,7 +82,7 @@ public class UpdatePageTemplateContentBlockCommandTests : PageTemplateCommandsTe
         // Arrange
         const string exceptionMessage = "Repository failure";
         PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception(exceptionMessage));
-        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplate, DefaultContentBlock);
+        UpdatePageTemplateContentBlockCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto);
         
         // Act
         Exception? ex = Assert.ThrowsAsync<Exception>(() => _updatePageTemplateContentBlockCommandHandler.Handle(command, CancellationToken.None));

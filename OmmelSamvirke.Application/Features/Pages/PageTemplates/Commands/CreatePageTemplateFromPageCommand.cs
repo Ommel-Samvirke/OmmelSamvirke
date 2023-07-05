@@ -13,9 +13,9 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class CreatePageTemplateFromPageCommand : IRequest<PageTemplateDto>
 {
-    public Page Page { get; }
+    public PageDto Page { get; }
 
-    public CreatePageTemplateFromPageCommand(Page page)
+    public CreatePageTemplateFromPageCommand(PageDto page)
     {
         Page = page;
     }
@@ -46,9 +46,8 @@ public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePa
         CreatePageTemplateFromPageCommandValidator validator = new(_pageRepository, _contentBlockDataRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
 
-        List<IContentBlockData> contentBlockData = await _contentBlockDataRepository.GetByPageIdAsync(
-            (int)request.Page.Id!
-        );
+        Page page = (await _pageRepository.GetByIdAsync(request.Page.Id))!;
+        List<IContentBlockData> contentBlockData = await _contentBlockDataRepository.GetByPageIdAsync(request.Page.Id);
 
         List<ContentBlock> contentBlocks = contentBlockData.Select(
             contentBlockDataItem => contentBlockDataItem.BaseContentBlock
@@ -61,9 +60,9 @@ public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePa
         );
 
         PageTemplate createdTemplate = await _pageTemplateRepository.CreateAsync(customPageTemplate);
-        request.Page.Template = createdTemplate;
+        page.Template = createdTemplate;
         
-        await _pageRepository.UpdateAsync(request.Page);
+        await _pageRepository.UpdateAsync(page);
 
         return _mapper.Map<PageTemplateDto>(createdTemplate);
     }

@@ -4,7 +4,6 @@ using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 using OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands.Common;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Models;
-using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands;
 
@@ -21,7 +20,7 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         _createPageTemplateCommandHandler = new CreatePageTemplateCommandHandler(Mapper.Object, PageTemplateRepository.Object);
         _defaultCreatePageTemplateCommand = new CreatePageTemplateCommand(
             "Test",
-            new List<ContentBlock>() { DefaultContentBlock },
+            new List<ContentBlockDto>() { DefaultContentBlockDto },
             PageTemplateState.Public
         );
     }
@@ -49,7 +48,7 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         // Arrange
         CreatePageTemplateCommand createPageTemplateCommand = new(
             new string('a', nameLength),
-            new List<ContentBlock>() { DefaultContentBlock },
+            new List<ContentBlockDto>() { DefaultContentBlockDto },
             PageTemplateState.Public
         );
 
@@ -65,7 +64,7 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         // Arrange
         CreatePageTemplateCommand createPageTemplateCommand = new(
             "TestTemplate",
-            new List<ContentBlock>(),
+            new List<ContentBlockDto>(),
             PageTemplateState.Public
         );
 
@@ -81,7 +80,7 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
         // Arrange
         CreatePageTemplateCommand createPageTemplateCommand = new(
             "TestTemplate",
-            new List<ContentBlock>() { DefaultContentBlock },
+            new List<ContentBlockDto>() { DefaultContentBlockDto },
             (PageTemplateState)9999
         );
 
@@ -99,7 +98,7 @@ public class CreatePageTemplateCommandTests : PageTemplateCommandsTestBase
 
         CreatePageTemplateCommand createPageTemplateCommand = new(
             "Test",
-            new List<ContentBlock>() { DefaultContentBlock },
+            new List<ContentBlockDto>() { DefaultContentBlockDto },
             PageTemplateState.Public
         );
         

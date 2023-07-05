@@ -2,6 +2,7 @@
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 using OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands.Common;
+using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 using RemoveContentBlockFromPageTemplateCommand = OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands.RemoveContentBlockFromPageTemplateCommand;
@@ -27,7 +28,7 @@ public class RemoveContentBlockFromPageTemplateCommandHandlerTests : PageTemplat
             _pageTemplateRepository.Object, 
             _contentBlockRepository.Object, 
             _mapper.Object);
-        DefaultPageTemplate.Blocks.Add(DefaultContentBlock);
+        DefaultPageTemplate.ContentBlocks.Add(DefaultContentBlock);
     }
 
     [Test]
@@ -39,7 +40,7 @@ public class RemoveContentBlockFromPageTemplateCommandHandlerTests : PageTemplat
         _pageTemplateRepository.Setup(repo => repo.UpdateAsync(It.IsAny<PageTemplate>())).ReturnsAsync(DefaultPageTemplate);
         _mapper.Setup(m => m.Map<PageTemplateDto>(It.IsAny<PageTemplate>())).Returns(DefaultPageTemplateDto);
 
-        RemoveContentBlockFromPageTemplateCommand command = new(DefaultPageTemplate, DefaultContentBlock);
+        RemoveContentBlockFromPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto);
 
         // Act
         PageTemplateDto result = await _removeContentBlockFromPageTemplateCommandHandler.Handle(command, CancellationToken.None);
@@ -48,7 +49,7 @@ public class RemoveContentBlockFromPageTemplateCommandHandlerTests : PageTemplat
         Assert.Multiple(() =>
         {
             Assert.That(result, Is.Not.Null);
-            Assert.That(DefaultPageTemplate.Blocks, Does.Not.Contain(DefaultContentBlock));
+            Assert.That(DefaultPageTemplate.ContentBlocks, Does.Not.Contain(DefaultContentBlock));
         });
     }
 
@@ -58,7 +59,7 @@ public class RemoveContentBlockFromPageTemplateCommandHandlerTests : PageTemplat
         // Arrange
         _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultArchivedPageTemplate);
 
-        RemoveContentBlockFromPageTemplateCommand command = new(DefaultArchivedPageTemplate, DefaultContentBlock);
+        RemoveContentBlockFromPageTemplateCommand command = new(DefaultArchivedPageTemplateDto, DefaultContentBlockDto);
 
         // Act / Assert
         Assert.ThrowsAsync<NotFoundException>(() =>
@@ -78,10 +79,18 @@ public class RemoveContentBlockFromPageTemplateCommandHandlerTests : PageTemplat
             DefaultContentBlockLayoutConfiguration,
             DefaultContentBlockLayoutConfiguration
         );
+        ContentBlockDto unrelatedContentBlockDto = new(
+            1,
+            false,
+            DefaultContentBlockLayoutConfigurationDto,
+            DefaultContentBlockLayoutConfigurationDto,
+            DefaultContentBlockLayoutConfigurationDto,
+            ContentBlockType.PdfBlock
+        );
         _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
         _contentBlockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(unrelatedContentBlock);
 
-        RemoveContentBlockFromPageTemplateCommand command = new(DefaultPageTemplate, unrelatedContentBlock);
+        RemoveContentBlockFromPageTemplateCommand command = new(DefaultPageTemplateDto, unrelatedContentBlockDto);
 
         // Act / Assert
         Assert.ThrowsAsync<BadRequestException>(() =>
@@ -95,7 +104,7 @@ public class RemoveContentBlockFromPageTemplateCommandHandlerTests : PageTemplat
         const string exceptionMessage = "Repository failure";
         _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception(exceptionMessage));
 
-        RemoveContentBlockFromPageTemplateCommand command = new(DefaultPageTemplate, DefaultContentBlock);
+        RemoveContentBlockFromPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto);
 
         // Act
         Exception? ex = Assert.ThrowsAsync<Exception>(() =>

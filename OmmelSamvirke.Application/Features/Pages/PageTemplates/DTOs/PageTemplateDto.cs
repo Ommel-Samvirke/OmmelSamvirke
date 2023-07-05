@@ -5,19 +5,24 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 
 public class PageTemplateDto
 {
-    public int PageTemplateId { get; }
-    public string Name { get; }
-    public List<ContentBlock> ContentBlocks { get; }
-    public PageTemplateState PageTemplateState { get; }
+    public int Id { get; set;  }
+    public string Name { get; set;  }
+    public List<ContentBlockDto> ContentBlocks { get; set; }
+    public PageTemplateState PageTemplateState { get; set;  }
 
+    public PageTemplateDto()
+    {
+        ContentBlocks = new List<ContentBlockDto>();
+    }
+    
     public PageTemplateDto(
-        int pageTemplateId,
+        int id,
         string name,
-        List<ContentBlock> contentBlocks,
+        List<ContentBlockDto> contentBlocks,
         PageTemplateState pageTemplateState
     )
     {
-        PageTemplateId = pageTemplateId;
+        Id = id;
         Name = name;
         ContentBlocks = contentBlocks;
         PageTemplateState = pageTemplateState;

@@ -16,7 +16,7 @@ public class PageTemplateTests
         Assert.Multiple(() =>
         {
             Assert.That(pageTemplate.Name, Is.EqualTo(name));
-            Assert.That(pageTemplate.Blocks, Is.Empty);
+            Assert.That(pageTemplate.ContentBlocks, Is.Empty);
             Assert.That(pageTemplate.State, Is.EqualTo(PageTemplateState.Public));
         });
     }
@@ -34,7 +34,7 @@ public class PageTemplateTests
         {
             Assert.That(pageTemplate.Id, Is.EqualTo(id));
             Assert.That(pageTemplate.Name, Is.EqualTo(name));
-            Assert.That(pageTemplate.Blocks, Is.Empty);
+            Assert.That(pageTemplate.ContentBlocks, Is.Empty);
             Assert.That(pageTemplate.State, Is.EqualTo(PageTemplateState.Public));
             Assert.That(pageTemplate.DateCreated, Is.EqualTo(dateCreated));
             Assert.That(pageTemplate.DateModified, Is.EqualTo(dateModified));

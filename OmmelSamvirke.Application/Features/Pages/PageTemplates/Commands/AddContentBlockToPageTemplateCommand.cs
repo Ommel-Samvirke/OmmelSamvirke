@@ -11,10 +11,10 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class AddContentBlockToPageTemplateCommand : IRequest<PageTemplateDto>
 {
-    public ContentBlock ContentBlock { get; }
-    public PageTemplate PageTemplate { get; }
+    public ContentBlockDto ContentBlock { get; }
+    public PageTemplateDto PageTemplate { get; }
     
-    public AddContentBlockToPageTemplateCommand(PageTemplate pageTemplate, ContentBlock contentBlock)
+    public AddContentBlockToPageTemplateCommand(PageTemplateDto pageTemplate, ContentBlockDto contentBlock)
     {
         PageTemplate = pageTemplate;
         ContentBlock = contentBlock;
@@ -42,10 +42,10 @@ public class AddContentBlockToPageTemplateCommandHandler : IRequestHandler<AddCo
         AddContentBlockToPageTemplateCommandValidator validator = new(_pageTemplateRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        ContentBlock contentBlock = await _contentBlockRepository.CreateAsync(request.ContentBlock);
+        ContentBlock contentBlock = await _contentBlockRepository.CreateAsync(_mapper.Map<ContentBlock>(request.ContentBlock));
         
-        PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync((int)request.PageTemplate.Id!))!;
-        pageTemplate.Blocks.Add(contentBlock);
+        PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync(request.PageTemplate.Id))!;
+        pageTemplate.ContentBlocks.Add(contentBlock);
         
         PageTemplate updatedPageTemplate = await _pageTemplateRepository.UpdateAsync(pageTemplate);
         return _mapper.Map<PageTemplateDto>(updatedPageTemplate);
