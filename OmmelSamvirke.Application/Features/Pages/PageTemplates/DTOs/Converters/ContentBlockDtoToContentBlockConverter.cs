@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using JetBrains.Annotations;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs.Converters;
 
+[UsedImplicitly]
 public class ContentBlockDtoToContentBlockConverter : ITypeConverter<ContentBlockDto, ContentBlock>
 {
     public ContentBlock Convert(ContentBlockDto source, ContentBlock destination, ResolutionContext context)
