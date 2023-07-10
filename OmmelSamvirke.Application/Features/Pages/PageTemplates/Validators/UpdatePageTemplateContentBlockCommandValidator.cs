@@ -2,6 +2,7 @@
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
+using OmmelSamvirke.Domain.Features.Admins.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
@@ -10,15 +11,18 @@ public class UpdatePageTemplateContentBlockCommandValidator : AbstractValidator<
 {
     private readonly IPageTemplateRepository _pageTemplateRepository;
     private readonly IContentBlockRepository _contentBlockRepository;
+    private readonly IAdminRepository _adminRepository;
 
     public UpdatePageTemplateContentBlockCommandValidator(
         IPageTemplateRepository pageTemplateRepository,
-        IContentBlockRepository contentBlockRepository
+        IContentBlockRepository contentBlockRepository,
+        IAdminRepository adminRepository
     )
     {
         _pageTemplateRepository = pageTemplateRepository;
         _contentBlockRepository = contentBlockRepository;
-        
+        _adminRepository = adminRepository;
+
         RuleFor(x => x.PageTemplate)
             .NotNull()
             .WithMessage("Page template cannot be null.")
@@ -37,6 +41,15 @@ public class UpdatePageTemplateContentBlockCommandValidator : AbstractValidator<
                 cb.ContentBlockType == contentBlock.ContentBlockType)
             )
             .WithMessage("Content block must be contained in the page template.");
+        
+        RuleFor(x => x.AdminId)
+            .NotNull()
+            .WithMessage("Admin id cannot be null.")
+            .GreaterThan(0)
+            .WithMessage("Admin id must be greater than 0.")
+            .MustAsync(AdminMustExist)
+            .WithErrorCode(ErrorCode.ResourceNotFound)
+            .WithMessage("Admin does not exist.");
     }
     
     private async Task<bool> PageTemplateMustExist(PageTemplateDto pageTemplate, CancellationToken cancellationToken)
@@ -47,5 +60,10 @@ public class UpdatePageTemplateContentBlockCommandValidator : AbstractValidator<
     private async Task<bool> ContentBlockMustExist(ContentBlockDto contentBlock, CancellationToken cancellationToken)
     {
         return await _contentBlockRepository.GetByIdAsync(contentBlock.Id) is not null;
+    }
+    
+    private async Task<bool> AdminMustExist(int adminId, CancellationToken cancellationToken)
+    {
+        return await _adminRepository.GetByIdAsync(adminId) is not null;
     }
 }

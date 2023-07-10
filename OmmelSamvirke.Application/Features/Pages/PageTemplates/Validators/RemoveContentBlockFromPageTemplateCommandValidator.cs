@@ -2,6 +2,7 @@
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
+using OmmelSamvirke.Domain.Features.Admins.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
@@ -12,11 +13,17 @@ public class RemoveContentBlockFromPageTemplateCommandValidator : AbstractValida
 {
     private readonly IPageTemplateRepository _pageTemplateRepository;
     private readonly IContentBlockRepository _contentBlockRepository;
+    private readonly IAdminRepository _adminRepository;
 
-    public RemoveContentBlockFromPageTemplateCommandValidator(IPageTemplateRepository pageTemplateRepository, IContentBlockRepository contentBlockRepository)
+    public RemoveContentBlockFromPageTemplateCommandValidator(
+        IPageTemplateRepository pageTemplateRepository,
+        IContentBlockRepository contentBlockRepository,
+        IAdminRepository adminRepository
+    )
     {
         _pageTemplateRepository = pageTemplateRepository;
         _contentBlockRepository = contentBlockRepository;
+        _adminRepository = adminRepository;
 
         RuleFor(x => x.ContentBlock)
             .NotNull()
@@ -34,6 +41,15 @@ public class RemoveContentBlockFromPageTemplateCommandValidator : AbstractValida
             .MustAsync(MustContainContentBlock)
             .WithErrorCode(ErrorCode.BadRequest)
             .WithMessage("Page template does not contain the provided content block.");
+        
+        RuleFor(x => x.AdminId)
+            .NotNull()
+            .WithMessage("Admin id cannot be null.")
+            .GreaterThan(0)
+            .WithMessage("Admin id must be greater than 0.")
+            .MustAsync(AdminMustExist)
+            .WithErrorCode(ErrorCode.ResourceNotFound)
+            .WithMessage("Admin does not exist.");
     }
     
     private async Task<bool> ContentBlockMustExist(ContentBlockDto contentBlock, CancellationToken cancellationToken)
@@ -51,5 +67,10 @@ public class RemoveContentBlockFromPageTemplateCommandValidator : AbstractValida
         PageTemplate pageTemplateFromDb = (await _pageTemplateRepository.GetByIdAsync(pageTemplate.Id))!;
         ContentBlock contentBlock = (await _contentBlockRepository.GetByIdAsync(command.ContentBlock.Id))!;
         return pageTemplateFromDb.ContentBlocks.Contains(contentBlock);
+    }
+    
+    private async Task<bool> AdminMustExist(int adminId, CancellationToken cancellationToken)
+    {
+        return await _adminRepository.GetByIdAsync(adminId) is not null;
     }
 }

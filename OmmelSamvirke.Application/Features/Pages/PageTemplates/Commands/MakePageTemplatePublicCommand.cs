@@ -39,8 +39,8 @@ public class MakePageTemplatePublicCommandHandler : IRequestHandler<MakePageTemp
 
         PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync(request.PageTemplateId))!;
         pageTemplate.State = PageTemplateState.Public;
-        await _pageTemplateRepository.UpdateAsync(pageTemplate);
-
-        return _mapper.Map<PageTemplateDto>(pageTemplate);
+        
+        PageTemplate updatedPageTemplate = await _pageTemplateRepository.UpdateAsync(pageTemplate);
+        return _mapper.Map<PageTemplateDto>(updatedPageTemplate);
     }
 }

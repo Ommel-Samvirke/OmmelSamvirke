@@ -7,9 +7,11 @@ The following describes the commands the application layer supports.
 - Archive a template ✅
 - Change status from Archived to Public ✅
 - Create a custom template from a page ✅
-- Add a ContentBlock to a template ✅
-- Remove a ContentBlock from a template ✅
-- Update a ContentBlock in a template ✅
+- Add a ContentBlock to a template ✅ (Optimistic locking)
+- Remove a ContentBlock from a template ✅ (Optimistic locking)
+- Update a ContentBlock in a template ✅ (Optimistic locking)
+- Update PageTemplate by overwriting the original template with a temporary template ❌ (Optimistic locking implementation)
+- Check if Admin has an un-submitted temporary template ❌
 
 ## Page
 - Create a new page from a template ❌
@@ -23,6 +25,3 @@ The following describes the commands the application layer supports.
   is edited. Only when a "Save" button is clicked, should the temporary
   page overwrite the original page. ❌
 - Add page to history: Save all published versions of a page in a table ❌
-
-## General/Fixes
-- Commands and queries should take DTOs as parameters and return DTOs as results, never domain entities ❌

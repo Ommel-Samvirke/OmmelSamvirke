@@ -54,7 +54,7 @@ public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePa
         ).ToList();
         
         PageTemplate customPageTemplate = new(
-            $"{request.Page.Name}",
+            $"{request.Page.Name}-template",
             contentBlocks,
             PageTemplateState.Custom
         );

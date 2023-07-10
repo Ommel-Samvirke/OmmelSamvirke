@@ -33,7 +33,7 @@ public class DeletePageTemplateCommandHandler : IRequestHandler<DeletePageTempla
     
     public async Task<bool> Handle(DeletePageTemplateCommand request, CancellationToken cancellationToken)
     {
-        DeletePageTemplateCommandValidator validator = new DeletePageTemplateCommandValidator(_pageTemplateRepository, _pageRepository);
+        DeletePageTemplateCommandValidator validator = new(_pageTemplateRepository, _pageRepository);
         ValidationResult validationResult = await validator.ValidateAsync(request, cancellationToken);
         ValidationResultHandler.Handle(validationResult, request);
 
