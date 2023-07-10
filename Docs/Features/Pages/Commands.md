@@ -13,7 +13,7 @@ All updates use the strategy optimistic locking.
 - Update a ContentBlock in a template ✅
 - Update PageTemplate by overwriting the original template with a temporary template ✅
 - Check if Admin has an un-submitted temporary template ❌
-- Save a version of a PageTemplate ❌
+- Save a version of a PageTemplate ✅
 
 ## Page
 - Create a new page from a template ❌
