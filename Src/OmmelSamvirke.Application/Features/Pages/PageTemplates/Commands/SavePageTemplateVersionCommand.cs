@@ -35,7 +35,7 @@ public class SavePageTemplateVersionCommandHandler : IRequestHandler<SavePageTem
         SavePageTemplateVersionCommandValidator validator = new();
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        bool versionExists = await _pageTemplateRepository.GetByIdAsync(request.PageTemplateVersion.Id) is not null;
+        bool versionExists = await _pageTemplateRepository.GetVersionAsync(request.PageTemplateVersion.Id) is not null;
         if (versionExists)
             throw new BadRequestException("Version cannot be saved, because it already exists");
         

@@ -19,7 +19,7 @@ All updates use the strategy optimistic locking.
 - Update the name of a page ✅
 - Delete a page ✅
 - Save a page ✅
-- Add page to history: Save all published versions of a page in a table ❌
+- Add page to history: Save all published versions of a page in a table ✅
 
 ## ContentBlockData
 - Update the Data of a ContentBlockData element 
