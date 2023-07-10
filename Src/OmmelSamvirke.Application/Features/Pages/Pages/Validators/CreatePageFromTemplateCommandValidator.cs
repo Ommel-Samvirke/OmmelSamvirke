@@ -18,7 +18,6 @@ public class CreatePageFromTemplateCommandValidator : AbstractValidator<CreatePa
             .MustAsync(PageTemplateMustExist)
             .WithErrorCode(ErrorCode.ResourceNotFound)
             .WithErrorCode("Page template does not exist");
-
     }
     
     private async Task<bool> PageTemplateMustExist(PageTemplateDto pageTemplate, CancellationToken cancellationToken)

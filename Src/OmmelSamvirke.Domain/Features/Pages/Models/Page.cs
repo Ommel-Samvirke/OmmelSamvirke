@@ -14,7 +14,7 @@ public class Page : BaseModel
     /// Describes the name of the page.
     /// Must be 1-100 characters long.
     /// </summary>
-    public string Name { get; private set; } = null!;
+    public string Name { get; set; } = null!;
 
     /// <summary>
     /// Represents the template which is used to create this page.
