@@ -10,7 +10,7 @@ The following describes the commands the application layer supports.
 - Add a ContentBlock to a template ✅ (Optimistic locking)
 - Remove a ContentBlock from a template ✅ (Optimistic locking)
 - Update a ContentBlock in a template ✅ (Optimistic locking)
-- Update PageTemplate by overwriting the original template with a temporary template ❌ (Optimistic locking implementation)
+- Update PageTemplate by overwriting the original template with a temporary template ✅ (Optimistic locking implementation)
 - Check if Admin has an un-submitted temporary template ❌
 
 ## Page

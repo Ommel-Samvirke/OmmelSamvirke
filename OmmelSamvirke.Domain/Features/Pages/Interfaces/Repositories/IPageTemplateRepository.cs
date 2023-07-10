@@ -15,4 +15,11 @@ public interface IPageTemplateRepository : IGenericRepository<PageTemplate>
     /// <param name="adminId">The Id of the admin that made the update</param>
     /// <returns></returns>
     Task<PageTemplate> TempUpdateAsync(PageTemplate entity, int adminId);
+    
+    /// <summary>
+    /// Gets a temporarily saved <see cref="PageTemplate"/> by its Id.
+    /// </summary>
+    /// <param name="id">The Id of the <see cref="PageTemplate"/></param>
+    /// <returns></returns>
+    Task<PageTemplate> GetTempByIdAsync(int id);
 }
