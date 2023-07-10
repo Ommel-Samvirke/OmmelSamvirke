@@ -1,20 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.API", "OmmelSamvirke.API\OmmelSamvirke.API.csproj", "{33993785-406D-4D23-A6A0-30ACCFE55115}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.API", "Src\OmmelSamvirke.API\OmmelSamvirke.API.csproj", "{33993785-406D-4D23-A6A0-30ACCFE55115}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Application", "OmmelSamvirke.Application\OmmelSamvirke.Application.csproj", "{7D4E2647-437A-4C2F-9DC9-A7AE3AD35426}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Application", "Src\OmmelSamvirke.Application\OmmelSamvirke.Application.csproj", "{7D4E2647-437A-4C2F-9DC9-A7AE3AD35426}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Application.UnitTests", "OmmelSamvirke.Application.UnitTests\OmmelSamvirke.Application.UnitTests.csproj", "{347914A2-8A15-4FF4-A74E-E4A5F3549A65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Application.UnitTests", "Tests\OmmelSamvirke.Application.UnitTests\OmmelSamvirke.Application.UnitTests.csproj", "{347914A2-8A15-4FF4-A74E-E4A5F3549A65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Domain", "OmmelSamvirke.Domain\OmmelSamvirke.Domain.csproj", "{11904FD4-6145-44E8-814D-4E1A1359F51B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Domain", "Src\OmmelSamvirke.Domain\OmmelSamvirke.Domain.csproj", "{11904FD4-6145-44E8-814D-4E1A1359F51B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Infrastructure", "OmmelSamvirke.Infrastructure\OmmelSamvirke.Infrastructure.csproj", "{43C196E5-239C-4263-A8E3-3D0F09D7077D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Infrastructure", "Src\OmmelSamvirke.Infrastructure\OmmelSamvirke.Infrastructure.csproj", "{43C196E5-239C-4263-A8E3-3D0F09D7077D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Persistence", "OmmelSamvirke.Persistence\OmmelSamvirke.Persistence.csproj", "{B2754106-5BD3-4FC9-A4EA-8E0ABE35F28D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Persistence", "Src\OmmelSamvirke.Persistence\OmmelSamvirke.Persistence.csproj", "{B2754106-5BD3-4FC9-A4EA-8E0ABE35F28D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Persistence.IntegrationTests", "OmmelSamvirke.Persistence.IntegrationTests\OmmelSamvirke.Persistence.IntegrationTests.csproj", "{BD42BAF6-2388-481A-9FB5-41B07E38E21B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Persistence.IntegrationTests", "Tests\OmmelSamvirke.Persistence.IntegrationTests\OmmelSamvirke.Persistence.IntegrationTests.csproj", "{BD42BAF6-2388-481A-9FB5-41B07E38E21B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Domain.UnitTests", "OmmelSamvirke.Domain.UnitTests\OmmelSamvirke.Domain.UnitTests.csproj", "{816D2C1A-FBEA-4EF6-A92B-2129434CD737}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Domain.UnitTests", "Tests\OmmelSamvirke.Domain.UnitTests\OmmelSamvirke.Domain.UnitTests.csproj", "{816D2C1A-FBEA-4EF6-A92B-2129434CD737}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
