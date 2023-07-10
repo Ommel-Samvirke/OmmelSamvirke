@@ -3,6 +3,7 @@ using MediatR;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
+using OmmelSamvirke.Domain.Features.Admins.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 
@@ -12,11 +13,13 @@ public class UpdatePageNameCommand : IRequest<PageDto>
 {
     public int PageId { get; }
     public string PageName { get; }
+    public int AdminId { get; }
 
-    public UpdatePageNameCommand(int pageId, String pageName)
+    public UpdatePageNameCommand(int pageId, string pageName, int adminId)
     {
         PageId = pageId;
         PageName = pageName;
+        AdminId = adminId;
     }   
 }
 
@@ -24,25 +27,28 @@ public class UpdatePageNameCommandHandler : IRequestHandler<UpdatePageNameComman
 {
     private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
+    private readonly IAdminRepository _adminRepository;
 
     public UpdatePageNameCommandHandler(
         IMapper mapper,
-        IPageRepository pageRepository
+        IPageRepository pageRepository,
+        IAdminRepository adminRepository
     )
     {
         _mapper = mapper;
         _pageRepository = pageRepository;
+        _adminRepository = adminRepository;
     }
     
     public async Task<PageDto> Handle(UpdatePageNameCommand request, CancellationToken cancellationToken)
     {
-        UpdatePageNameCommandValidator validator = new(_pageRepository);
+        UpdatePageNameCommandValidator validator = new(_pageRepository, _adminRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
         Page page = (await _pageRepository.GetByIdAsync(request.PageId))!;
         page.Name = request.PageName;
         
-        Page updatedPage = await _pageRepository.UpdateAsync(page);
+        Page updatedPage = await _pageRepository.TempUpdateAsync(page, request.AdminId);
         return _mapper.Map<PageDto>(updatedPage);
     }
 }
