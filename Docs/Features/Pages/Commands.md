@@ -17,7 +17,7 @@ All updates use the strategy optimistic locking.
 
 ## Page
 - Create a new page from a template ✅
-- Update the name of a page ❌
+- Update the name of a page ✅
 - Delete a page ❌
 - Update the Data of a ContentBlockData element 
   - HeadlineBlockData ❌
