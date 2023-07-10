@@ -4,16 +4,12 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>0.5.0</Version>
+        <Version>0.6.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
       <Folder Include="Features\Pages\PageTemplates\Queries" />
-      <Folder Include="Features\Pages\Pages\Commands" />
-      <Folder Include="Features\Pages\Pages\DTOs" />
-      <Folder Include="Features\Pages\Pages\MappingProfiles" />
       <Folder Include="Features\Pages\Pages\Queries" />
-      <Folder Include="Features\Pages\Pages\Validators" />
     </ItemGroup>
 
     <ItemGroup>

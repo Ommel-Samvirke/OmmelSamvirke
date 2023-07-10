@@ -16,7 +16,7 @@ All updates use the strategy optimistic locking.
 - Save a version of a PageTemplate ✅
 
 ## Page
-- Create a new page from a template ❌
+- Create a new page from a template ✅
 - Update the name of a page ❌
 - Delete a page ❌
 - Update the Data of a ContentBlockData element 
