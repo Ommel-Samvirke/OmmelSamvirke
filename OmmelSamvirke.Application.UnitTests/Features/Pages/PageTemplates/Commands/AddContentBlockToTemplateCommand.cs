@@ -10,35 +10,32 @@ namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Comma
 [TestFixture]
 public class AddContentBlockToPageTemplateCommandHandlerTests : PageTemplateCommandsTestBase
 {
-    private Mock<IPageTemplateRepository> _pageTemplateRepository = null!;
-    private Mock<IContentBlockRepository> _contentBlockRepository = null!;
-    private Mock<IMapper> _mapper = null!;
     private AddContentBlockToPageTemplateCommandHandler _addContentBlockToPageTemplateCommandHandler = null!;
     
     [SetUp]
     public override void SetUp()
     {
         base.SetUp();
-        _pageTemplateRepository = new Mock<IPageTemplateRepository>();
-        _contentBlockRepository = new Mock<IContentBlockRepository>();
-        _mapper = new Mock<IMapper>();
-
+        
         _addContentBlockToPageTemplateCommandHandler = new AddContentBlockToPageTemplateCommandHandler(
-            _pageTemplateRepository.Object, 
-            _contentBlockRepository.Object, 
-            _mapper.Object);
+            PageTemplateRepository.Object,
+            ContentBlockRepository.Object,
+            AdminRepository.Object,
+            Mapper.Object
+        );
     }
 
     [Test]
     public async Task Handle_GivenValidRequest_ShouldAddContentBlockToPageTemplate()
     {
         // Arrange
-        _contentBlockRepository.Setup(repo => repo.CreateAsync(It.IsAny<ContentBlock>())).ReturnsAsync(DefaultContentBlock);
-        _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
-        _pageTemplateRepository.Setup(repo => repo.UpdateAsync(It.IsAny<PageTemplate>())).ReturnsAsync(DefaultPageTemplate);
-        _mapper.Setup(m => m.Map<PageTemplateDto>(It.IsAny<PageTemplate>())).Returns(DefaultPageTemplateDto);
+        ContentBlockRepository.Setup(repo => repo.CreateAsync(It.IsAny<ContentBlock>())).ReturnsAsync(DefaultContentBlock);
+        PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
+        PageTemplateRepository.Setup(repo => repo.UpdateAsync(It.IsAny<PageTemplate>())).ReturnsAsync(DefaultPageTemplate);
+        AdminRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultAdmin);
+        Mapper.Setup(m => m.Map<PageTemplateDto>(It.IsAny<PageTemplate>())).Returns(DefaultPageTemplateDto);
 
-        AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto);
+        AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto, 1);
 
         // Act
         PageTemplateDto result = await _addContentBlockToPageTemplateCommandHandler.Handle(command, CancellationToken.None);
@@ -56,7 +53,7 @@ public class AddContentBlockToPageTemplateCommandHandlerTests : PageTemplateComm
     public void Handle_GivenInvalidRequest_ShouldThrowNotFoundException()
     {
         // Arrange
-        AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplateDto, null!);
+        AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplateDto, null!, 1);
 
         // Act / Assert
         Assert.ThrowsAsync<NotFoundException>(() =>
@@ -67,9 +64,9 @@ public class AddContentBlockToPageTemplateCommandHandlerTests : PageTemplateComm
     public void Handle_GivenNonExistentPageTemplate_ShouldThrowNotFoundException()
     {
         // Arrange
-        _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((PageTemplate)null!);
+        PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((PageTemplate)null!);
 
-        AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto);
+        AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto, 1);
 
         // Act / Assert
         Assert.ThrowsAsync<NotFoundException>(() =>
@@ -81,9 +78,9 @@ public class AddContentBlockToPageTemplateCommandHandlerTests : PageTemplateComm
     {
         // Arrange
         const string exceptionMessage = "Repository failure";
-        _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception(exceptionMessage));
+        PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception(exceptionMessage));
 
-        AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto);
+        AddContentBlockToPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto, 1);
 
         // Act
         Exception? ex = Assert.ThrowsAsync<Exception>(() =>

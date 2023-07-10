@@ -12,22 +12,18 @@ namespace OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Comma
 [TestFixture]
 public class RemoveContentBlockFromPageTemplateCommandHandlerTests : PageTemplateCommandsTestBase
 {
-    private Mock<IPageTemplateRepository> _pageTemplateRepository = null!;
-    private Mock<IContentBlockRepository> _contentBlockRepository = null!;
-    private Mock<IMapper> _mapper = null!;
     private RemoveContentBlockFromPageTemplateCommandHandler _removeContentBlockFromPageTemplateCommandHandler = null!;
 
     [SetUp]
     public override void SetUp()
     {
         base.SetUp();
-        _pageTemplateRepository = new Mock<IPageTemplateRepository>();
-        _contentBlockRepository = new Mock<IContentBlockRepository>();
-        _mapper = new Mock<IMapper>();
         _removeContentBlockFromPageTemplateCommandHandler = new RemoveContentBlockFromPageTemplateCommandHandler(
-            _pageTemplateRepository.Object, 
-            _contentBlockRepository.Object, 
-            _mapper.Object);
+            PageTemplateRepository.Object, 
+            ContentBlockRepository.Object,
+            AdminRepository.Object,
+            Mapper.Object
+        );
         DefaultPageTemplate.ContentBlocks.Add(DefaultContentBlock);
     }
 
@@ -35,12 +31,13 @@ public class RemoveContentBlockFromPageTemplateCommandHandlerTests : PageTemplat
     public async Task Handle_GivenValidRequest_ShouldRemoveContentBlockFromPageTemplate()
     {
         // Arrange
-        _contentBlockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultContentBlock);
-        _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
-        _pageTemplateRepository.Setup(repo => repo.UpdateAsync(It.IsAny<PageTemplate>())).ReturnsAsync(DefaultPageTemplate);
-        _mapper.Setup(m => m.Map<PageTemplateDto>(It.IsAny<PageTemplate>())).Returns(DefaultPageTemplateDto);
+        ContentBlockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultContentBlock);
+        PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
+        PageTemplateRepository.Setup(repo => repo.UpdateAsync(It.IsAny<PageTemplate>())).ReturnsAsync(DefaultPageTemplate);
+        AdminRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultAdmin);
+        Mapper.Setup(m => m.Map<PageTemplateDto>(It.IsAny<PageTemplate>())).Returns(DefaultPageTemplateDto);
 
-        RemoveContentBlockFromPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto);
+        RemoveContentBlockFromPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto, 1);
 
         // Act
         PageTemplateDto result = await _removeContentBlockFromPageTemplateCommandHandler.Handle(command, CancellationToken.None);
@@ -57,9 +54,9 @@ public class RemoveContentBlockFromPageTemplateCommandHandlerTests : PageTemplat
     public void Handle_GivenNonExistentPageTemplate_ShouldThrowNotFoundException()
     {
         // Arrange
-        _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultArchivedPageTemplate);
+        PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultArchivedPageTemplate);
 
-        RemoveContentBlockFromPageTemplateCommand command = new(DefaultArchivedPageTemplateDto, DefaultContentBlockDto);
+        RemoveContentBlockFromPageTemplateCommand command = new(DefaultArchivedPageTemplateDto, DefaultContentBlockDto, 1);
 
         // Act / Assert
         Assert.ThrowsAsync<NotFoundException>(() =>
@@ -87,10 +84,11 @@ public class RemoveContentBlockFromPageTemplateCommandHandlerTests : PageTemplat
             DefaultContentBlockLayoutConfigurationDto,
             ContentBlockType.PdfBlock
         );
-        _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
-        _contentBlockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(unrelatedContentBlock);
+        PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
+        ContentBlockRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(unrelatedContentBlock);
+        AdminRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultAdmin);
 
-        RemoveContentBlockFromPageTemplateCommand command = new(DefaultPageTemplateDto, unrelatedContentBlockDto);
+        RemoveContentBlockFromPageTemplateCommand command = new(DefaultPageTemplateDto, unrelatedContentBlockDto, 1);
 
         // Act / Assert
         Assert.ThrowsAsync<BadRequestException>(() =>
@@ -102,9 +100,9 @@ public class RemoveContentBlockFromPageTemplateCommandHandlerTests : PageTemplat
     {
         // Arrange
         const string exceptionMessage = "Repository failure";
-        _pageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception(exceptionMessage));
+        PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ThrowsAsync(new Exception(exceptionMessage));
 
-        RemoveContentBlockFromPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto);
+        RemoveContentBlockFromPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultContentBlockDto, 1);
 
         // Act
         Exception? ex = Assert.ThrowsAsync<Exception>(() =>
