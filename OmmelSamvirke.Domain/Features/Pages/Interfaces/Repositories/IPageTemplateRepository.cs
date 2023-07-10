@@ -22,4 +22,11 @@ public interface IPageTemplateRepository : IGenericRepository<PageTemplate>
     /// <param name="id">The Id of the <see cref="PageTemplate"/></param>
     /// <returns></returns>
     Task<PageTemplate> GetTempByIdAsync(int id);
+    
+    /// <summary>
+    /// Save a version of a <see cref="PageTemplate"/>.
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    Task<PageTemplate> SaveVersionAsync(PageTemplate entity);
 }
