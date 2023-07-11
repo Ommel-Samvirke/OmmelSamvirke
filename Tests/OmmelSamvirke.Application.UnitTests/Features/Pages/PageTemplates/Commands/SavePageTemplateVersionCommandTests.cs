@@ -45,6 +45,7 @@ public class SavePageTemplateVersionCommandValidator : PageTemplateCommandsTestB
     {
         // Arrange
         PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
+        PageTemplateRepository.Setup(repo => repo.GetVersionAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
         SavePageTemplateVersionCommand command = new(DefaultPageTemplateDto);
 
         // Act / Assert

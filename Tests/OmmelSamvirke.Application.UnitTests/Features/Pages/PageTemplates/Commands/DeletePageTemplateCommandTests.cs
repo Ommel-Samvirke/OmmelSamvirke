@@ -27,6 +27,7 @@ public class DeletePageTemplateCommandTests : PageTemplateCommandsTestBase
         PageRepository.Setup(repo => repo.GetAsync()).ReturnsAsync(new List<Page>());
         PageTemplateRepository.Setup(repo => repo.GetByIdAsync(DefaultPageTemplateId)).ReturnsAsync(DefaultPageTemplate);
         PageTemplateRepository.Setup(repo => repo.DeleteAsync(DefaultPageTemplate)).ReturnsAsync(true);
+        PageRepository.Setup(repo => repo.GetByPageTemplateId(It.IsAny<int>())).ReturnsAsync(new List<Page>());
         DeletePageTemplateCommand command = new(DefaultPageTemplateId);
 
         // Act
