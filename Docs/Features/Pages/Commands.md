@@ -4,8 +4,8 @@ All updates use the strategy optimistic locking.
 
 ## PageTemplates
 - Create a new template ✅
-- Delete a template ❌
-  - Before deleting a template, check if any pages implement it ❌
+- Delete a template ✅
+  - Before deleting a template, check if any pages implement it ✅
   - Perform the deletion action ✅
 - Archive a template ✅
 - Change status from Archived to Public ✅
