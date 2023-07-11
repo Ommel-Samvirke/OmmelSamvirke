@@ -20,6 +20,7 @@ All updates use the strategy optimistic locking.
 - Delete a page ✅
 - Save a page ✅
 - Add page to history: Save all published versions of a page in a table ✅
+- Create a new ContentBlockData element for each ContentBlock in a page when the page is created ✅
 
 ## ContentBlockData
 - Update the Data of a ContentBlockData element 
@@ -31,5 +32,6 @@ All updates use the strategy optimistic locking.
   - VideoBlockData ❌
 
 ## For later
-- Delete ContentBlocks used by a template, when the template is deleted ❌
+- Delete ContentBlocks associated with a template, when the template is deleted ❌
+- Delete ContentBlockData elements associated with a page, when the page is deleted ❌
 - Check if Admin has an un-submitted temporary template ❌
