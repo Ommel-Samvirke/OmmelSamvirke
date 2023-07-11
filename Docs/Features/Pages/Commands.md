@@ -25,13 +25,7 @@ All updates use the strategy optimistic locking.
 - Create a new ContentBlockData element for each ContentBlock in a page when the page is created ✅
 
 ## ContentBlockData
-- Update the Data of a ContentBlockData element 
-  - HeadlineBlockData ❌
-  - ImageBlockData ❌
-  - PdfBlockData ❌
-  - SlideshowBlockData ❌
-  - TextBlockData ❌
-  - VideoBlockData ❌
+- Update the Data of a list of ContentBlockData elements ✅
 
 ## For later
 - Delete ContentBlocks associated with a template, when the template is deleted ❌
@@ -39,3 +33,5 @@ All updates use the strategy optimistic locking.
 - Check if Admin has an un-submitted temporary template ❌
 - Share a page on Facebook ❌
 - Maybe add a timeline/wall component ❌ 
+- Improve validators and tests ❌
+- Add customizable background color to pages ❌
