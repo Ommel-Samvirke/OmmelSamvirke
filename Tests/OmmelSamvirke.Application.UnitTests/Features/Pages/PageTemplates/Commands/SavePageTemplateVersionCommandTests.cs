@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using OmmelSamvirke.Application.Exceptions;
+﻿using OmmelSamvirke.Application.Exceptions;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 using OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands.Common;
