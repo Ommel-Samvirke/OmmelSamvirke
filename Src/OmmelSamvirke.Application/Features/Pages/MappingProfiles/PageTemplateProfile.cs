@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs.Converters;
@@ -28,5 +29,6 @@ public class PageTemplateProfile : Profile
         CreateMap<ContentBlockDto, VideoBlock>().ReverseMap();
         CreateMap<ContentBlockLayoutConfiguration, ContentBlockLayoutConfigurationDto>().ReverseMap();
         CreateMap<CreatePageTemplateCommand, PageTemplate>();
+        CreateMap<PageTemplate, PageTemplateWithoutContentBlocksDto>();
     }
 }

@@ -8,7 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Pages\PageTemplates\Queries" />
       <Folder Include="Features\Pages\Pages\Queries" />
     </ItemGroup>
 
