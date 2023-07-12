@@ -11,4 +11,8 @@
       <PackageReference Include="HtmlSanitizer" Version="8.0.645" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Communities\Enums" />
+    </ItemGroup>
+
 </Project>

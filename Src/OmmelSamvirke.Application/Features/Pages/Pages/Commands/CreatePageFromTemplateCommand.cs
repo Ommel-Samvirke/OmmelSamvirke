@@ -49,7 +49,7 @@ public class CreatePageFromTemplateCommandHandler : IRequestHandler<CreatePageFr
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
         PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync(request.PageTemplateDto.Id))!;
-        Page page = new(request.PageName, pageTemplate, 1);
+        Page page = new(request.PageName, pageTemplate);
         Page createdPage = await _pageRepository.CreateAsync(page);
 
         List<IContentBlockData> contentBlockDataElements = CreateContentBlockDataElements(pageTemplate, createdPage);
