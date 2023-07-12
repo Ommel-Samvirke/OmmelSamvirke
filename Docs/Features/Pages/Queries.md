@@ -10,7 +10,7 @@
 - Get a Page by Id ✅
 - Get all Pages by community Id ✅
 - Get next page from current community ✅
-- Get previous page from current community ❌
+- Get previous page from current community ✅
 
 ## ContentBlockData
 - Get all ContentBlockData of a Page elements by Page Id ❌
