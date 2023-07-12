@@ -7,7 +7,7 @@ namespace OmmelSamvirke.Domain.UnitTests.Features.Pages.Models;
 [TestFixture]
 public class PageTests
 {
-     private PageTemplate _template = null!;
+    private PageTemplate _template = null!;
 
     [SetUp]
     public void Setup()
@@ -23,7 +23,7 @@ public class PageTests
     public void Can_Create_Page_With_Valid_Data()
     {
         const string name = "test_page";
-        Page page = new(name, _template);
+        Page page = new(name, _template, 1);
         
         Assert.Multiple(() =>
         {
@@ -39,7 +39,7 @@ public class PageTests
         const string name = "test_page";
         DateTime dateCreated = DateTime.Now;
         DateTime dateModified = DateTime.Now;
-        Page page = new(id, dateCreated, dateModified, name, _template);
+        Page page = new(id, dateCreated, dateModified, name, _template, 1);
         
         Assert.Multiple(() =>
         {
@@ -56,14 +56,14 @@ public class PageTests
     {
         const string name = "";
         
-        Assert.That(() => new Page(name, _template), Throws.ArgumentException);
+        Assert.That(() => new Page(name, _template, 1), Throws.ArgumentException);
     }
 
     [Test]
     public void Should_Throw_Exception_When_Name_Is_Too_Long()
     {
         string name = new('a', 101);
-        Assert.That(() => new Page(name, _template), Throws.ArgumentException);
+        Assert.That(() => new Page(name, _template, 1), Throws.ArgumentException);
     }
 
     [Test]
@@ -72,6 +72,6 @@ public class PageTests
         const string name = "test_page";
         PageTemplate nullTemplate = null!;
 
-        Assert.That(() => new Page(name, nullTemplate), Throws.ArgumentException);
+        Assert.That(() => new Page(name, nullTemplate, 1), Throws.ArgumentException);
     }
 }
