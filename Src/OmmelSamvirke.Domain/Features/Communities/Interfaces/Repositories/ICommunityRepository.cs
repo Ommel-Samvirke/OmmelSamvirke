@@ -8,4 +8,5 @@ public interface ICommunityRepository : IGenericRepository<Community>
 {
     Task<Page> GetNextPage(int communityId, int currentPageId);
     Task<Page> GetPreviousPage(int communityId, int currentPageId);
+    Task<List<Page>> GetPages(int communityId);
 }
