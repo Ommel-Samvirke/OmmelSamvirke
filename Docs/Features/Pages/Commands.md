@@ -35,3 +35,5 @@ All updates use the strategy optimistic locking.
 - Maybe add a timeline/wall component ❌ 
 - Improve validators and tests ❌
 - Add customizable background color to pages ❌
+- It should be possible to add a ContentBlock to a page even if it is not in the template. A new template
+  will then be created based on the page content ❌
