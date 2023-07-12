@@ -4,9 +4,9 @@ using OmmelSamvirke.Application.Features.Pages.PageTemplates.Queries;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 
-public class GetPageTemplatesByStateCommandValidator : AbstractValidator<GetPageTemplatesByStateCommand>
+public class GetPageTemplatesByStateQueryValidator : AbstractValidator<GetPageTemplatesByStateQuery>
 {
-    public GetPageTemplatesByStateCommandValidator()
+    public GetPageTemplatesByStateQueryValidator()
     {
         RuleFor(x => x.PageTemplateState)
             .IsInEnum()

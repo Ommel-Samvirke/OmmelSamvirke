@@ -9,7 +9,7 @@
 ## Page
 - Get a Page by Id ✅
 - Get all Pages by community Id ✅
-- Get next page from current community ❌
+- Get next page from current community ✅
 - Get previous page from current community ❌
 
 ## ContentBlockData

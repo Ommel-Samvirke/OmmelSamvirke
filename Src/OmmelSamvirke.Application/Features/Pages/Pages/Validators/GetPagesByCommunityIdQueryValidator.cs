@@ -5,11 +5,11 @@ using OmmelSamvirke.Domain.Features.Communities.Interfaces.Repositories;
 
 namespace OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 
-public class GetPagesByCommunityIdCommandValidator : AbstractValidator<GetPagesByCommunityIdCommand>
+public class GetPagesByCommunityIdQueryValidator : AbstractValidator<GetPagesByCommunityIdQuery>
 {
     private readonly ICommunityRepository _communityRepository;
 
-    public GetPagesByCommunityIdCommandValidator(ICommunityRepository communityRepository)
+    public GetPagesByCommunityIdQueryValidator(ICommunityRepository communityRepository)
     {
         _communityRepository = communityRepository;
         

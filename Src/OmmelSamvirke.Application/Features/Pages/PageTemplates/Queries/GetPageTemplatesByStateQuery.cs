@@ -9,33 +9,33 @@ using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Queries;
 
-public class GetPageTemplatesByStateCommand : IRequest<List<PageTemplateWithoutContentBlocksDto>>
+public class GetPageTemplatesByStateQuery : IRequest<List<PageTemplateWithoutContentBlocksDto>>
 {
     public PageTemplateState PageTemplateState { get; }
 
-    public GetPageTemplatesByStateCommand(PageTemplateState pageTemplateState)
+    public GetPageTemplatesByStateQuery(PageTemplateState pageTemplateState)
     {
         PageTemplateState = pageTemplateState;
     }
 }
 
-public class GetPageTemplatesByStateCommandHandler : IRequestHandler<GetPageTemplatesByStateCommand, List<PageTemplateWithoutContentBlocksDto>>
+public class GetPageTemplatesByStateQueryHandler : IRequestHandler<GetPageTemplatesByStateQuery, List<PageTemplateWithoutContentBlocksDto>>
 {
     private readonly IMapper _mapper;
     private readonly IPageTemplateRepository _pageTemplateRepository;
 
-    public GetPageTemplatesByStateCommandHandler(IMapper mapper, IPageTemplateRepository pageTemplateRepository)
+    public GetPageTemplatesByStateQueryHandler(IMapper mapper, IPageTemplateRepository pageTemplateRepository)
     {
         _mapper = mapper;
         _pageTemplateRepository = pageTemplateRepository;
     }
     
     public async Task<List<PageTemplateWithoutContentBlocksDto>> Handle(
-        GetPageTemplatesByStateCommand request,
+        GetPageTemplatesByStateQuery request,
         CancellationToken cancellationToken
     )
     {
-        GetPageTemplatesByStateCommandValidator validator = new();
+        GetPageTemplatesByStateQueryValidator validator = new();
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
         IReadOnlyList<PageTemplate> pageTemplates = await _pageTemplateRepository.GetAsync();

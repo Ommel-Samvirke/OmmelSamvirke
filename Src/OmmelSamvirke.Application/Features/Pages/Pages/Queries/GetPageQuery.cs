@@ -8,30 +8,30 @@ using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Application.Features.Pages.Pages.Queries;
 
-public class GetPageCommand : IRequest<PageDto>
+public class GetPageQuery : IRequest<PageDto>
 {
     public int PageId { get; }
 
-    public GetPageCommand(int pageId)
+    public GetPageQuery(int pageId)
     {
         PageId = pageId;
     }
 }
 
-public class GetPageCommandHandler : IRequestHandler<GetPageCommand, PageDto>
+public class GetPageQueryHandler : IRequestHandler<GetPageQuery, PageDto>
 {
     private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
 
-    public GetPageCommandHandler(IMapper mapper, IPageRepository pageRepository)
+    public GetPageQueryHandler(IMapper mapper, IPageRepository pageRepository)
     {
         _mapper = mapper;
         _pageRepository = pageRepository;
     }
     
-    public async Task<PageDto> Handle(GetPageCommand request, CancellationToken cancellationToken)
+    public async Task<PageDto> Handle(GetPageQuery request, CancellationToken cancellationToken)
     {
-        GetPageCommandValidator validator = new(_pageRepository);
+        GetPageQueryValidator validator = new(_pageRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
 
         Page page = (await _pageRepository.GetByIdAsync(request.PageId))!;

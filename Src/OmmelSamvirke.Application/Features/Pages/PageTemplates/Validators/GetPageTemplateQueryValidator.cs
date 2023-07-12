@@ -5,11 +5,11 @@ using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 
-public class GetPageTemplateCommandValidator : AbstractValidator<GetPageTemplateCommand>
+public class GetPageTemplateQueryValidator : AbstractValidator<GetPageTemplateQuery>
 {
     private readonly IPageTemplateRepository _pageTemplateRepository;
 
-    public GetPageTemplateCommandValidator(IPageTemplateRepository pageTemplateRepository)
+    public GetPageTemplateQueryValidator(IPageTemplateRepository pageTemplateRepository)
     {
         _pageTemplateRepository = pageTemplateRepository;
         

@@ -4,11 +4,11 @@ using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 
 namespace OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 
-public class GetPageCommandValidator : AbstractValidator<GetPageCommand>
+public class GetPageQueryValidator : AbstractValidator<GetPageQuery>
 {
     private readonly IPageRepository _pageRepository;
 
-    public GetPageCommandValidator(IPageRepository pageRepository)
+    public GetPageQueryValidator(IPageRepository pageRepository)
     {
         _pageRepository = pageRepository;
         
