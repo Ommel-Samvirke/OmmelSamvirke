@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using OmmelSamvirke.Application.Errors;
-using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
+using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.ContentBlockData;

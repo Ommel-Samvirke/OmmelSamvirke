@@ -1,4 +1,4 @@
-﻿using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
+﻿using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Domain.Features.Admins.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Admins.Models;
 using OmmelSamvirke.Domain.Features.Pages.Enums;

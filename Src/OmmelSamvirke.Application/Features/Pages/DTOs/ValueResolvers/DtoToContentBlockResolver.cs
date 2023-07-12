@@ -4,7 +4,7 @@ using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
-namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs.ValueResolvers;
+namespace OmmelSamvirke.Application.Features.Pages.DTOs.ValueResolvers;
 
 [UsedImplicitly]
 public class DtoToContentBlockResolver : IValueResolver<PageTemplateDto, PageTemplate, List<ContentBlock>>

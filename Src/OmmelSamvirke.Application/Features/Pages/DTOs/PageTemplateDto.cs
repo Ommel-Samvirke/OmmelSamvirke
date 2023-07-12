@@ -1,6 +1,6 @@
 ﻿using OmmelSamvirke.Domain.Features.Pages.Enums;
 
-namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
+namespace OmmelSamvirke.Application.Features.Pages.DTOs;
 
 public class PageTemplateDto
 {

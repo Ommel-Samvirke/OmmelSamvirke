@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
-namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs.Converters;
+namespace OmmelSamvirke.Application.Features.Pages.DTOs.Converters;
 
 [UsedImplicitly]
 public class ContentBlockToContentBlockDtoConverter : ITypeConverter<ContentBlock, ContentBlockDto>

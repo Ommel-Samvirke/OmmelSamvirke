@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using OmmelSamvirke.Application.Features.Pages.DTOs;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Converters;
+using OmmelSamvirke.Application.Features.Pages.DTOs.ValueResolvers;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
-using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs;
-using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs.Converters;
-using OmmelSamvirke.Application.Features.Pages.PageTemplates.DTOs.ValueResolvers;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
