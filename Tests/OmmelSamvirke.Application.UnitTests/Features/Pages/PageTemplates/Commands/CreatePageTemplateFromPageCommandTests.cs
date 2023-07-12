@@ -32,7 +32,7 @@ public class CreatePageTemplateFromPageCommandTests : PageTemplateCommandsTestBa
     [Test]
     public void Handle_PageDoesNotExist_ThrowsNotFoundException()
     {
-        Page page = new("TestName", DefaultPageTemplate, 1);
+        Page page = new("TestName", DefaultPageTemplate);
         
         // Arrange
         PageRepository.Setup(x => x.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(page);

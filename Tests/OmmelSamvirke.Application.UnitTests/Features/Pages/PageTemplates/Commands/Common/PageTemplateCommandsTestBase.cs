@@ -76,8 +76,7 @@ public abstract class PageTemplateCommandsTestBase
             now,
             now,
             "TestPage",
-            DefaultPageTemplate,
-            1
+            DefaultPageTemplate
         );
         DefaultPageDto = new PageDto(
             1,

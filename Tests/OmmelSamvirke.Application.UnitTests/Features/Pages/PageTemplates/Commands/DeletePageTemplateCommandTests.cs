@@ -57,7 +57,7 @@ public class DeletePageTemplateCommandTests : PageTemplateCommandsTestBase
     public void Handle_GivenPageTemplateIsInUse_ShouldThrowResourceInUseException()
     {
         // Arrange
-        PageRepository.Setup(repo => repo.GetAsync()).ReturnsAsync(new List<Page> { new("TestPage", DefaultPageTemplate, 1) });
+        PageRepository.Setup(repo => repo.GetAsync()).ReturnsAsync(new List<Page> { new("TestPage", DefaultPageTemplate) });
         PageTemplateRepository.Setup(repo => repo.GetByIdAsync(DefaultPageTemplateId)).ReturnsAsync(DefaultPageTemplate);
         PageTemplateRepository.Setup(repo => repo.DeleteAsync(DefaultPageTemplate)).ReturnsAsync(true);
         DeletePageTemplateCommand command = new(DefaultPageTemplateId);

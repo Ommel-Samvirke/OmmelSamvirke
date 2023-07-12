@@ -22,20 +22,14 @@ public class Page : BaseModel
     public PageTemplate Template { get; set; } = null!;
 
     /// <summary>
-    /// This property is used to identify which community this page belongs to.
-    /// </summary>
-    public int CommunityId { get; set; }
-
-    /// <summary>
     /// Create a new instance of a page.
     /// This constructor should be used when the model has not yet been saved to the database.
     /// </summary>
     /// <param name="name"><see cref="Name"/></param>
     /// <param name="template"><see cref="Template"/></param>
-    /// <param name="communityId"><see cref="CommunityId"/></param>
-    public Page(string name, PageTemplate template, int communityId)
+    public Page(string name, PageTemplate template)
     {
-        Initialize(name, template, communityId);
+        Initialize(name, template);
     }
     
     /// <summary>
@@ -46,25 +40,22 @@ public class Page : BaseModel
     /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
     /// <param name="name"><see cref="Name"/></param>
     /// <param name="template"><see cref="Template"/></param>
-    /// <param name="communityId"><see cref="CommunityId"/></param>
     public Page(
         int id,
         DateTime dateCreated,
         DateTime dateModified,
         string name,
-        PageTemplate template,
-        int communityId
+        PageTemplate template
     ) : base(id, dateCreated, dateModified)
     {
-        Initialize(name, template, communityId);
+        Initialize(name, template);
     }
 
-    private void Initialize(string name, PageTemplate template, int communityId)
+    private void Initialize(string name, PageTemplate template)
     {
         StringLengthValidator.Validate(name, 1, 100);
         NullValidator.Validate(template);
         Name = name;
         Template = template;
-        CommunityId = communityId;
     }
 }
