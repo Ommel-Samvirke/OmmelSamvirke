@@ -4,7 +4,6 @@ using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 using OmmelSamvirke.Domain.Features.Communities.Interfaces.Repositories;
-using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Application.Features.Pages.Pages.Queries;
@@ -23,17 +22,14 @@ public class GetPagesByCommunityIdQueryHandler : IRequestHandler<GetPagesByCommu
 {
     private readonly IMapper _mapper;
     private readonly ICommunityRepository _communityRepository;
-    private readonly IPageRepository _pageRepository;
 
     public GetPagesByCommunityIdQueryHandler(
         IMapper mapper,
-        ICommunityRepository communityRepository,
-        IPageRepository pageRepository
+        ICommunityRepository communityRepository
     )
     {
         _mapper = mapper;
         _communityRepository = communityRepository;
-        _pageRepository = pageRepository;
     }
     
     public async Task<List<PageDto>> Handle(GetPagesByCommunityIdQuery request, CancellationToken cancellationToken)

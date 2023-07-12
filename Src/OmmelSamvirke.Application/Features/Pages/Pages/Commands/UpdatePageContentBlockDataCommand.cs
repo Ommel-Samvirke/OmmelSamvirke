@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
-using OmmelSamvirke.Domain.Features.Pages.Interfaces.ContentBlockData;
+using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 
 namespace OmmelSamvirke.Application.Features.Pages.Pages.Commands;

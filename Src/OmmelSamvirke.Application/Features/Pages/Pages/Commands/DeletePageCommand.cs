@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
@@ -20,12 +19,10 @@ public class DeletePageCommand : IRequest<bool>
 
 public class DeletePageCommandHandler : IRequestHandler<DeletePageCommand, bool>
 {
-    private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
 
-    public DeletePageCommandHandler(IMapper mapper, IPageRepository pageRepository)
+    public DeletePageCommandHandler(IPageRepository pageRepository)
     {
-        _mapper = mapper;
         _pageRepository = pageRepository;
     }
     

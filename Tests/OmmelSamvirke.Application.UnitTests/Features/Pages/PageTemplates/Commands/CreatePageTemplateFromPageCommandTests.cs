@@ -3,7 +3,7 @@ using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 using OmmelSamvirke.Application.UnitTests.Features.Pages.PageTemplates.Commands.Common;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
-using OmmelSamvirke.Domain.Features.Pages.Interfaces.ContentBlockData;
+using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;

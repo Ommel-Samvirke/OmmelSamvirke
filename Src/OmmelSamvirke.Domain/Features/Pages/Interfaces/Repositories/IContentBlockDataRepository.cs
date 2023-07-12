@@ -1,6 +1,4 @@
-﻿using OmmelSamvirke.Domain.Features.Pages.Interfaces.ContentBlockData;
-
-namespace OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
+﻿namespace OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 
 public interface IContentBlockDataRepository
 {

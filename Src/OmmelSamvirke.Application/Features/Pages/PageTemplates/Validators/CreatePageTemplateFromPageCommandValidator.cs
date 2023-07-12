@@ -2,7 +2,7 @@
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
-using OmmelSamvirke.Domain.Features.Pages.Interfaces.ContentBlockData;
+using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 

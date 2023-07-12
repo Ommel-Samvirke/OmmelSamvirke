@@ -3,7 +3,7 @@ using MediatR;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
-using OmmelSamvirke.Domain.Features.Pages.Interfaces.ContentBlockData;
+using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
