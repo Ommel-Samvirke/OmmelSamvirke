@@ -1,33 +1,31 @@
 ﻿using AutoMapper;
 using MediatR;
 using OmmelSamvirke.Application.Errors;
-using OmmelSamvirke.Application.Features.Pages.DTOs;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
-using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
-public class CreatePageTemplateCommand : IRequest<PageTemplateDto>
+public class CreatePageTemplateCommand : IRequest<PageTemplateQueryDto>
 {
-    public string Name { get; }
-    public List<ContentBlockDto> ContentBlocks { get;}
-    public PageTemplateState PageTemplateState { get; }
-    
-    public CreatePageTemplateCommand(
-        string name,
-        List<ContentBlockDto> contentBlocks,
-        PageTemplateState pageTemplateState
-    )
+    public PageTemplateCreateDto PageTemplateCreateDto { get; set; }
+
+    public CreatePageTemplateCommand(PageTemplateCreateDto pageTemplateDto)
     {
-        Name = name;
-        ContentBlocks = contentBlocks;
-        PageTemplateState = pageTemplateState;
+        PageTemplateCreateDto = pageTemplateDto;
+    }
+
+    // Used for JSON deserialization
+    public CreatePageTemplateCommand()
+    {
+        
     }
 }
 
-public class CreatePageTemplateCommandHandler : IRequestHandler<CreatePageTemplateCommand, PageTemplateDto>
+public class CreatePageTemplateCommandHandler : IRequestHandler<CreatePageTemplateCommand, PageTemplateQueryDto>
 {
     private readonly IMapper _mapper;
     private readonly IPageTemplateRepository _pageTemplateRepository;
@@ -38,14 +36,14 @@ public class CreatePageTemplateCommandHandler : IRequestHandler<CreatePageTempla
         _pageTemplateRepository = pageTemplateRepository;
     }
     
-    public async Task<PageTemplateDto> Handle(CreatePageTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<PageTemplateQueryDto> Handle(CreatePageTemplateCommand request, CancellationToken cancellationToken)
     {
         CreatePageTemplateCommandValidator validator = new();
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
 
-        PageTemplate requestPage = _mapper.Map<PageTemplate>(request);
+        PageTemplate requestPage = _mapper.Map<PageTemplate>(request.PageTemplateCreateDto);
         
         PageTemplate createdTemplate = await _pageTemplateRepository.CreateAsync(requestPage);
-        return _mapper.Map<PageTemplateDto>(createdTemplate);
+        return _mapper.Map<PageTemplateQueryDto>(createdTemplate);
     }
 }

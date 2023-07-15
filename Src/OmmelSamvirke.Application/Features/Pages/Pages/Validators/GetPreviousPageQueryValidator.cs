@@ -13,27 +13,7 @@ public class GetPreviousPageQueryValidator : AbstractValidator<GetPreviousPageQu
 
     public GetPreviousPageQueryValidator(ICommunityRepository communityRepository, IPageRepository pageRepository)
     {
-        _communityRepository = communityRepository;
-        _pageRepository = pageRepository;
         
-        RuleFor(x => x.CommunityId)
-            .MustAsync(CommunityExists)
-            .WithErrorCode(ErrorCode.ResourceNotFound)
-            .WithMessage("Community does not exist");
-        
-        RuleFor(x => x.CurrentPageId)
-            .MustAsync(PageExists)
-            .WithErrorCode(ErrorCode.ResourceNotFound)
-            .WithMessage("Page does not exist");
     }
     
-    private async Task<bool> CommunityExists(int communityId, CancellationToken cancellationToken)
-    {
-        return await _communityRepository.GetByIdAsync(communityId) is not null;
-    }
-    
-    private async Task<bool> PageExists(int pageId, CancellationToken cancellationToken)
-    {
-        return await _pageRepository.GetByIdAsync(pageId) is not null;
-    }
 }

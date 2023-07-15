@@ -8,9 +8,6 @@ public class GetPageTemplatesByStateQueryValidator : AbstractValidator<GetPageTe
 {
     public GetPageTemplatesByStateQueryValidator()
     {
-        RuleFor(x => x.PageTemplateState)
-            .IsInEnum()
-            .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("The page template state is not valid.");
+        
     }
 }

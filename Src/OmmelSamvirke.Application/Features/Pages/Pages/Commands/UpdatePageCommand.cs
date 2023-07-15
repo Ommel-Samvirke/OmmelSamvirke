@@ -2,7 +2,8 @@
 using MediatR;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Exceptions;
-using OmmelSamvirke.Application.Features.Pages.DTOs;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
@@ -10,13 +11,13 @@ using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Application.Features.Pages.Pages.Commands;
 
-public class UpdatePageCommand : IRequest<PageDto>
+public class UpdatePageCommand : IRequest<PageQueryDto>
 {
-    public PageDto OriginalPage { get; }
-    public PageDto UpdatedPage { get; }
+    public PageQueryDto OriginalPage { get; }
+    public PageUpdateDto UpdatedPage { get; }
     public List<IContentBlockData> UpdatedContentBlockDataElements { get; }
 
-    public UpdatePageCommand(PageDto originalPage, PageDto updatedPage, List<IContentBlockData> updatedContentBlockDataElements)
+    public UpdatePageCommand(PageQueryDto originalPage, PageUpdateDto updatedPage, List<IContentBlockData> updatedContentBlockDataElements)
     {
         OriginalPage = originalPage;
         UpdatedPage = updatedPage;
@@ -24,7 +25,7 @@ public class UpdatePageCommand : IRequest<PageDto>
     }
 }
 
-public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand, PageDto>
+public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand, PageQueryDto>
 {
     private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
@@ -41,13 +42,13 @@ public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand
         _contentBlockDataRepository = contentBlockDataRepository;
     }
     
-    public async Task<PageDto> Handle(UpdatePageCommand request, CancellationToken cancellationToken)
+    public async Task<PageQueryDto> Handle(UpdatePageCommand request, CancellationToken cancellationToken)
     {
         UpdatePageCommandValidator validator = new(_pageRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        Page currentPage = (await _pageRepository.GetByIdAsync(request.OriginalPage.Id))!;
-        PageDto currentPageDto = _mapper.Map<PageDto>(currentPage);
+        Page currentPage = (await _pageRepository.GetByIdAsync((int)request.OriginalPage.Id!))!;
+        PageQueryDto currentPageDto = _mapper.Map<PageQueryDto>(currentPage);
 
         if (!currentPageDto.Equals(request.OriginalPage))
             throw new ResourceHasChangedException("The Page has changed since you last loaded it");
@@ -69,6 +70,6 @@ public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand
         await _contentBlockDataRepository.DeleteAsync(deletedContentBlocks);
         
         Page updatedPage = await _pageRepository.UpdateAsync(_mapper.Map<Page>(request.UpdatedPage));
-        return _mapper.Map<PageDto>(updatedPage);
+        return _mapper.Map<PageQueryDto>(updatedPage);
     }
 }

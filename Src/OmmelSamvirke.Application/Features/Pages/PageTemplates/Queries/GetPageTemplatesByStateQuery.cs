@@ -2,6 +2,7 @@
 using MediatR;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.DTOs;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
@@ -9,7 +10,7 @@ using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Queries;
 
-public class GetPageTemplatesByStateQuery : IRequest<List<PageTemplateWithoutContentBlocksDto>>
+public class GetPageTemplatesByStateQuery : IRequest<List<PageTemplateWithoutContentBlocksQueryDto>>
 {
     public PageTemplateState PageTemplateState { get; }
 
@@ -19,7 +20,7 @@ public class GetPageTemplatesByStateQuery : IRequest<List<PageTemplateWithoutCon
     }
 }
 
-public class GetPageTemplatesByStateQueryHandler : IRequestHandler<GetPageTemplatesByStateQuery, List<PageTemplateWithoutContentBlocksDto>>
+public class GetPageTemplatesByStateQueryHandler : IRequestHandler<GetPageTemplatesByStateQuery, List<PageTemplateWithoutContentBlocksQueryDto>>
 {
     private readonly IMapper _mapper;
     private readonly IPageTemplateRepository _pageTemplateRepository;
@@ -30,7 +31,7 @@ public class GetPageTemplatesByStateQueryHandler : IRequestHandler<GetPageTempla
         _pageTemplateRepository = pageTemplateRepository;
     }
     
-    public async Task<List<PageTemplateWithoutContentBlocksDto>> Handle(
+    public async Task<List<PageTemplateWithoutContentBlocksQueryDto>> Handle(
         GetPageTemplatesByStateQuery request,
         CancellationToken cancellationToken
     )
@@ -43,6 +44,6 @@ public class GetPageTemplatesByStateQueryHandler : IRequestHandler<GetPageTempla
             x => x.State == request.PageTemplateState
         ).ToList();
         
-        return _mapper.Map<List<PageTemplateWithoutContentBlocksDto>>(filteredPageTemplates);
+        return _mapper.Map<List<PageTemplateWithoutContentBlocksQueryDto>>(filteredPageTemplates);
     }
 }

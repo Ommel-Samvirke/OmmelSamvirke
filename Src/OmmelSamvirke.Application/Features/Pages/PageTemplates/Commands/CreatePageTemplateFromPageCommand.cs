@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
 using OmmelSamvirke.Application.Errors;
-using OmmelSamvirke.Application.Features.Pages.DTOs;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces;
@@ -11,17 +12,17 @@ using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
-public class CreatePageTemplateFromPageCommand : IRequest<PageTemplateDto>
+public class CreatePageTemplateFromPageCommand : IRequest<PageTemplateQueryDto>
 {
-    public PageDto Page { get; }
+    public PageUpdateDto PageUpdateDto { get; set; }
 
-    public CreatePageTemplateFromPageCommand(PageDto page)
+    public CreatePageTemplateFromPageCommand(PageUpdateDto page)
     {
-        Page = page;
+        PageUpdateDto = page;
     }
 }
 
-public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePageTemplateFromPageCommand, PageTemplateDto>
+public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePageTemplateFromPageCommand, PageTemplateQueryDto>
 {
     private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
@@ -41,20 +42,20 @@ public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePa
         _contentBlockDataRepository = contentBlockDataRepository;
     }
     
-    public async Task<PageTemplateDto> Handle(CreatePageTemplateFromPageCommand request, CancellationToken cancellationToken)
+    public async Task<PageTemplateQueryDto> Handle(CreatePageTemplateFromPageCommand request, CancellationToken cancellationToken)
     {
         CreatePageTemplateFromPageCommandValidator validator = new(_pageRepository, _contentBlockDataRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
 
-        Page page = (await _pageRepository.GetByIdAsync(request.Page.Id))!;
-        List<IContentBlockData> contentBlockData = await _contentBlockDataRepository.GetByPageIdAsync(request.Page.Id);
+        Page page = (await _pageRepository.GetByIdAsync(request.PageUpdateDto.Id))!;
+        List<IContentBlockData> contentBlockData = await _contentBlockDataRepository.GetByPageIdAsync(request.PageUpdateDto.Id);
 
         List<ContentBlock> contentBlocks = contentBlockData.Select(
             contentBlockDataItem => contentBlockDataItem.BaseContentBlock
         ).ToList();
         
         PageTemplate customPageTemplate = new(
-            $"{request.Page.Name}-template",
+            $"{request.PageUpdateDto.Name}-template",
             contentBlocks,
             PageTemplateState.Custom
         );
@@ -64,6 +65,6 @@ public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePa
         
         await _pageRepository.UpdateAsync(page);
 
-        return _mapper.Map<PageTemplateDto>(createdTemplate);
+        return _mapper.Map<PageTemplateQueryDto>(createdTemplate);
     }
 }

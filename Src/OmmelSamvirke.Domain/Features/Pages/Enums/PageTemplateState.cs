@@ -4,5 +4,6 @@ public enum PageTemplateState
 {
     Public,
     Custom,
-    Archived
+    Archived,
+    Hidden
 }

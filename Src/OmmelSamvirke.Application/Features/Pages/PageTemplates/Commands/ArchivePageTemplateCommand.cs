@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using OmmelSamvirke.Application.Errors;
-using OmmelSamvirke.Application.Features.Pages.DTOs;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
@@ -9,19 +9,17 @@ using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
-public class ArchivePageTemplateCommand : IRequest<PageTemplateDto>
+public class ArchivePageTemplateCommand : IRequest<PageTemplateQueryDto>
 {
     public int PageTemplateId { get; }
-    public PageTemplateState CurrentTemplateState { get; }
-    
-    public ArchivePageTemplateCommand(int pageTemplateId, PageTemplateState currentTemplateState)
+
+    public ArchivePageTemplateCommand(int pageTemplateId)
     {
         PageTemplateId = pageTemplateId;
-        CurrentTemplateState = currentTemplateState;
     }
 }
 
-public class ArchivePageTemplateCommandHandler : IRequestHandler<ArchivePageTemplateCommand, PageTemplateDto>
+public class ArchivePageTemplateCommandHandler : IRequestHandler<ArchivePageTemplateCommand, PageTemplateQueryDto>
 {
     private readonly IMapper _mapper;
     private readonly IPageTemplateRepository _pageTemplateRepository;
@@ -32,7 +30,7 @@ public class ArchivePageTemplateCommandHandler : IRequestHandler<ArchivePageTemp
         _pageTemplateRepository = pageTemplateRepository;
     }
     
-    public async Task<PageTemplateDto> Handle(ArchivePageTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<PageTemplateQueryDto> Handle(ArchivePageTemplateCommand request, CancellationToken cancellationToken)
     {
         ArchivePageTemplateCommandValidator validator = new(_pageTemplateRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
@@ -41,6 +39,6 @@ public class ArchivePageTemplateCommandHandler : IRequestHandler<ArchivePageTemp
         pageTemplate.State = PageTemplateState.Archived;
         
         PageTemplate updatedPageTemplate = await _pageTemplateRepository.UpdateAsync(pageTemplate);
-        return _mapper.Map<PageTemplateDto>(updatedPageTemplate);
+        return _mapper.Map<PageTemplateQueryDto>(updatedPageTemplate);
     }
 }

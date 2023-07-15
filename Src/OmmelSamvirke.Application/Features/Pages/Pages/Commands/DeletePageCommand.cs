@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using OmmelSamvirke.Application.Errors;
-using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
@@ -9,11 +8,11 @@ namespace OmmelSamvirke.Application.Features.Pages.Pages.Commands;
 
 public class DeletePageCommand : IRequest<bool>
 {
-    public PageDto Page { get; }
+    public int PageId { get; set; }
 
-    public DeletePageCommand(PageDto page)
+    public DeletePageCommand(int pageId)
     {
-        Page = page;
+        PageId = pageId;
     }
 }
 
@@ -31,7 +30,7 @@ public class DeletePageCommandHandler : IRequestHandler<DeletePageCommand, bool>
         DeletePageCommandValidator validator = new(_pageRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        Page page = (await _pageRepository.GetByIdAsync(request.Page.Id))!;
+        Page page = (await _pageRepository.GetByIdAsync(request.PageId))!;
 
         return await _pageRepository.DeleteAsync(page);
     }

@@ -13,22 +13,7 @@ public class ArchivePageTemplateCommandValidator : AbstractValidator<ArchivePage
 
     public ArchivePageTemplateCommandValidator(IPageTemplateRepository pageTemplateRepository)
     {
-        _pageTemplateRepository = pageTemplateRepository;
-        
-        RuleFor(x => x.PageTemplateId)
-            .MustAsync(PageTemplateExists)
-            .WithErrorCode(ErrorCode.ResourceNotFound)
-            .WithMessage("PageTemplate does not exist");
+   
+    }
 
-        RuleFor(p => p.CurrentTemplateState)
-            .Equal(PageTemplateState.Public)
-            .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("PageTemplate must be in the public state to be archived");
-    }
-    
-    private async Task<bool> PageTemplateExists(int pageTemplateId, CancellationToken cancellationToken)
-    {
-        PageTemplate? pageTemplate = await _pageTemplateRepository.GetByIdAsync(pageTemplateId);
-        return pageTemplate != null;
-    }
 }

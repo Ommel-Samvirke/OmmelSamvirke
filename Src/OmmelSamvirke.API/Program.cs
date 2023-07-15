@@ -1,5 +1,9 @@
+using System.Reflection;
+using Microsoft.OpenApi.Models;
+using OmmelSamvirke.API.Middleware;
 using OmmelSamvirke.Application;
 using OmmelSamvirke.Persistence;
+using Swashbuckle.AspNetCore.Filters;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -20,15 +24,38 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "OmmelSamvirke API", Version = "v1" });
+
+    string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+    c.ExampleFilters();
+});
+builder.Services.AddSwaggerExamplesFromAssemblyOf<Program>();
 
 WebApplication app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
+    app.Use(async (context, next) =>
+    {
+        if (context.Request.Path.Value == "/")
+        {
+            context.Response.Redirect("/swagger");
+        }
+        else
+        {
+            await next();
+        }
+    });
 }
 
 app.UseHttpsRedirection();
