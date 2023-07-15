@@ -58,4 +58,12 @@ public class Page : BaseModel
         Name = name;
         Template = template;
     }
+    
+    /// <summary>
+    /// Protected constructor for EF Core.
+    /// </summary>
+    protected Page()
+    {
+        
+    }
 }

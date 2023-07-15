@@ -77,4 +77,12 @@ public class ContentBlockLayoutConfiguration : BaseModel
         Width = width;
         Height = height;
     }
+    
+    /// <summary>
+    /// Private constructor for EF Core.
+    /// </summary>
+    private ContentBlockLayoutConfiguration()
+    {
+        
+    }
 }

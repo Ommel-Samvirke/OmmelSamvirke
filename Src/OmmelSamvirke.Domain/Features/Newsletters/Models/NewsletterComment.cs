@@ -14,12 +14,12 @@ public class NewsletterComment : BaseModel
     /// <summary>
     /// The Id of the user who posted the comment
     /// </summary>
-    public int UserId { get; private set; }
+    public int UserId { get; set; }
     
     /// <summary>
     /// The Id of the newsletter the comment was posted to
     /// </summary>
-    public int NewsletterId { get; private set; }
+    public int NewsletterId { get; set; }
 
     /// <summary>
     /// The content of the comment.
@@ -71,5 +71,13 @@ public class NewsletterComment : BaseModel
         UserId = userId;
         NewsletterId = newsletterId;
         Content = sanitizedContent;
+    }
+    
+    /// <summary>
+    /// Private constructor for EF Core.
+    /// </summary>
+    private NewsletterComment()
+    {
+        
     }
 }

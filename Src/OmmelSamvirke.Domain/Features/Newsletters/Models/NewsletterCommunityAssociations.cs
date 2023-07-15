@@ -13,7 +13,7 @@ public class NewsletterCommunityAssociations : BaseModel
     /// <summary>
     /// The id of an instance of a <see cref="Newsletter"/>
     /// </summary>
-    public int NewsletterId { get; private set; }
+    public int NewsletterId { get; set; }
 
     /// <summary>
     /// A list of all the <see cref="NewsletterCommunity"/> instances
@@ -91,5 +91,13 @@ public class NewsletterCommunityAssociations : BaseModel
 
         NewsletterId = newsletterId;
         NewsletterCommunities = newsletterCommunities;
+    }
+    
+    /// <summary>
+    /// Private constructor for EF Core.
+    /// </summary>
+    private NewsletterCommunityAssociations()
+    {
+        
     }
 }

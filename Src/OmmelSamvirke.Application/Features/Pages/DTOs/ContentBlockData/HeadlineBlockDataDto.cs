@@ -4,7 +4,7 @@ public class HeadlineBlockDataDto : ContentBlockDataDto
 {
     public string Headline { get; set; }
     
-    public HeadlineBlockDataDto(int id, ContentBlockDto contentBlock, string headline) : base(id, contentBlock)
+    public HeadlineBlockDataDto(int id, ContentBlockDto contentBlock, string headline, PageDto page) : base(id, contentBlock, page)
     {
         Headline = headline;
     }

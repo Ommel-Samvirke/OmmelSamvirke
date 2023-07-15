@@ -16,12 +16,12 @@ public class PageTemplate : BaseModel
     /// Describes the name of the page template.
     /// Must be 1-100 characters long.
     /// </summary>
-    public string Name { get; private set; } = null!;
+    public string Name { get; set; } = null!;
 
     /// <summary>
     /// Represents the content blocks associated with this template.
     /// </summary>
-    public List<ContentBlock> ContentBlocks { get; private set; } = new();
+    public List<ContentBlock> ContentBlocks { get; set; } = new();
 
     /// <summary>
     /// Describes the state of the page template.
@@ -75,5 +75,13 @@ public class PageTemplate : BaseModel
         Name = name;
         ContentBlocks = contentBlocks;
         State = state;
+    }
+    
+    /// <summary>
+    /// Protected constructor for EF Core.
+    /// </summary>
+    protected PageTemplate()
+    {
+        
     }
 }

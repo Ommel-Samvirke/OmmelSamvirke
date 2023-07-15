@@ -152,4 +152,12 @@ public class Newsletter : BaseModel
         SentDate = sentDate;
         Likes = likes;
     }
+    
+    /// <summary>
+    /// Private constructor for EF Core.
+    /// </summary>
+    private Newsletter()
+    {
+        
+    }
 }

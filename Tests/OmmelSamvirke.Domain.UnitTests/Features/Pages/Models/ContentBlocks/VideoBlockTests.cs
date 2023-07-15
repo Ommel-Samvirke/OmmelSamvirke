@@ -30,7 +30,16 @@ public class VideoBlockTests : PagesBaseTestModel
         const bool isOptional = true;
         DateTime now = DateTime.Now;
 
-        VideoBlock videoBlock = new(id, now, now, isOptional, DefaultDesktopConfiguration, DefaultTabletConfiguration, DefaultMobileConfiguration);
+        VideoBlock videoBlock = new(
+            id,
+            now,
+            now,
+            isOptional,
+            DefaultDesktopConfiguration,
+            DefaultTabletConfiguration,
+            DefaultMobileConfiguration,
+            DefaultPageTemplate
+        );
 
         Assert.Multiple(() =>
         {

@@ -17,7 +17,8 @@ public class SaveTemporaryPageTemplateCommandTests : PageTemplateCommandsTestBas
 
         _saveTemporaryPageTemplateCommandHandler = new SaveTemporaryPageTemplateCommandHandler(
             Mapper.Object,
-            PageTemplateRepository.Object
+            PageTemplateRepository.Object,
+            ContentBlockRepository.Object
         );
     }
     
@@ -30,7 +31,7 @@ public class SaveTemporaryPageTemplateCommandTests : PageTemplateCommandsTestBas
         PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
         PageTemplateRepository.Setup(repo => repo.UpdateAsync(It.IsAny<PageTemplate>())).ReturnsAsync(DefaultPageTemplate);
 
-        SaveTemporaryPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultPageTemplateDto);
+        UpdatePageTemplateCommand command = new(DefaultPageTemplateDto, DefaultPageTemplateDto);
 
         // Act
         PageTemplateDto result = await _saveTemporaryPageTemplateCommandHandler.Handle(command, CancellationToken.None);
@@ -44,7 +45,7 @@ public class SaveTemporaryPageTemplateCommandTests : PageTemplateCommandsTestBas
     {
         // Arrange
         PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync((PageTemplate)null!);
-        SaveTemporaryPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultPageTemplateDto);
+        UpdatePageTemplateCommand command = new(DefaultPageTemplateDto, DefaultPageTemplateDto);
 
         // Act / Assert
         Assert.ThrowsAsync<NotFoundException>(() => _saveTemporaryPageTemplateCommandHandler.Handle(command, CancellationToken.None));
@@ -57,7 +58,7 @@ public class SaveTemporaryPageTemplateCommandTests : PageTemplateCommandsTestBas
         Mapper.Setup(m => m.Map<PageTemplateDto>(It.IsAny<PageTemplate>())).Returns(DefaultArchivedPageTemplateDto);
         Mapper.Setup(m => m.Map<PageTemplate>(It.IsAny<PageTemplateDto>())).Returns(DefaultPageTemplate);
         PageTemplateRepository.Setup(repo => repo.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(DefaultPageTemplate);
-        SaveTemporaryPageTemplateCommand command = new(DefaultPageTemplateDto, DefaultPageTemplateDto);
+        UpdatePageTemplateCommand command = new(DefaultPageTemplateDto, DefaultPageTemplateDto);
 
         // Act / Assert
         Assert.ThrowsAsync<ResourceHasChangedException>(() => _saveTemporaryPageTemplateCommandHandler.Handle(command, CancellationToken.None));

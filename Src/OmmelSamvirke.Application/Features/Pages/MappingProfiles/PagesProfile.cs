@@ -37,5 +37,6 @@ public class PagesProfile : Profile
         CreateMap<SlideshowBlockData, SlideshowBlockDataDto>();
         CreateMap<TextBlockData, TextBlockDataDto>();
         CreateMap<VideoBlockData, VideoBlockDataDto>();
+        CreateMap<Page, PageDto>().ReverseMap();
     }
 }

@@ -20,6 +20,7 @@ public class DtoToContentBlockResolver : IValueResolver<PageTemplateDto, PageTem
             ContentBlockLayoutConfiguration mobileConfig =
                 context.Mapper.Map<ContentBlockLayoutConfiguration>(cbDto.MobileConfiguration);
             DateTime datePlaceholder = DateTime.Now;
+            PageTemplate pageTemplate = context.Mapper.Map<PageTemplate>(cbDto.PageTemplate);
 
             ContentBlock contentBlock = cbDto.ContentBlockType switch
             {
@@ -31,7 +32,8 @@ public class DtoToContentBlockResolver : IValueResolver<PageTemplateDto, PageTem
                     cbDto.IsOptional,
                     desktopConfig,
                     tabletConfig,
-                    mobileConfig
+                    mobileConfig,
+                    pageTemplate
                 ),
                 ContentBlockType.ImageBlock => 
                     new ImageBlock(
@@ -41,7 +43,8 @@ public class DtoToContentBlockResolver : IValueResolver<PageTemplateDto, PageTem
                     cbDto.IsOptional,
                     desktopConfig,
                     tabletConfig,
-                    mobileConfig
+                    mobileConfig,
+                    pageTemplate
                 ),
                 ContentBlockType.PdfBlock => 
                     new PdfBlock(
@@ -51,7 +54,8 @@ public class DtoToContentBlockResolver : IValueResolver<PageTemplateDto, PageTem
                     cbDto.IsOptional,
                     desktopConfig,
                     tabletConfig,
-                    mobileConfig
+                    mobileConfig,
+                    pageTemplate
                 ),
                 ContentBlockType.SlideshowBlock => 
                     new SlideshowBlock(
@@ -61,7 +65,8 @@ public class DtoToContentBlockResolver : IValueResolver<PageTemplateDto, PageTem
                     cbDto.IsOptional,
                     desktopConfig,
                     tabletConfig,
-                    mobileConfig
+                    mobileConfig,
+                    pageTemplate
                 ),
                 ContentBlockType.TextBlock => 
                     new TextBlock(
@@ -71,7 +76,8 @@ public class DtoToContentBlockResolver : IValueResolver<PageTemplateDto, PageTem
                     cbDto.IsOptional,
                     desktopConfig,
                     tabletConfig,
-                    mobileConfig
+                    mobileConfig,
+                    pageTemplate
                 ),
                 ContentBlockType.VideoBlock => 
                     new VideoBlock(
@@ -81,7 +87,8 @@ public class DtoToContentBlockResolver : IValueResolver<PageTemplateDto, PageTem
                     cbDto.IsOptional,
                     desktopConfig,
                     tabletConfig,
-                    mobileConfig
+                    mobileConfig,
+                    pageTemplate
                 ),
                 _ => throw new NotSupportedException($"ContentBlockType {cbDto.ContentBlockType} not supported")
             };

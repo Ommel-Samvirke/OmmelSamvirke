@@ -9,12 +9,12 @@ public class Community : BaseModel
     /// <summary>
     /// The name of the community
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
     
     /// <summary>
     /// The pages that belong to this community
     /// </summary>
-    public List<Page> Pages { get; set; }
+    public List<Page> Pages { get; set; } = new()!;
 
 
     /// <summary>
@@ -52,5 +52,13 @@ public class Community : BaseModel
         NullValidator.Validate(pages);
         Name = name;
         Pages = pages;
+    }
+    
+    /// <summary>
+    /// Private constructor for EF Core.
+    /// </summary>
+    private Community()
+    {
+        
     }
 }

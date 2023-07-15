@@ -83,7 +83,7 @@ public abstract class PageTemplateCommandsTestBase
             "TestPage",
             DefaultPageTemplateDto
         );
-        
+
         DefaultContentBlockLayoutConfiguration = new ContentBlockLayoutConfiguration(
             1,
             now,
@@ -107,7 +107,8 @@ public abstract class PageTemplateCommandsTestBase
             false,
             DefaultContentBlockLayoutConfiguration,
             DefaultContentBlockLayoutConfiguration,
-            DefaultContentBlockLayoutConfiguration
+            DefaultContentBlockLayoutConfiguration,
+            DefaultPageTemplate
         );
         DefaultContentBlockDto = new ContentBlockDto(
             1,
@@ -115,7 +116,8 @@ public abstract class PageTemplateCommandsTestBase
             DefaultContentBlockLayoutConfigurationDto,
             DefaultContentBlockLayoutConfigurationDto,
             DefaultContentBlockLayoutConfigurationDto,
-            ContentBlockType.HeadlineBlock
+            ContentBlockType.HeadlineBlock,
+            DefaultPageTemplateDto
         );
 
         DefaultAdmin = new Admin(1, now, now);

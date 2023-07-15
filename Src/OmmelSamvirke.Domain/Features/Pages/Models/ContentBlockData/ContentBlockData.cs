@@ -15,29 +15,29 @@ public abstract class ContentBlockData<T> : BaseModel, IContentBlockData where T
     /// <summary>
     /// Represents the content block that this data is associated with.
     /// </summary>
-    public T ContentBlock { get; private set; } = null!;
-    
+    public T ContentBlock { get; set; } = null!;
+
     /// <summary>
     /// This property is identical to <see cref="ContentBlock"/> but is of type <see cref="ContentBlock"/>.
     /// It is used to satisfy the <see cref="IContentBlockData"/> interface.
     /// Without this property it is not possible to create collections with mixed types of <see cref="ContentBlockData{T}"/>.
     /// </summary>
     public ContentBlock BaseContentBlock => ContentBlock;
-    
+
     /// <summary>
-    /// The ID of the page that this content block data is associated with.
+    /// The page that this content block data is associated with.
     /// </summary>
-    public int PageId { get; private set; }
+    public Page Page { get; set; } = null!;
 
     /// <summary>
     /// Create a new instance of a content block data.
     /// This constructor should be used when the model has not yet been saved to the database.
     /// </summary>
     /// <param name="contentBlock"><see cref="ContentBlock"/></param>
-    /// <param name="pageId"><see cref="PageId"/></param>
-    protected ContentBlockData(T contentBlock, int pageId)
+    /// <param name="page"><see cref="Page"/></param>
+    protected ContentBlockData(T contentBlock, Page page)
     {
-        Initialize(contentBlock, pageId);
+        Initialize(contentBlock, page);
     }
     
     /// <summary>
@@ -47,24 +47,30 @@ public abstract class ContentBlockData<T> : BaseModel, IContentBlockData where T
     /// <param name="dateCreated"><see cref="BaseModel.DateCreated"/></param>
     /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
     /// <param name="contentBlock"><see cref="ContentBlock"/></param>
-    /// <param name="pageId"><see cref="PageId"/></param>
+    /// <param name="page"><see cref="Page"/></param>
     protected ContentBlockData(
         int id,
         DateTime dateCreated,
         DateTime dateModified,
         T contentBlock,
-        int pageId
+        Page page
     ) : base(id, dateCreated, dateModified)
     {
-        Initialize(contentBlock, pageId);
+        Initialize(contentBlock, page);
     }
 
-    private void Initialize(T contentBlock, int pageId)
+    private void Initialize(T contentBlock, Page page)
     {
         NullValidator.Validate(contentBlock);
-        IntegerValidator.Validate(pageId, 0);
+        NullValidator.Validate(page);
         
         ContentBlock = contentBlock;
-        PageId = pageId;
+        Page = page;
     }
+    
+    /// <summary>
+    /// Only for EF Core private constructors.
+    /// </summary>
+    protected ContentBlockData()
+    { }
 }

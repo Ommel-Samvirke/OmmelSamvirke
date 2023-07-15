@@ -1,4 +1,5 @@
-﻿using OmmelSamvirke.Domain.Features.Pages.Models;
+﻿using OmmelSamvirke.Domain.Features.Pages.Enums;
+using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Domain.UnitTests.Features.Pages.Models;
@@ -20,6 +21,9 @@ public abstract class PagesBaseTestModel
     protected ImageBlock DefaultImageBlock { get; private set; } = null!;
 
     protected HeadlineBlock DefaultHeadlineBlock { get; private set; } = null!;
+    
+    protected PageTemplate DefaultPageTemplate { get; private set; } = null!;
+    protected Page DefaultPage { get; private set; } = null!;
 
     [SetUp]
     public virtual void SetUp()
@@ -52,47 +56,64 @@ public abstract class PagesBaseTestModel
             3,
             5
         );
+
+        DefaultPageTemplate = new PageTemplate(
+            1,
+            now,
+            now,
+            "TestTemplate",
+            new List<ContentBlock>(),
+            PageTemplateState.Public
+        );
+
+        DefaultPage = new Page(1, now, now, "TestPage", DefaultPageTemplate);
         
         DefaultHeadlineBlock = new HeadlineBlock(
             false,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration
+            DefaultMobileConfiguration,
+            DefaultPageTemplate
         );
         
         DefaultImageBlock = new ImageBlock(
             false,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration
+            DefaultMobileConfiguration,
+            DefaultPageTemplate
         );
         
         DefaultPdfBlock = new PdfBlock(
             false,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration
+            DefaultMobileConfiguration,
+            DefaultPageTemplate
         );
         
         DefaultSlideshowBlock = new SlideshowBlock(
             false,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration
+            DefaultMobileConfiguration,
+            DefaultPageTemplate
         );
         
         DefaultTextBlock = new TextBlock(
             false,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration
+            DefaultMobileConfiguration,
+            DefaultPageTemplate
         );
         
         DefaultVideoBlock = new VideoBlock(
             false,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration
+            DefaultMobileConfiguration,
+            DefaultPageTemplate
         );
     }
 }

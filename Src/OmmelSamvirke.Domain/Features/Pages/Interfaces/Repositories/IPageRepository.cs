@@ -3,7 +3,7 @@ using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 
-public interface IPageRepository : IGenericRepository<Page>, IOptimisticLockingRepository<Page>, IVersionedEntityRepository<Page>
+public interface IPageRepository : IGenericRepository<Page>
 {
     Task<List<Page>> GetByPageTemplateId(int pageTemplateId);
 }

@@ -1,6 +1,7 @@
 ﻿using OmmelSamvirke.Domain.Common;
 using OmmelSamvirke.Domain.Common.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
+using OmmelSamvirke.Domain.ValueObjects;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
 
@@ -13,7 +14,7 @@ public class VideoBlockData : ContentBlockData<VideoBlock>
     /// <summary>
     /// The video URL for the video block.
     /// </summary>
-    public string VideoUrl { get; private set; } = null!;
+    public Url VideoUrl { get; set; } = null!;
 
     /// <summary>
     /// Create a new instance of a VideoBlockData.
@@ -21,8 +22,8 @@ public class VideoBlockData : ContentBlockData<VideoBlock>
     /// </summary>
     /// <param name="videoBlock"><see cref="ContentBlock"/></param>
     /// <param name="videoUrl"><see cref="VideoUrl"/></param>
-    /// <param name="pageId"><see cref="ContentBlockData{T}.PageId"/></param>
-    public VideoBlockData(VideoBlock videoBlock, string videoUrl, int pageId) : base(videoBlock, pageId)
+    /// <param name="page"><see cref="ContentBlockData{T}.Page"/></param>
+    public VideoBlockData(VideoBlock videoBlock, Url videoUrl, Page page) : base(videoBlock, page)
     {
         Initialize(videoUrl);
     }
@@ -35,22 +36,30 @@ public class VideoBlockData : ContentBlockData<VideoBlock>
     /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
     /// <param name="videoBlock"><see cref="ContentBlock"/></param>
     /// <param name="videoUrl"><see cref="VideoUrl"/></param>
-    /// <param name="pageId"><see cref="ContentBlockData{T}.PageId"/></param>
+    /// <param name="page"><see cref="ContentBlockData{T}.Page"/></param>
     public VideoBlockData(
         int id,
         DateTime dateCreated,
         DateTime dateModified,
         VideoBlock videoBlock,
-        string videoUrl, 
-        int pageId
-    ) : base(id, dateCreated, dateModified, videoBlock, pageId)
+        Url videoUrl, 
+        Page page
+    ) : base(id, dateCreated, dateModified, videoBlock, page)
     {
         Initialize(videoUrl);
     }
 
-    private void Initialize(string videoUrl)
+    private void Initialize(Url videoUrl)
     {
-        StringLengthValidator.Validate(videoUrl, 1, 2000);
+        StringLengthValidator.Validate(videoUrl.Address, 1, 2000);
         VideoUrl = videoUrl;
+    }
+    
+    /// <summary>
+    /// Private constructor for EF Core.
+    /// </summary>
+    private VideoBlockData()
+    {
+        
     }
 }

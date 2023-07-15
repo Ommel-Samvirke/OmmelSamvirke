@@ -30,7 +30,16 @@ public class TextBlockTests : PagesBaseTestModel
         const bool isOptional = true;
         DateTime now = DateTime.Now;
 
-        TextBlock textBlock = new(id, now, now, isOptional, DefaultDesktopConfiguration, DefaultTabletConfiguration, DefaultMobileConfiguration);
+        TextBlock textBlock = new(
+            id,
+            now,
+            now,
+            isOptional,
+            DefaultDesktopConfiguration,
+            DefaultTabletConfiguration,
+            DefaultMobileConfiguration,
+            DefaultPageTemplate
+        );
 
         Assert.Multiple(() =>
         {

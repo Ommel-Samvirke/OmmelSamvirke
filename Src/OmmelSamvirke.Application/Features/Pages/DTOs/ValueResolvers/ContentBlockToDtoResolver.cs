@@ -19,6 +19,7 @@ public class ContentBlockToDtoResolver : IValueResolver<PageTemplate, PageTempla
                 context.Mapper.Map<ContentBlockLayoutConfigurationDto>(cb.TabletConfiguration);
             ContentBlockLayoutConfigurationDto mobileConfig =
                 context.Mapper.Map<ContentBlockLayoutConfigurationDto>(cb.MobileConfiguration);
+            PageTemplateDto pageTemplate = context.Mapper.Map<PageTemplateDto>(cb.PageTemplate);
 
             ContentBlockType contentBlockType = cb switch
             {
@@ -31,7 +32,7 @@ public class ContentBlockToDtoResolver : IValueResolver<PageTemplate, PageTempla
                 _ => throw new ArgumentOutOfRangeException(nameof(cb), cb, "Could not convert ContentBlock to DTO")
             };
             
-            return new ContentBlockDto((int)cb.Id!, cb.IsOptional, desktopConfig, tabletConfig, mobileConfig, contentBlockType);
+            return new ContentBlockDto((int)cb.Id!, cb.IsOptional, desktopConfig, tabletConfig, mobileConfig, contentBlockType, pageTemplate);
         }).ToList();
     }
 }

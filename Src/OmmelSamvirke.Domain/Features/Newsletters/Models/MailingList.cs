@@ -13,7 +13,7 @@ public class MailingList : BaseModel
     /// The model id of the <see cref="NewsletterCommunity"/> that owns the
     /// mailing list.
     /// </summary>
-    public int NewsletterCommunityId { get; private set; }
+    public int NewsletterCommunityId { get; set; }
 
     /// <summary>
     /// A list of <see cref="NewsletterSubscribers"/> that are subscribed to
@@ -92,5 +92,13 @@ public class MailingList : BaseModel
 
         NewsletterCommunityId = newsletterCommunityId;
         NewsletterSubscribers = newsletterSubscribers;
+    }
+    
+    /// <summary>
+    /// Private constructor for EF Core.
+    /// </summary>
+    private MailingList()
+    {
+        
     }
 }

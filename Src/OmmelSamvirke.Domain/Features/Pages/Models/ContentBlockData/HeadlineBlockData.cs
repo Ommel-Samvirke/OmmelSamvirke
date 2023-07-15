@@ -13,7 +13,7 @@ public class HeadlineBlockData : ContentBlockData<HeadlineBlock>
     /// <summary>
     /// The headline text for the block. Must be 1-200 characters long.
     /// </summary>
-    public string Headline { get; private set; } = null!;
+    public string Headline { get; set; } = null!;
 
     /// <summary>
     /// Create a new instance of a HeadlineBlockData.
@@ -21,8 +21,8 @@ public class HeadlineBlockData : ContentBlockData<HeadlineBlock>
     /// </summary>
     /// <param name="headlineBlock"><see cref="ContentBlock"/></param>
     /// <param name="headline"><see cref="Headline"/></param>
-    /// <param name="pageId"><see cref="ContentBlockData{T}.PageId"/></param>
-    public HeadlineBlockData(HeadlineBlock headlineBlock, string headline, int pageId) : base(headlineBlock, pageId)
+    /// <param name="page"><see cref="ContentBlockData{T}.Page"/></param>
+    public HeadlineBlockData(HeadlineBlock headlineBlock, string headline, Page page) : base(headlineBlock, page)
     {
         Initialize(headline);
     }
@@ -35,15 +35,15 @@ public class HeadlineBlockData : ContentBlockData<HeadlineBlock>
     /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
     /// <param name="headlineBlock"><see cref="ContentBlock"/></param>
     /// <param name="headline"><see cref="Headline"/></param>
-    /// <param name="pageId"><see cref="ContentBlockData{T}.PageId"/></param>
+    /// <param name="page"><see cref="ContentBlockData{T}.Page"/></param>
     public HeadlineBlockData(
         int id,
         DateTime dateCreated,
         DateTime dateModified,
         HeadlineBlock headlineBlock,
         string headline, 
-        int pageId
-    ) : base(id, dateCreated, dateModified, headlineBlock, pageId)
+        Page page
+    ) : base(id, dateCreated, dateModified, headlineBlock, page)
     {
         Initialize(headline);
     }
@@ -52,5 +52,13 @@ public class HeadlineBlockData : ContentBlockData<HeadlineBlock>
     {
         StringLengthValidator.Validate(headline, 1, 200);
         Headline = headline;
+    }
+
+    /// <summary>
+    /// Private constructor for EF Core.
+    /// </summary>
+    private HeadlineBlockData()
+    {
+        
     }
 }

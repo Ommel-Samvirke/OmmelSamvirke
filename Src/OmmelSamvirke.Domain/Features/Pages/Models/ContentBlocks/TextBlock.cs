@@ -16,16 +16,18 @@ public class TextBlock : ContentBlock
     /// <param name="desktopConfiguration"><see cref="ContentBlock.DesktopConfiguration"/></param>
     /// <param name="tabletConfiguration"><see cref="ContentBlock.TabletConfiguration"/></param>
     /// <param name="mobileConfiguration"><see cref="ContentBlock.MobileConfiguration"/></param>
+    /// <param name="pageTemplate"><see cref="ContentBlock.PageTemplate"/></param>
     public TextBlock(
         bool isOptional,
         ContentBlockLayoutConfiguration desktopConfiguration,
         ContentBlockLayoutConfiguration tabletConfiguration,
-        ContentBlockLayoutConfiguration mobileConfiguration
+        ContentBlockLayoutConfiguration mobileConfiguration,
+        PageTemplate pageTemplate
     )
-        : base(isOptional, desktopConfiguration, tabletConfiguration, mobileConfiguration)
+        : base(isOptional, desktopConfiguration, tabletConfiguration, mobileConfiguration, pageTemplate)
     {
     }
-    
+
     /// <summary>
     /// Create an instance of a TextBlock that is loaded from the database.
     /// </summary>
@@ -36,6 +38,7 @@ public class TextBlock : ContentBlock
     /// <param name="desktopConfiguration"><see cref="ContentBlock.DesktopConfiguration"/></param>
     /// <param name="tabletConfiguration"><see cref="ContentBlock.TabletConfiguration"/></param>
     /// <param name="mobileConfiguration"><see cref="ContentBlock.MobileConfiguration"/></param>
+    /// <param name="pageTemplate"><see cref="ContentBlock.PageTemplate"/></param>
     public TextBlock(
         int id,
         DateTime dateCreated,
@@ -43,8 +46,17 @@ public class TextBlock : ContentBlock
         bool isOptional,
         ContentBlockLayoutConfiguration desktopConfiguration,
         ContentBlockLayoutConfiguration tabletConfiguration,
-        ContentBlockLayoutConfiguration mobileConfiguration
-    ) : base(id, dateCreated, dateModified, isOptional, desktopConfiguration, tabletConfiguration, mobileConfiguration)
+        ContentBlockLayoutConfiguration mobileConfiguration,
+        PageTemplate pageTemplate
+    ) : base(id, dateCreated, dateModified, isOptional, desktopConfiguration, tabletConfiguration, mobileConfiguration, pageTemplate)
     {
+    }
+    
+    /// <summary>
+    /// Private constructor for EF Core.
+    /// </summary>
+    private TextBlock()
+    {
+        
     }
 }

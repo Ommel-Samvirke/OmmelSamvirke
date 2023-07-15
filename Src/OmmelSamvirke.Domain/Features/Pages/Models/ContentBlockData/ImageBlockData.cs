@@ -1,6 +1,7 @@
 ﻿using OmmelSamvirke.Domain.Common;
 using OmmelSamvirke.Domain.Common.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
+using OmmelSamvirke.Domain.ValueObjects;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
 
@@ -13,7 +14,7 @@ public class ImageBlockData : ContentBlockData<ImageBlock>
     /// <summary>
     /// The URL of the image for the block. Must be 1-2000 characters long.
     /// </summary>
-    public string ImageUrl { get; private set; } = null!;
+    public Url ImageUrl { get; set; } = null!;
 
     /// <summary>
     /// Create a new instance of an ImageBlockData.
@@ -21,8 +22,8 @@ public class ImageBlockData : ContentBlockData<ImageBlock>
     /// </summary>
     /// <param name="imageBlock"><see cref="ContentBlock"/></param>
     /// <param name="imageUrl"><see cref="ImageUrl"/></param>
-    /// <param name="pageId"><see cref="ContentBlockData{T}.PageId"/></param>
-    public ImageBlockData(ImageBlock imageBlock, string imageUrl, int pageId) : base(imageBlock, pageId)
+    /// <param name="page"><see cref="ContentBlockData{T}.Page"/></param>
+    public ImageBlockData(ImageBlock imageBlock, Url imageUrl, Page page) : base(imageBlock, page)
     {
         Initialize(imageUrl);
     }
@@ -35,22 +36,30 @@ public class ImageBlockData : ContentBlockData<ImageBlock>
     /// <param name="dateModified"><see cref="BaseModel.DateModified"/></param>
     /// <param name="imageBlock"><see cref="ContentBlock"/></param>
     /// <param name="imageUrl"><see cref="ImageUrl"/></param>
-    /// <param name="pageId"><see cref="ContentBlockData{T}.PageId"/></param>
+    /// <param name="page"><see cref="ContentBlockData{T}.Page"/></param>
     public ImageBlockData(
         int id,
         DateTime dateCreated,
         DateTime dateModified,
         ImageBlock imageBlock,
-        string imageUrl, 
-        int pageId
-    ) : base(id, dateCreated, dateModified, imageBlock, pageId)
+        Url imageUrl, 
+        Page page
+    ) : base(id, dateCreated, dateModified, imageBlock, page)
     {
         Initialize(imageUrl);
     }
 
-    private void Initialize(string imageUrl)
+    private void Initialize(Url imageUrl)
     {
-        StringLengthValidator.Validate(imageUrl, 1, 2000);
+        StringLengthValidator.Validate(imageUrl.Address, 1, 2000);
         ImageUrl = imageUrl;
+    }
+    
+    /// <summary>
+    /// Private constructor for EF Core.
+    /// </summary>
+    private ImageBlockData()
+    {
+        
     }
 }

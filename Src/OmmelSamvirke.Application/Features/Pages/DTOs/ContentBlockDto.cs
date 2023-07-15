@@ -10,6 +10,7 @@ public class ContentBlockDto
     public ContentBlockLayoutConfigurationDto TabletConfiguration { get; set; }
     public ContentBlockLayoutConfigurationDto MobileConfiguration { get; set; }
     public ContentBlockType ContentBlockType { get; set; }
+    public PageTemplateDto PageTemplate { get; set; }
 
     public ContentBlockDto(
         int id,
@@ -17,7 +18,8 @@ public class ContentBlockDto
         ContentBlockLayoutConfigurationDto desktopConfiguration,
         ContentBlockLayoutConfigurationDto tabletConfiguration,
         ContentBlockLayoutConfigurationDto mobileConfiguration,
-        ContentBlockType contentBlockType
+        ContentBlockType contentBlockType,
+        PageTemplateDto pageTemplate
     )
     {
         Id = id;
@@ -26,5 +28,6 @@ public class ContentBlockDto
         TabletConfiguration = tabletConfiguration;
         MobileConfiguration = mobileConfiguration;
         ContentBlockType = contentBlockType;
+        PageTemplate = pageTemplate;
     }
 }

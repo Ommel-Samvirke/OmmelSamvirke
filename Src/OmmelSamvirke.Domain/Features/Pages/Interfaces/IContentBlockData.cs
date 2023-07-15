@@ -1,9 +1,10 @@
-﻿using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
+﻿using OmmelSamvirke.Domain.Features.Pages.Models;
+using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Interfaces;
 
 public interface IContentBlockData
 {
     ContentBlock BaseContentBlock { get; }
-    int PageId { get; }
+    Page Page { get; }
 }

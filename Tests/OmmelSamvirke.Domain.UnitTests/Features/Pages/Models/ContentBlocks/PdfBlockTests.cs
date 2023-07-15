@@ -30,7 +30,16 @@ public class PdfBlockTests : PagesBaseTestModel
         const bool isOptional = true;
         DateTime now = DateTime.Now;
 
-        PdfBlock pdfBlock = new(id, now, now, isOptional, DefaultDesktopConfiguration, DefaultTabletConfiguration, DefaultMobileConfiguration);
+        PdfBlock pdfBlock = new(
+            id,
+            now,
+            now,
+            isOptional,
+            DefaultDesktopConfiguration,
+            DefaultTabletConfiguration,
+            DefaultMobileConfiguration,
+            DefaultPageTemplate
+        );
 
         Assert.Multiple(() =>
         {

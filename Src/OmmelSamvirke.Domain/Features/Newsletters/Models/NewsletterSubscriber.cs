@@ -60,4 +60,12 @@ public class NewsletterSubscriber : BaseModel
             throw new ArgumentException("Property Email must be a valid email format");
         }
     }
+    
+    /// <summary>
+    /// Private constructor for EF Core.
+    /// </summary>
+    private NewsletterSubscriber()
+    {
+        
+    }
 }

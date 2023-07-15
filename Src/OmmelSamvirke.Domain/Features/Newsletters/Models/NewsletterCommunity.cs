@@ -50,4 +50,12 @@ public class NewsletterCommunity : BaseModel
 
         Name = name;
     }
+    
+    /// <summary>
+    /// Private constructor for EF Core.
+    /// </summary>
+    private NewsletterCommunity()
+    {
+        
+    }
 }
