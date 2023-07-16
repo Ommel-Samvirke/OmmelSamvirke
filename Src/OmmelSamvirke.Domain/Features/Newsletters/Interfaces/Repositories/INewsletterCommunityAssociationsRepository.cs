@@ -5,5 +5,5 @@ namespace OmmelSamvirke.Domain.Features.Newsletters.Interfaces.Repositories;
 
 public interface INewsletterCommunityAssociationsRepository : IGenericRepository<NewsletterCommunityAssociations>
 {
-    Task<NewsletterCommunity> AddNewsletterCommunity(NewsletterCommunity newsletterCommunity);
+    Task<NewsletterCommunity> AddNewsletterCommunity(NewsletterCommunity newsletterCommunity, CancellationToken cancellationToken = default);
 }

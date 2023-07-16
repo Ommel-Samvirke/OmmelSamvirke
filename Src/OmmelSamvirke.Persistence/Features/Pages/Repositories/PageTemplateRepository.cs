@@ -15,7 +15,7 @@ public class PageTemplateRepository : GenericRepository<PageTemplate>, IPageTemp
         _dbContext = dbContext;
     }
     
-    public async Task<PageTemplate?> GetByIdAsyncWithNavigationProps(int id)
+    public async Task<PageTemplate?> GetByIdAsyncWithNavigationProps(int id, CancellationToken cancellationToken = default)
     {
         return await _dbContext.PageTemplates
             .Include(x => x.ContentBlocks)
@@ -26,6 +26,6 @@ public class PageTemplateRepository : GenericRepository<PageTemplate>, IPageTemp
             .ThenInclude(x => x.MobileConfiguration)
             .Where(x => x.Id == id)
             .AsNoTracking()
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(cancellationToken);
     }
 }

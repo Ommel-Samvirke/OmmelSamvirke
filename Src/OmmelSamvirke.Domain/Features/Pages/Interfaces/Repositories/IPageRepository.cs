@@ -5,5 +5,5 @@ namespace OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 
 public interface IPageRepository : IGenericRepository<Page>
 {
-    Task<List<Page>> GetByPageTemplateId(int pageTemplateId);
+    Task<List<Page>> GetByPageTemplateId(int pageTemplateId, CancellationToken cancellationToken = default);
 }

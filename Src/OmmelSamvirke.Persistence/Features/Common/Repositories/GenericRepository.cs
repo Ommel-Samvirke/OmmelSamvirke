@@ -6,52 +6,49 @@ namespace OmmelSamvirke.Persistence.Features.Common.Repositories;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 {
-    private readonly DbContext _dbDbContext;
-    private readonly DbSet<T> _dbSet;
-
-    public DbSet<T> DbSet => _dbSet;
-    public DbContext DbDbContext => _dbDbContext;
+    protected DbSet<T> DbSet { get; }
+    protected DbContext DbDbContext { get; }
 
     public GenericRepository(DbContext dbDbContext)
     {
-        _dbDbContext = dbDbContext;
-        _dbSet = dbDbContext.Set<T>();
+        DbDbContext = dbDbContext;
+        DbSet = dbDbContext.Set<T>();
     }
     
-    public async Task<IReadOnlyList<T>> GetAsync()
+    public async Task<IReadOnlyList<T>> GetAsync(CancellationToken cancellationToken = default)
     {
-        return await _dbSet.AsNoTracking().ToListAsync();
+        return await DbSet.AsNoTracking().ToListAsync(cancellationToken);
     }
 
-    public async Task<T?> GetByIdAsync(int id)
+    public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        return await _dbSet.AsNoTracking().FirstOrDefaultAsync(q => q.Id == id);
+        return await DbSet.AsNoTracking().FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
     }
 
-    public async Task<T> CreateAsync(T entity)
+    public async Task<T> CreateAsync(T entity, CancellationToken cancellationToken = default)
     {
-        await _dbDbContext.AddAsync(entity);
-        _dbDbContext.Entry(entity).State = EntityState.Added;
-        await _dbDbContext.SaveChangesAsync();
+        await DbDbContext.AddAsync(entity, cancellationToken);
+        DbDbContext.Entry(entity).State = EntityState.Added;
+        await DbDbContext.SaveChangesAsync(cancellationToken);
         return entity;
     }
 
-    public async Task<T> UpdateAsync(T entity)
+    public async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default)
     {
-        _dbDbContext.Update(entity);
-        _dbDbContext.Entry(entity).State = EntityState.Modified;
-        await _dbDbContext.SaveChangesAsync();
+        DbDbContext.Update(entity);
+        DbDbContext.Entry(entity).State = EntityState.Modified;
+        await DbDbContext.SaveChangesAsync(cancellationToken);
         return entity;
     }
 
-    public async Task<bool> DeleteAsync(T entity)
+    public async Task<bool> DeleteAsync(T entity, CancellationToken cancellationToken = default)
     {
         try
         {
-            _dbDbContext.ChangeTracker.Clear();
-            _dbDbContext.Remove(entity);
-            _dbDbContext.Entry(entity).State = EntityState.Deleted;
-            await _dbDbContext.SaveChangesAsync();
+            DbDbContext.ChangeTracker.Clear();
+            DbDbContext.Remove(entity);
+            DbDbContext.Entry(entity).State = EntityState.Deleted;
+            await DbDbContext.SaveChangesAsync(cancellationToken);
             return true;
         } catch (Exception)
         {

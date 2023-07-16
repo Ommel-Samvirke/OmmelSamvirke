@@ -15,8 +15,10 @@ public class PageRepository : GenericRepository<Page>, IPageRepository
         _dbContext = dbContext;
     }
 
-    public async Task<List<Page>> GetByPageTemplateId(int pageTemplateId)
+    public async Task<List<Page>> GetByPageTemplateId(int pageTemplateId, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Pages.AsNoTracking().Where(p => p.Template.Id == pageTemplateId).ToListAsync();
+        return await _dbContext.Pages.AsNoTracking()
+            .Where(p => p.Template != null && p.Template.Id == pageTemplateId)
+            .ToListAsync(cancellationToken);
     }
 }

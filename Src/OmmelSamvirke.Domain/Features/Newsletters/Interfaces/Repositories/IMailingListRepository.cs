@@ -5,6 +5,6 @@ namespace OmmelSamvirke.Domain.Features.Newsletters.Interfaces.Repositories;
 
 public interface IMailingListRepository : IGenericRepository<MailingList>
 {
-    Task<NewsletterSubscriber> AddSubscriber(NewsletterSubscriber newsletterSubscriber);
-    Task<NewsletterSubscriber> RemoveSubscriber(NewsletterSubscriber newsletterSubscriber);
+    Task<NewsletterSubscriber> AddSubscriber(NewsletterSubscriber newsletterSubscriber, CancellationToken cancellationToken = default);
+    Task<NewsletterSubscriber> RemoveSubscriber(NewsletterSubscriber newsletterSubscriber, CancellationToken cancellationToken = default);
 }

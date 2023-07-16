@@ -15,17 +15,17 @@ public class ContentBlockRepository : GenericRepository<ContentBlock>, IContentB
         _dbContext = dbDbContext;
     }
 
-    public async Task<List<ContentBlock>> CreateAsync(List<ContentBlock> contentBlocks)
+    public async Task<List<ContentBlock>> CreateAsync(List<ContentBlock> contentBlocks, CancellationToken cancellationToken = default)
     {
-        await DbSet.AddRangeAsync(contentBlocks);
+        await DbSet.AddRangeAsync(contentBlocks, cancellationToken);
         foreach (ContentBlock entity in contentBlocks) 
             DbSet.Entry(entity).State = EntityState.Added;
         
-        await DbDbContext.SaveChangesAsync();
+        await DbDbContext.SaveChangesAsync(cancellationToken);
         return contentBlocks;
     }
 
-    public async Task<bool> DeleteAsync(List<ContentBlock> contentBlocks)
+    public async Task<bool> DeleteAsync(List<ContentBlock> contentBlocks, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -33,7 +33,7 @@ public class ContentBlockRepository : GenericRepository<ContentBlock>, IContentB
             foreach (ContentBlock entity in contentBlocks) 
                 DbSet.Entry(entity).State = EntityState.Deleted;
             
-            await DbDbContext.SaveChangesAsync();
+            await DbDbContext.SaveChangesAsync(cancellationToken);
             return true;
         }
         catch (Exception )
@@ -42,7 +42,7 @@ public class ContentBlockRepository : GenericRepository<ContentBlock>, IContentB
         }
     }
 
-    public async Task<List<ContentBlock>> GetByPageTemplateIdAsync(int pageTemplateId)
+    public async Task<List<ContentBlock>> GetByPageTemplateIdAsync(int pageTemplateId, CancellationToken cancellationToken = default)
     {
         IQueryable<int> contentBlockIds = _dbContext.PageTemplates.AsNoTracking().Where(pageTemplate => pageTemplate.Id == pageTemplateId)
             .SelectMany(pageTemplate => pageTemplate.ContentBlocks.Select(contentBlock => contentBlock.Id))
@@ -55,6 +55,6 @@ public class ContentBlockRepository : GenericRepository<ContentBlock>, IContentB
             .Include(cb => cb.DesktopConfiguration).AsNoTracking()
             .Include(cb => cb.TabletConfiguration).AsNoTracking()
             .Include(cb => cb.MobileConfiguration).AsNoTracking()
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 }

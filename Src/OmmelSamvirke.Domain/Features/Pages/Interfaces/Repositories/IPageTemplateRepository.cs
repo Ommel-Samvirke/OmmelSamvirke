@@ -5,5 +5,5 @@ namespace OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 
 public interface IPageTemplateRepository : IGenericRepository<PageTemplate>
 {
-    Task<PageTemplate?> GetByIdAsyncWithNavigationProps(int id);
+    Task<PageTemplate?> GetByIdAsyncWithNavigationProps(int id, CancellationToken cancellationToken = default);
 }
