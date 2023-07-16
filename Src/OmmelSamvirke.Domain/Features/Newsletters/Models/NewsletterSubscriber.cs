@@ -1,5 +1,4 @@
-﻿using System.Net.Mail;
-using OmmelSamvirke.Domain.Common;
+﻿using OmmelSamvirke.Domain.Common;
 
 namespace OmmelSamvirke.Domain.Features.Newsletters.Models;
 

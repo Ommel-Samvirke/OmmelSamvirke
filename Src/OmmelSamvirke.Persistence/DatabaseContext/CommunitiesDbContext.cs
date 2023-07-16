@@ -5,5 +5,5 @@ namespace OmmelSamvirke.Persistence.DatabaseContext;
 
 public partial class AppDbContext
 {
-    public DbSet<Community> Communities { get; set; }
+    public DbSet<Community> Communities { get; set; } = null!;
 }

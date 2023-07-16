@@ -11,7 +11,7 @@ public abstract class BaseModel : IEquatable<BaseModel>
     /// It is assumed that any DB used with Ommel Samvirke will
     /// use integer identifiers for all table types.
     /// </summary>
-    public int Id { get; set; }
+    public int Id { get; init; }
 
     /// <summary>
     /// Describes when the instance of the model was first created.
@@ -22,6 +22,11 @@ public abstract class BaseModel : IEquatable<BaseModel>
     /// Describes when the instance of the model was last modified.
     /// </summary>
     public DateTime? DateModified { get; set; }
+    
+    /// <summary>
+    /// Used for generating the hash code of this instance.
+    /// </summary>
+    private Guid InstanceId { get; } = Guid.NewGuid();
 
     /// <summary>
     /// Checks the equality of two models based
@@ -53,10 +58,11 @@ public abstract class BaseModel : IEquatable<BaseModel>
     /// Get the hash code of this model instance.
     /// The hash code is generated based on
     /// the properties <see cref="Id"/> and <see cref="DateCreated"/>.
+    /// so it will change if these values change!
     /// </summary>
     /// <returns>The integer Hash Code of this instance.</returns>
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, DateCreated);
+        return InstanceId.GetHashCode();
     }
 }

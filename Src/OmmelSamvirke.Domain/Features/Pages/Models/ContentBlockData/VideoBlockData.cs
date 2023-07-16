@@ -1,5 +1,4 @@
 ﻿using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
-using OmmelSamvirke.Domain.ValueObjects;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
 
@@ -12,5 +11,5 @@ public class VideoBlockData : ContentBlockData<VideoBlock>
     /// <summary>
     /// The video URL for the video block.
     /// </summary>
-    public string VideoUrl { get; set; } = string.Empty!;
+    public string VideoUrl { get; set; } = string.Empty;
 }

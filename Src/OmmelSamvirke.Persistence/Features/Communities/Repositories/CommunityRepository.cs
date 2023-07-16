@@ -9,7 +9,7 @@ namespace OmmelSamvirke.Persistence.Features.Communities.Repositories;
 
 public class CommunityRepository : GenericRepository<Community>, ICommunityRepository
 {
-    private new readonly DbSet<Community> _dbSet;
+    private readonly DbSet<Community> _dbSet;
     
     public CommunityRepository(AppDbContext dbContext) : base(dbContext)
     {

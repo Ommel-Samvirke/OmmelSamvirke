@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using OmmelSamvirke.Application.Errors;
-using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;

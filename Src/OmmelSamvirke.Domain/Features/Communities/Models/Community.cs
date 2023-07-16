@@ -13,5 +13,5 @@ public class Community : BaseModel
     /// <summary>
     /// The pages that belong to this community
     /// </summary>
-    public List<Page> Pages { get; set; } = new()!;
+    public List<Page> Pages { get; set; } = new();
 }

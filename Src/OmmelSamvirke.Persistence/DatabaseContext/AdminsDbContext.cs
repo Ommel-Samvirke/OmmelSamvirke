@@ -5,5 +5,5 @@ namespace OmmelSamvirke.Persistence.DatabaseContext;
 
 public partial class AppDbContext
 {
-    public DbSet<Admin> Admins { get; set; }
+    public DbSet<Admin> Admins { get; set; } = null!;
 }

@@ -1,5 +1,4 @@
 ﻿using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
-using OmmelSamvirke.Domain.ValueObjects;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
 
