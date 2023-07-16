@@ -8,12 +8,7 @@ namespace OmmelSamvirke.Application.Features.Pages.Pages.Commands;
 
 public class DeletePageCommand : IRequest<bool>
 {
-    public int PageId { get; set; }
-
-    public DeletePageCommand(int pageId)
-    {
-        PageId = pageId;
-    }
+    public int PageId { get; init; }
 }
 
 public class DeletePageCommandHandler : IRequestHandler<DeletePageCommand, bool>

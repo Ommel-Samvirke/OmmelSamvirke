@@ -12,12 +12,7 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Queries;
 
 public class GetPageTemplatesByStateQuery : IRequest<List<PageTemplateWithoutContentBlocksQueryDto>>
 {
-    public PageTemplateState PageTemplateState { get; }
-
-    public GetPageTemplatesByStateQuery(PageTemplateState pageTemplateState)
-    {
-        PageTemplateState = pageTemplateState;
-    }
+    public PageTemplateState PageTemplateState { get; init; }
 }
 
 public class GetPageTemplatesByStateQueryHandler : IRequestHandler<GetPageTemplatesByStateQuery, List<PageTemplateWithoutContentBlocksQueryDto>>

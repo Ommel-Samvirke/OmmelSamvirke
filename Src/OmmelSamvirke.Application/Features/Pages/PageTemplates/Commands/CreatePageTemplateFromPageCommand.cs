@@ -14,12 +14,7 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class CreatePageTemplateFromPageCommand : IRequest<PageTemplateQueryDto>
 {
-    public PageUpdateDto PageUpdateDto { get; set; }
-
-    public CreatePageTemplateFromPageCommand(PageUpdateDto page)
-    {
-        PageUpdateDto = page;
-    }
+    public PageUpdateDto PageUpdateDto { get; init; }
 }
 
 public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePageTemplateFromPageCommand, PageTemplateQueryDto>
@@ -52,14 +47,13 @@ public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePa
 
         List<ContentBlock> contentBlocks = contentBlockData.Select(
             contentBlockDataItem => contentBlockDataItem.BaseContentBlock
-        ).ToList();
-        
+        ).Where(c => c is not null).ToList()!;
+
         PageTemplate customPageTemplate = new()
         {
             Name = $"{request.PageUpdateDto.Name}-template",
             ContentBlocks = contentBlocks,
             State = PageTemplateState.Custom
-            
         };
         
         PageTemplate createdTemplate = await _pageTemplateRepository.CreateAsync(customPageTemplate);

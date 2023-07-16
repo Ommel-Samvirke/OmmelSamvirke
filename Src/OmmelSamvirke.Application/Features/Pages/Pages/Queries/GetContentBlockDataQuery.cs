@@ -11,12 +11,7 @@ namespace OmmelSamvirke.Application.Features.Pages.Pages.Queries;
 
 public class GetContentBlockDataQuery : IRequest<List<ContentBlockDataQueryDto>>
 {
-    public int PageId { get; }
-
-    public GetContentBlockDataQuery(int pageId)
-    {
-        PageId = pageId;
-    }
+    public int PageId { get; init; }
 }
 
 public class GetContentBlockDataQueryHandler : IRequestHandler<GetContentBlockDataQuery, List<ContentBlockDataQueryDto>>

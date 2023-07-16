@@ -29,7 +29,10 @@ public class PageTemplatesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<PageTemplateQueryDto>> GetById(int id)
     {
-        PageTemplateQueryDto pageTemplate = await _mediator.Send(new GetPageTemplateQuery(id));
+        PageTemplateQueryDto pageTemplate = await _mediator.Send(new GetPageTemplateQuery
+        {
+            PageTemplateId = id
+        });
 
         return pageTemplate;
     }
@@ -44,7 +47,10 @@ public class PageTemplatesController : ControllerBase
     public async Task<ActionResult<List<PageTemplateWithoutContentBlocksQueryDto>>> GetByState([FromQuery]PageTemplateState state)
     {
         List<PageTemplateWithoutContentBlocksQueryDto> pageTemplates = 
-            await _mediator.Send(new GetPageTemplatesByStateQuery(state));
+            await _mediator.Send(new GetPageTemplatesByStateQuery
+            {
+                PageTemplateState = state
+            });
 
         return pageTemplates;
     }
@@ -72,7 +78,10 @@ public class PageTemplatesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> MakePublic(int id)
     {
-        PageTemplateQueryDto updatedPageTemplate = await _mediator.Send(new MakePageTemplatePublicCommand(id));
+        PageTemplateQueryDto updatedPageTemplate = await _mediator.Send(new MakePageTemplatePublicCommand
+        {
+            PageTemplateId = id
+        });
         return Ok(updatedPageTemplate);
     }
     
@@ -85,7 +94,10 @@ public class PageTemplatesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> Archive(int id)
     {
-        PageTemplateQueryDto updatedPageTemplate = await _mediator.Send(new ArchivePageTemplateCommand(id));
+        PageTemplateQueryDto updatedPageTemplate = await _mediator.Send(new ArchivePageTemplateCommand
+        {
+            PageTemplateId = id
+        });
         return Ok(updatedPageTemplate);
     }
     

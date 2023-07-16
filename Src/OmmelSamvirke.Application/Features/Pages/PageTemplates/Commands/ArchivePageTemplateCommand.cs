@@ -11,12 +11,7 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class ArchivePageTemplateCommand : IRequest<PageTemplateQueryDto>
 {
-    public int PageTemplateId { get; }
-
-    public ArchivePageTemplateCommand(int pageTemplateId)
-    {
-        PageTemplateId = pageTemplateId;
-    }
+    public int PageTemplateId { get; init; }
 }
 
 public class ArchivePageTemplateCommandHandler : IRequestHandler<ArchivePageTemplateCommand, PageTemplateQueryDto>

@@ -11,12 +11,7 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class MakePageTemplatePublicCommand : IRequest<PageTemplateQueryDto>
 {
-    public int PageTemplateId { get; }
-
-    public MakePageTemplatePublicCommand(int pageTemplateId)
-    {
-        PageTemplateId = pageTemplateId;
-    }
+    public int PageTemplateId { get; init; }
 }
 
 public class MakePageTemplatePublicCommandHandler : IRequestHandler<MakePageTemplatePublicCommand, PageTemplateQueryDto>

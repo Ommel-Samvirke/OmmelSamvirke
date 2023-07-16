@@ -11,12 +11,7 @@ namespace OmmelSamvirke.Application.Features.Pages.Pages.Queries;
 
 public class GetPageQuery : IRequest<PageQueryDto>
 {
-    public int PageId { get; }
-
-    public GetPageQuery(int pageId)
-    {
-        PageId = pageId;
-    }
+    public int PageId { get; init; }
 }
 
 public class GetPageQueryHandler : IRequestHandler<GetPageQuery, PageQueryDto>

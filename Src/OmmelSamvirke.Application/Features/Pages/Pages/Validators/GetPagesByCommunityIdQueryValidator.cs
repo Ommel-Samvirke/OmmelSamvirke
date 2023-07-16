@@ -11,7 +11,16 @@ public class GetPagesByCommunityIdQueryValidator : AbstractValidator<GetPagesByC
 
     public GetPagesByCommunityIdQueryValidator(ICommunityRepository communityRepository)
     {
+        _communityRepository = communityRepository;
         
-        
+            RuleFor(p => p.CommunityId)
+                .MustAsync(CommunityMustExist)
+                .WithErrorCode(ErrorCode.ResourceNotFound)
+                .WithMessage("Community does not exist");
+    }
+    
+    private async Task<bool> CommunityMustExist(int communityId, CancellationToken cancellationToken)
+    {
+        return await _communityRepository.GetByIdAsync(communityId) is not null;
     }
 }

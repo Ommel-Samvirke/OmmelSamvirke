@@ -5,7 +5,6 @@ using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
-using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace OmmelSamvirke.API.Controllers.Features.Pages.Examples;
@@ -65,6 +64,10 @@ public class UpdatePageTemplateCommandExample : IExamplesProvider<UpdatePageTemp
             }
         };
 
-        return new UpdatePageTemplateCommand(originalPageTemplate, updatedPageTemplate);
+        return new UpdatePageTemplateCommand
+        {
+            OriginalPageTemplate = originalPageTemplate,
+            UpdatedPageTemplate = updatedPageTemplate
+        };
     }
 }

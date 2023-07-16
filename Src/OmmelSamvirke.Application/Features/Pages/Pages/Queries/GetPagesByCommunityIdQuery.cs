@@ -11,12 +11,7 @@ namespace OmmelSamvirke.Application.Features.Pages.Pages.Queries;
 
 public class GetPagesByCommunityIdQuery : IRequest<List<PageQueryDto>>
 {
-    public int CommunityId { get; }
-
-    public GetPagesByCommunityIdQuery(int communityId)
-    {
-        CommunityId = communityId;
-    }
+    public int CommunityId { get; init; }
 }
 
 public class GetPagesByCommunityIdQueryHandler : IRequestHandler<GetPagesByCommunityIdQuery, List<PageQueryDto>>

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using OmmelSamvirke.Application.Errors;
-using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
@@ -11,12 +10,7 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Queries;
 
 public class GetPageTemplateQuery : IRequest<PageTemplateQueryDto>
 {
-    public int PageTemplateId { get; }
-
-    public GetPageTemplateQuery(int pageTemplateId)
-    {
-        PageTemplateId = pageTemplateId;
-    }
+    public int PageTemplateId { get; init; }
 }
 
 public class GetPageTemplateQueryHandler : IRequestHandler<GetPageTemplateQuery, PageTemplateQueryDto>

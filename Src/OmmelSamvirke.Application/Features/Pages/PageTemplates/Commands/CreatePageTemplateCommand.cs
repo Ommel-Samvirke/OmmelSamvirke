@@ -11,18 +11,7 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class CreatePageTemplateCommand : IRequest<PageTemplateQueryDto>
 {
-    public PageTemplateCreateDto PageTemplateCreateDto { get; set; }
-
-    public CreatePageTemplateCommand(PageTemplateCreateDto pageTemplateDto)
-    {
-        PageTemplateCreateDto = pageTemplateDto;
-    }
-
-    // Used for JSON deserialization
-    public CreatePageTemplateCommand()
-    {
-        
-    }
+    public PageTemplateCreateDto PageTemplateCreateDto { get; init; } = null!;
 }
 
 public class CreatePageTemplateCommandHandler : IRequestHandler<CreatePageTemplateCommand, PageTemplateQueryDto>

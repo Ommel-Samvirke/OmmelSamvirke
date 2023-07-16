@@ -13,14 +13,8 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class UpdatePageTemplateCommand : IRequest<PageTemplateQueryDto>
 {
-    public PageTemplateQueryDto OriginalPageTemplate { get; }
-    public PageTemplateUpdateDto UpdatedPageTemplate { get; }
-
-    public UpdatePageTemplateCommand(PageTemplateQueryDto originalPageTemplate, PageTemplateUpdateDto updatedPageTemplate)
-    {
-        OriginalPageTemplate = originalPageTemplate;
-        UpdatedPageTemplate = updatedPageTemplate;
-    }
+    public PageTemplateQueryDto OriginalPageTemplate { get; init; }
+    public PageTemplateUpdateDto UpdatedPageTemplate { get; init; }
 }
 
 public class UpdatePageTemplateCommandHandler : IRequestHandler<UpdatePageTemplateCommand, PageTemplateQueryDto>

@@ -12,14 +12,9 @@ namespace OmmelSamvirke.Application.Features.Pages.Pages.Queries;
 
 public class GetNextPageQuery : IRequest<PageQueryDto>
 {
-    public int CommunityId { get; }
-    public int CurrentPageId { get; }
-
-    public GetNextPageQuery(int communityId, int currentPageId)
-    {
-        CommunityId = communityId;
-        CurrentPageId = currentPageId;
-    }
+    public int CommunityId { get; init; }
+    public int CurrentPageId { get; init; }
+    
 }
 
 public class GetNextPageQueryHandler : IRequestHandler<GetNextPageQuery, PageQueryDto>

@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using OmmelSamvirke.Application.Errors;
-using OmmelSamvirke.Application.Exceptions;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
@@ -10,12 +9,7 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class DeletePageTemplateCommand : IRequest<bool>
 {
-    public int PageTemplateId { get; }
-
-    public DeletePageTemplateCommand(int pageTemplateId)
-    {
-        PageTemplateId = pageTemplateId;
-    }
+    public int PageTemplateId { get; init; }
 }
 
 public class DeletePageTemplateCommandHandler : IRequestHandler<DeletePageTemplateCommand, bool>
@@ -39,11 +33,7 @@ public class DeletePageTemplateCommandHandler : IRequestHandler<DeletePageTempla
         ValidationResultHandler.Handle(validationResult, request);
 
         PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync(request.PageTemplateId))!;
-        
-        List<Page> pagesImplementingTemplate = await _pageRepository.GetByPageTemplateId(request.PageTemplateId);
-        if (pagesImplementingTemplate.Count != 0)
-            throw new ResourceInUseException("The PageTemplate cannot be deleted because it is used by one or more Pages.");
-        
+
         return await _pageTemplateRepository.DeleteAsync(pageTemplate);
     }
 }
