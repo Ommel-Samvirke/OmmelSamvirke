@@ -37,6 +37,7 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<Program>();
 
 WebApplication app = builder.Build();
 
+app.UseMiddleware<SanitizationMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.

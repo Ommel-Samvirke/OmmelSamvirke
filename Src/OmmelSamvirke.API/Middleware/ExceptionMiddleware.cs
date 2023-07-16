@@ -25,7 +25,7 @@ public class ExceptionMiddleware
         }
     }
     
-    private async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
+    private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
     {
         HttpStatusCode statusCode;
         CustomProblemDetails problem;
