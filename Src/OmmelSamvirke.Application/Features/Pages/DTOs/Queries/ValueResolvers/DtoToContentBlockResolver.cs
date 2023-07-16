@@ -22,60 +22,66 @@ public class DtoToContentBlockResolver : IValueResolver<PageTemplateQueryDto, Pa
 
             ContentBlock contentBlock = cbDto.ContentBlockType switch
             {
-                ContentBlockType.HeadlineBlock => new HeadlineBlock(
-                    (int)cbDto.Id!,
-                    cbDto.DateCreated,
-                    cbDto.DateModified,
-                    cbDto.IsOptional,
-                    desktopConfig,
-                    tabletConfig,
-                    mobileConfig
-                ),
-                ContentBlockType.ImageBlock => new ImageBlock(
-                    (int)cbDto.Id!,
-                    cbDto.DateCreated,
-                    cbDto.DateModified,
-                    cbDto.IsOptional,
-                    desktopConfig,
-                    tabletConfig,
-                    mobileConfig
-                ),
-                ContentBlockType.PdfBlock => new PdfBlock(
-                    (int)cbDto.Id!,
-                    cbDto.DateCreated,
-                    cbDto.DateModified,
-                    cbDto.IsOptional,
-                    desktopConfig,
-                    tabletConfig,
-                    mobileConfig
-                ),
-                ContentBlockType.SlideshowBlock => new SlideshowBlock(
-                    (int)cbDto.Id!,
-                    cbDto.DateCreated,
-                    cbDto.DateModified,
-                    cbDto.IsOptional,
-                    desktopConfig,
-                    tabletConfig,
-                    mobileConfig
-                ),
-                ContentBlockType.TextBlock => new TextBlock(
-                    (int)cbDto.Id!,
-                    cbDto.DateCreated,
-                    cbDto.DateModified,
-                    cbDto.IsOptional,
-                    desktopConfig,
-                    tabletConfig,
-                    mobileConfig
-                ),
-                ContentBlockType.VideoBlock => new VideoBlock(
-                    (int)cbDto.Id!,
-                    cbDto.DateCreated,
-                    cbDto.DateModified,
-                    cbDto.IsOptional,
-                    desktopConfig,
-                    tabletConfig,
-                    mobileConfig
-                ),
+                ContentBlockType.HeadlineBlock => new HeadlineBlock
+                {
+                    Id = cbDto.Id,
+                    DateCreated = cbDto.DateCreated,
+                    DateModified = cbDto.DateModified,
+                    IsOptional = cbDto.IsOptional,
+                    DesktopConfiguration = desktopConfig,
+                    TabletConfiguration = tabletConfig,
+                    MobileConfiguration = mobileConfig
+                },
+                ContentBlockType.ImageBlock => new ImageBlock
+                {
+                    Id = cbDto.Id,
+                    DateCreated = cbDto.DateCreated,
+                    DateModified = cbDto.DateModified,
+                    IsOptional = cbDto.IsOptional,
+                    DesktopConfiguration = desktopConfig,
+                    TabletConfiguration = tabletConfig,
+                    MobileConfiguration = mobileConfig
+                },
+                ContentBlockType.PdfBlock => new PdfBlock
+                {
+                    Id = cbDto.Id,
+                    DateCreated = cbDto.DateCreated,
+                    DateModified = cbDto.DateModified,
+                    IsOptional = cbDto.IsOptional,
+                    DesktopConfiguration = desktopConfig,
+                    TabletConfiguration = tabletConfig,
+                    MobileConfiguration = mobileConfig
+                },
+                ContentBlockType.SlideshowBlock => new SlideshowBlock
+                {
+                    Id = cbDto.Id,
+                    DateCreated = cbDto.DateCreated,
+                    DateModified = cbDto.DateModified,
+                    IsOptional = cbDto.IsOptional,
+                    DesktopConfiguration = desktopConfig,
+                    TabletConfiguration = tabletConfig,
+                    MobileConfiguration = mobileConfig
+                },
+                ContentBlockType.TextBlock => new TextBlock
+                {
+                    Id = cbDto.Id,
+                    DateCreated = cbDto.DateCreated,
+                    DateModified = cbDto.DateModified,
+                    IsOptional = cbDto.IsOptional,
+                    DesktopConfiguration = desktopConfig,
+                    TabletConfiguration = tabletConfig,
+                    MobileConfiguration = mobileConfig
+                },
+                ContentBlockType.VideoBlock => new VideoBlock
+                {
+                    Id = cbDto.Id,
+                    DateCreated = cbDto.DateCreated,
+                    DateModified = cbDto.DateModified,
+                    IsOptional = cbDto.IsOptional,
+                    DesktopConfiguration = desktopConfig,
+                    TabletConfiguration = tabletConfig,
+                    MobileConfiguration = mobileConfig
+                },
                 _ => throw new NotSupportedException($"ContentBlockType {cbDto.ContentBlockType} not supported")
             };
 

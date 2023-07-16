@@ -50,7 +50,11 @@ public class CreatePageFromTemplateCommandHandler : IRequestHandler<CreatePageFr
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
         PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync(request.PageTemplateId))!;
-        Page page = new(request.PageName, pageTemplate);
+        Page page = new()
+        {
+            Name = request.PageName, 
+            Template = pageTemplate
+        };
         Page createdPage = await _pageRepository.CreateAsync(page);
 
         List<IContentBlockData> contentBlockDataElements = CreateContentBlockDataElements(pageTemplate, createdPage);
@@ -67,27 +71,57 @@ public class CreatePageFromTemplateCommandHandler : IRequestHandler<CreatePageFr
             switch (contentBlock)
             {
                 case HeadlineBlock hb:
-                    contentBlockData.Add(new HeadlineBlockData(hb, "Overskrift", createdPage));
+                    contentBlockData.Add(new HeadlineBlockData
+                    {
+                        ContentBlock = hb,
+                        Headline = "Overskrift",
+                        Page = createdPage
+                    });
                     break;
                 case ImageBlock ib:
-                    contentBlockData.Add(new ImageBlockData(ib, new Url("https://fakeimg.pl/600x400?text=Billede"), createdPage));
+                    contentBlockData.Add(new ImageBlockData
+                    {
+                        ContentBlock = ib,
+                        ImageUrl = "https://fakeimg.pl/600x400?text=Billede",
+                        Page = createdPage
+                    });
                     break;
                 case PdfBlock pb:
-                    contentBlockData.Add(new PdfBlockData(pb, new Url("https://fakeimg.pl/600x400?text=PDF"), createdPage));
+                    contentBlockData.Add(new PdfBlockData
+                    {
+                        ContentBlock = pb,
+                        PdfUrl = "https://fakeimg.pl/600x400?text=PDF",
+                        Page = createdPage
+                    });
                     break;
                 case SlideshowBlock sb:
-                    contentBlockData.Add(new SlideshowBlockData(sb, new List<Url>
+                    contentBlockData.Add(new SlideshowBlockData
                     {
-                        new("https://fakeimg.pl/600x400?text=Billede1"),
-                        new("https://fakeimg.pl/600x400?text=Billede2"),
-                        new("https://fakeimg.pl/600x400?text=Billede3")
-                    }, createdPage));
+                        ContentBlock = sb,
+                        ImageUrls = new List<Url>
+                        {
+                            new("https://fakeimg.pl/600x400?text=Billede1"),
+                            new("https://fakeimg.pl/600x400?text=Billede2"),
+                            new("https://fakeimg.pl/600x400?text=Billede3")
+                        },
+                        Page = createdPage
+                    });
                     break;
                 case TextBlock tb:
-                    contentBlockData.Add(new TextBlockData(tb, "Tekstindhold", createdPage));
+                    contentBlockData.Add(new TextBlockData
+                    {
+                        ContentBlock = tb,
+                        Text = "Tekstindhold",
+                        Page = createdPage
+                    });
                     break;
                 case VideoBlock vb:
-                    contentBlockData.Add(new VideoBlockData(vb, new Url("https://www.youtube.com/watch?v=c21QZnQtGqo"), createdPage));
+                    contentBlockData.Add(new VideoBlockData
+                    {
+                        ContentBlock = vb, 
+                        VideoUrl = "https://www.youtube.com/watch?v=c21QZnQtGqo",
+                        Page = createdPage
+                    });
                     break;
             }
         }

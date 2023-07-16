@@ -23,6 +23,6 @@ public class PageCommandDtosProfile : Profile
         CreateMap<ContentBlockCreateDto, TextBlock>();
         CreateMap<ContentBlockCreateDto, VideoBlock>();
         
-        CreateMap<ContentBlockLayoutConfigurationCreateDto, ContentBlockLayoutConfiguration>(); // Customize as per your classes
+        CreateMap<ContentBlockLayoutConfigurationCreateDto, ContentBlockLayoutConfiguration>();
     }
 }

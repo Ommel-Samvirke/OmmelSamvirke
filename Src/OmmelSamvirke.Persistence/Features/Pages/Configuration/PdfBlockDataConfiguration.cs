@@ -10,12 +10,9 @@ public class PdfBlockDataConfiguration : BaseEntityTypeConfiguration<PdfBlockDat
     protected override void ConfigureEntity(EntityTypeBuilder<PdfBlockData> builder)
     {
         builder.ToTable("PdfBlockData");
-        builder.OwnsOne(p => p.PdfUrl, cb =>
-        {
-            cb.Property(q => q.Address)
-                .IsRequired()
-                .HasMaxLength(4_000);
-        });
+        builder.Property(p => p.PdfUrl)
+            .IsRequired()
+            .HasMaxLength(4_000);
         builder.HasOne(q => q.ContentBlock)
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);

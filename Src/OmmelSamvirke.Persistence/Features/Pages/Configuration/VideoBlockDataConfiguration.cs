@@ -10,12 +10,9 @@ public class VideoBlockDataConfiguration : BaseEntityTypeConfiguration<VideoBloc
     protected override void ConfigureEntity(EntityTypeBuilder<VideoBlockData> builder)
     {
         builder.ToTable("VideoBlockData");
-        builder.OwnsOne(p => p.VideoUrl, cb =>
-        {
-            cb.Property(q => q.Address)
-                .IsRequired()
-                .HasMaxLength(4_000);
-        });
+        builder.Property(p => p.VideoUrl)
+            .IsRequired()
+            .HasMaxLength(4_000);
         builder.HasOne(q => q.ContentBlock)
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);

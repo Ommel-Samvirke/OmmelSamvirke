@@ -5,6 +5,6 @@ namespace OmmelSamvirke.Domain.Features.Pages.Interfaces;
 
 public interface IContentBlockData
 {
-    ContentBlock BaseContentBlock { get; }
-    Page Page { get; }
+    ContentBlock? BaseContentBlock { get; }
+    Page? Page { get; }
 }

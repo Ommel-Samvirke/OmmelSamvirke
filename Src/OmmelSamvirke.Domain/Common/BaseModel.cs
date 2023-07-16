@@ -11,46 +11,17 @@ public abstract class BaseModel : IEquatable<BaseModel>
     /// It is assumed that any DB used with Ommel Samvirke will
     /// use integer identifiers for all table types.
     /// </summary>
-    public int? Id { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// Describes when the instance of the model was first created.
     /// </summary>
-    public DateTime DateCreated { get; set; }
+    public DateTime? DateCreated { get; set; }
 
     /// <summary>
     /// Describes when the instance of the model was last modified.
     /// </summary>
-    public DateTime DateModified { get; set; }
-
-    /// <summary>
-    /// Create an instance of BaseModel without an Id.
-    /// Ids are assigned by the database, so this constructor
-    /// can be used when working with a model that has not yet
-    /// been saved to the database.
-    /// </summary>
-    protected BaseModel()
-    {
-        Id = null;
-        DateCreated = DateTime.UtcNow;
-        DateModified = DateTime.UtcNow;
-    }
-
-    /// <summary>
-    /// Creates an instance of the BaseModel.
-    /// When calling this constructor, the model should be
-    /// retrieved from the database, since the database is
-    /// responsible for assigning Ids.
-    /// </summary>
-    /// <param name="id"><see cref="Id"/></param>
-    /// <param name="dateCreated"><see cref="DateCreated"/></param>
-    /// <param name="dateModified"><see cref="DateModified"/></param>
-    protected BaseModel(int id, DateTime dateCreated, DateTime dateModified)
-    {
-        Id = id;
-        DateCreated = dateCreated;
-        DateModified = dateModified;
-    }
+    public DateTime? DateModified { get; set; }
 
     /// <summary>
     /// Checks the equality of two models based

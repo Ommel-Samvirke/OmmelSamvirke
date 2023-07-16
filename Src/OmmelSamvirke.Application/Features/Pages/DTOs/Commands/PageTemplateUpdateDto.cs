@@ -1,10 +1,10 @@
-﻿using OmmelSamvirke.Domain.Features.Pages.Enums;
+﻿using OmmelSamvirke.Domain.Common;
+using OmmelSamvirke.Domain.Features.Pages.Enums;
 
 namespace OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
 
-public class PageTemplateUpdateDto
+public class PageTemplateUpdateDto : BaseModel
 {
-    public int Id { get; set; }
     public string Name { get; set;  }
     public List<ContentBlockCreateDto> ContentBlocks { get; set; }
     public PageTemplateState State { get; set;  }

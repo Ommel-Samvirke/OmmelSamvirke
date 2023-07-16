@@ -44,7 +44,7 @@ public class ContentBlockRepository : GenericRepository<ContentBlock>, IContentB
 
     public async Task<List<ContentBlock>> GetByPageTemplateIdAsync(int pageTemplateId)
     {
-        IEnumerable<int?> contentBlockIds = _dbContext.PageTemplates.AsNoTracking().Where(pageTemplate => pageTemplate.Id == pageTemplateId)
+        IQueryable<int> contentBlockIds = _dbContext.PageTemplates.AsNoTracking().Where(pageTemplate => pageTemplate.Id == pageTemplateId)
             .SelectMany(pageTemplate => pageTemplate.ContentBlocks.Select(contentBlock => contentBlock.Id))
             .Distinct();
 

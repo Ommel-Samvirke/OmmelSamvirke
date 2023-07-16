@@ -30,17 +30,18 @@ public class ContentBlockToDtoResolver : IValueResolver<PageTemplate, PageTempla
                 VideoBlock => ContentBlockType.VideoBlock,
                 _ => throw new ArgumentOutOfRangeException(nameof(cb), cb, "Could not convert ContentBlock to DTO")
             };
-            
-            return new ContentBlockQueryDto(
-                (int)cb.Id!,
-                cb.DateCreated,
-                cb.DateModified,
-                cb.IsOptional,
-                desktopConfig,
-                tabletConfig,
-                mobileConfig,
-                contentBlockType
-            );
+
+            return new ContentBlockQueryDto
+            {
+                Id = cb.Id,
+                DateCreated = cb.DateCreated,
+                DateModified = cb.DateModified,
+                IsOptional = cb.IsOptional,
+                DesktopConfiguration = desktopConfig,
+                TabletConfiguration = tabletConfig,
+                MobileConfiguration = mobileConfig,
+                ContentBlockType = contentBlockType
+            };
         }).ToList();
     }
 }

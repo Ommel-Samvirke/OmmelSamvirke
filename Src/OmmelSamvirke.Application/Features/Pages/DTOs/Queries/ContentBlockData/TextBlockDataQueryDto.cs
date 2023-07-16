@@ -2,24 +2,5 @@
 
 public class TextBlockDataQueryDto : ContentBlockDataQueryDto
 {
-    public string Text { get; set; }
-    public TextBlockDataQueryDto(
-        int id,
-        DateTime createdDate,
-        DateTime modifiedDate,
-        ContentBlockQueryDto contentBlock,
-        string text,
-        PageQueryDto page
-    ) : base(id, createdDate, modifiedDate, contentBlock, page)
-    {
-        Text = text;
-    }
-
-    /// <summary>
-    /// Needed for deserialization
-    /// </summary>
-    public TextBlockDataQueryDto()
-    {
-        
-    }
+    public string Text { get; set; } = string.Empty;
 }

@@ -23,14 +23,14 @@ public class UpdatePageTemplateCommand : IRequest<PageTemplateQueryDto>
     }
 }
 
-public class SaveTemporaryPageTemplateCommandHandler : IRequestHandler<UpdatePageTemplateCommand, PageTemplateQueryDto>
+public class UpdatePageTemplateCommandHandler : IRequestHandler<UpdatePageTemplateCommand, PageTemplateQueryDto>
 {
     private readonly IMapper _mapper;
     private readonly IPageTemplateRepository _pageTemplateRepository;
     private readonly IContentBlockRepository _contentBlockRepository;
     private readonly IContentBlockLayoutConfigurationRepository _contentBlockLayoutConfigurationRepository;
 
-    public SaveTemporaryPageTemplateCommandHandler(
+    public UpdatePageTemplateCommandHandler(
         IMapper mapper,
         IPageTemplateRepository pageTemplateRepository,
         IContentBlockRepository contentBlockRepository,
@@ -49,13 +49,14 @@ public class SaveTemporaryPageTemplateCommandHandler : IRequestHandler<UpdatePag
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
         PageTemplate currentPageTemplate = (await _pageTemplateRepository.GetByIdAsyncWithNavigationProps((int)request.OriginalPageTemplate.Id!))!;
+        PageTemplate requestedUpdatedPageTemplate = _mapper.Map<PageTemplate>(request.UpdatedPageTemplate);
         PageTemplateQueryDto currentPageTemplateDto = _mapper.Map<PageTemplateQueryDto>(currentPageTemplate);
         
         if (!currentPageTemplateDto.Equals(request.OriginalPageTemplate))
             throw new ResourceHasChangedException("The Page Template has changed since you last loaded it");
 
         await DeleteRemovedContentBlocks(request, currentPageTemplateDto);
-        PageTemplate updatedPageTemplate = await _pageTemplateRepository.UpdateAsync(_mapper.Map<PageTemplate>(request.UpdatedPageTemplate));
+        PageTemplate updatedPageTemplate = await _pageTemplateRepository.UpdateAsync(requestedUpdatedPageTemplate);
         await DeleteRemovedContentBlockLayoutConfigurations(request, currentPageTemplate);
 
         return _mapper.Map<PageTemplateQueryDto>(updatedPageTemplate);

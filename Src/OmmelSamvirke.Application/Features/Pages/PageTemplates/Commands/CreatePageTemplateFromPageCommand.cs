@@ -54,12 +54,14 @@ public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePa
             contentBlockDataItem => contentBlockDataItem.BaseContentBlock
         ).ToList();
         
-        PageTemplate customPageTemplate = new(
-            $"{request.PageUpdateDto.Name}-template",
-            contentBlocks,
-            PageTemplateState.Custom
-        );
-
+        PageTemplate customPageTemplate = new()
+        {
+            Name = $"{request.PageUpdateDto.Name}-template",
+            ContentBlocks = contentBlocks,
+            State = PageTemplateState.Custom
+            
+        };
+        
         PageTemplate createdTemplate = await _pageTemplateRepository.CreateAsync(customPageTemplate);
         page.Template = createdTemplate;
         

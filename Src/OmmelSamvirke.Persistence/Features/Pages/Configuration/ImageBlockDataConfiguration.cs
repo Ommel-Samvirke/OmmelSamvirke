@@ -10,12 +10,9 @@ public class ImageBlockDataConfiguration : BaseEntityTypeConfiguration<ImageBloc
     protected override void ConfigureEntity(EntityTypeBuilder<ImageBlockData> builder)
     {
         builder.ToTable("ImageBlockData");
-        builder.OwnsOne(p => p.ImageUrl, cb =>
-        {
-            cb.Property(q => q.Address)
-                .IsRequired()
-                .HasMaxLength(4_000);
-        });
+        builder.Property(p => p.ImageUrl)
+            .IsRequired()
+            .HasMaxLength(4_000);
         builder.HasOne(q => q.ContentBlock)
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);

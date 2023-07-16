@@ -1,10 +1,10 @@
-﻿using OmmelSamvirke.Domain.Features.Pages.Enums;
+﻿using OmmelSamvirke.Domain.Common;
+using OmmelSamvirke.Domain.Features.Pages.Enums;
 
 namespace OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
 
-public class ContentBlockCreateDto
+public class ContentBlockCreateDto : BaseModel
 {
-    public int? Id { get; set; }
     public bool IsOptional { get; set; }
     public ContentBlockLayoutConfigurationCreateDto DesktopConfiguration { get; set; }
     public ContentBlockLayoutConfigurationCreateDto TabletConfiguration { get; set; }
