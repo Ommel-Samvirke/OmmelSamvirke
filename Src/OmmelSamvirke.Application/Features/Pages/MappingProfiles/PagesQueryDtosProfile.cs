@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using JetBrains.Annotations;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries.ContentBlockData;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries.Converters;
@@ -20,8 +19,8 @@ public class PagesQueryDtosProfile : Profile
             .ReverseMap()
             .ForMember(dest => dest.ContentBlocks, 
                 opt => opt.MapFrom<DtoToContentBlockResolver>());
-        CreateMap<ContentBlock, ContentBlockQueryDto>().ConvertUsing<ContentBlockToContentBlockDtoConverter>();
-        CreateMap<ContentBlockQueryDto, ContentBlock>().ConvertUsing<ContentBlockDtoToContentBlockConverter>();
+        CreateMap<ContentBlock, ContentBlockQueryDto>().ConvertUsing<ContentBlockToContentBlockQueryDtoConverter>();
+        CreateMap<ContentBlockQueryDto, ContentBlock>().ConvertUsing<ContentBlockQueryDtoToContentBlockConverter>();
         CreateMap<ContentBlockQueryDto, HeadlineBlock>().ReverseMap();
         CreateMap<ContentBlockQueryDto, ImageBlock>().ReverseMap();
         CreateMap<ContentBlockQueryDto, PdfBlock>().ReverseMap();

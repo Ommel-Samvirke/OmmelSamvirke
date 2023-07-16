@@ -19,7 +19,6 @@ public class ContentBlockToDtoResolver : IValueResolver<PageTemplate, PageTempla
                 context.Mapper.Map<ContentBlockLayoutConfigurationQueryDto>(cb.TabletConfiguration);
             ContentBlockLayoutConfigurationQueryDto mobileConfig =
                 context.Mapper.Map<ContentBlockLayoutConfigurationQueryDto>(cb.MobileConfiguration);
-            PageTemplateQueryDto pageTemplate = context.Mapper.Map<PageTemplateQueryDto>(cb.PageTemplate);
 
             ContentBlockType contentBlockType = cb switch
             {
@@ -40,8 +39,7 @@ public class ContentBlockToDtoResolver : IValueResolver<PageTemplate, PageTempla
                 desktopConfig,
                 tabletConfig,
                 mobileConfig,
-                contentBlockType,
-                pageTemplate
+                contentBlockType
             );
         }).ToList();
     }

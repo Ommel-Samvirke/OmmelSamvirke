@@ -32,8 +32,8 @@ public class ImageBlockDataTests : PagesBaseTestModel
     {
         const int id = 1;
         Url imageUrl = new("https://example.com/someimage.jpg");
-        DateTime dateCreated = DateTime.Now;
-        DateTime dateModified = DateTime.Now;
+        DateTime dateCreated = DateTime.UtcNow;
+        DateTime dateModified = DateTime.UtcNow;
         ImageBlockData imageBlockData = new(id, dateCreated, dateModified, DefaultImageBlock, imageUrl, DefaultPage);
 
         Assert.Multiple(() =>

@@ -10,7 +10,6 @@ public class ContentBlockQueryDto : BaseModel
     public ContentBlockLayoutConfigurationQueryDto TabletConfiguration { get; set; }
     public ContentBlockLayoutConfigurationQueryDto MobileConfiguration { get; set; }
     public ContentBlockType ContentBlockType { get; set; }
-    public PageTemplateQueryDto PageTemplate { get; set; }
 
     public ContentBlockQueryDto(
         int id,
@@ -20,8 +19,7 @@ public class ContentBlockQueryDto : BaseModel
         ContentBlockLayoutConfigurationQueryDto desktopConfiguration,
         ContentBlockLayoutConfigurationQueryDto tabletConfiguration,
         ContentBlockLayoutConfigurationQueryDto mobileConfiguration,
-        ContentBlockType contentBlockType,
-        PageTemplateQueryDto pageTemplate
+        ContentBlockType contentBlockType
     ) : base(id, createdDate, modifiedDate)
     {
         IsOptional = isOptional;
@@ -29,7 +27,6 @@ public class ContentBlockQueryDto : BaseModel
         TabletConfiguration = tabletConfiguration;
         MobileConfiguration = mobileConfiguration;
         ContentBlockType = contentBlockType;
-        PageTemplate = pageTemplate;
     }
 
     /// <summary>

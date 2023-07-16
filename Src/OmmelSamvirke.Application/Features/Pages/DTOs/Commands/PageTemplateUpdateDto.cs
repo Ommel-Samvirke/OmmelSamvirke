@@ -7,7 +7,7 @@ public class PageTemplateUpdateDto
     public int Id { get; set; }
     public string Name { get; set;  }
     public List<ContentBlockCreateDto> ContentBlocks { get; set; }
-    public PageTemplateState PageTemplateState { get; set;  }
+    public PageTemplateState State { get; set;  }
 
     public PageTemplateUpdateDto(
         int id,
@@ -19,7 +19,7 @@ public class PageTemplateUpdateDto
         Id = id;
         Name = name;
         ContentBlocks = contentBlocks;
-        PageTemplateState = pageTemplateState;
+        State = pageTemplateState;
     }
 
     /// <summary>

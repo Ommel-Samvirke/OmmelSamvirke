@@ -6,13 +6,16 @@ namespace OmmelSamvirke.Persistence.Features.Common.Repositories;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 {
-    protected readonly DbContext DbContext;
-    protected readonly DbSet<T> _dbSet;
+    private readonly DbContext _dbDbContext;
+    private readonly DbSet<T> _dbSet;
 
-    public GenericRepository(DbContext dbContext)
+    public DbSet<T> DbSet => _dbSet;
+    public DbContext DbDbContext => _dbDbContext;
+
+    public GenericRepository(DbContext dbDbContext)
     {
-        DbContext = dbContext;
-        _dbSet = dbContext.Set<T>();
+        _dbDbContext = dbDbContext;
+        _dbSet = dbDbContext.Set<T>();
     }
     
     public async Task<IReadOnlyList<T>> GetAsync()
@@ -27,16 +30,17 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 
     public async Task<T> CreateAsync(T entity)
     {
-        await DbContext.AddAsync(entity);
-        await DbContext.SaveChangesAsync();
+        await _dbDbContext.AddAsync(entity);
+        _dbDbContext.Entry(entity).State = EntityState.Added;
+        await _dbDbContext.SaveChangesAsync();
         return entity;
     }
 
     public async Task<T> UpdateAsync(T entity)
     {
-        DbContext.Update(entity);
-        DbContext.Entry(entity).State = EntityState.Modified;
-        await DbContext.SaveChangesAsync();
+        _dbDbContext.Update(entity);
+        _dbDbContext.Entry(entity).State = EntityState.Modified;
+        await _dbDbContext.SaveChangesAsync();
         return entity;
     }
 
@@ -44,8 +48,10 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
     {
         try
         {
-            DbContext.Remove(entity);
-            await DbContext.SaveChangesAsync();
+            _dbDbContext.ChangeTracker.Clear();
+            _dbDbContext.Remove(entity);
+            _dbDbContext.Entry(entity).State = EntityState.Deleted;
+            await _dbDbContext.SaveChangesAsync();
             return true;
         } catch (Exception)
         {

@@ -43,8 +43,8 @@ public class SlideshowBlockDataTests : PagesBaseTestModel
             new Url("https://example.com/image2.jpg")
 
         };
-        DateTime dateCreated = DateTime.Now;
-        DateTime dateModified = DateTime.Now;
+        DateTime dateCreated = DateTime.UtcNow;
+        DateTime dateModified = DateTime.UtcNow;
         SlideshowBlockData slideshowBlockData = new(id, dateCreated, dateModified, DefaultSlideshowBlock, imageUrls, DefaultPage);
 
         Assert.Multiple(() =>

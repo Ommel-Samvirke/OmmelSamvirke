@@ -32,8 +32,8 @@ public class TextBlockDataTests : PagesBaseTestModel
     {
         const int id = 1;
         const string text = "Some valid text";
-        DateTime dateCreated = DateTime.Now;
-        DateTime dateModified = DateTime.Now;
+        DateTime dateCreated = DateTime.UtcNow;
+        DateTime dateModified = DateTime.UtcNow;
         TextBlockData textBlockData = new(id, dateCreated, dateModified, DefaultTextBlock, text, DefaultPage);
 
         Assert.Multiple(() =>

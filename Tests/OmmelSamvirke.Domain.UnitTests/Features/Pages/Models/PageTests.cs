@@ -37,8 +37,8 @@ public class PageTests
     {
         const int id = 1;
         const string name = "test_page";
-        DateTime dateCreated = DateTime.Now;
-        DateTime dateModified = DateTime.Now;
+        DateTime dateCreated = DateTime.UtcNow;
+        DateTime dateModified = DateTime.UtcNow;
         Page page = new(id, dateCreated, dateModified, name, _template);
         
         Assert.Multiple(() =>

@@ -24,6 +24,9 @@ public class ContentBlockDataRepository : IContentBlockDataRepository
     public async Task<List<IContentBlockData>> CreateAsync(List<IContentBlockData> contentBlockData)
     {
         await _dbSet.AddRangeAsync(contentBlockData);
+        foreach (IContentBlockData blockData in contentBlockData)
+            _context.Entry(blockData).State = EntityState.Added;
+
         await _context.SaveChangesAsync();
         return contentBlockData;
     }
@@ -44,6 +47,8 @@ public class ContentBlockDataRepository : IContentBlockDataRepository
         try
         {
             _dbSet.RemoveRange(contentBlockData);
+            foreach (IContentBlockData entity in contentBlockData) 
+                _dbSet.Entry(entity).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
             return true;
         }

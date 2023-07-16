@@ -1,40 +1,31 @@
-﻿using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Persistence.DatabaseContext;
 using OmmelSamvirke.Persistence.Features.Common.Repositories;
 
 namespace OmmelSamvirke.Persistence.Features.Pages.Repositories;
 
-public class PageTemplateRepository : IPageTemplateRepository
+public class PageTemplateRepository : GenericRepository<PageTemplate>, IPageTemplateRepository
 {
-    private readonly GenericRepository<PageTemplate> _genericRepository;
-    public PageTemplateRepository(AppDbContext dbContext)
+    private readonly AppDbContext _dbContext;
+
+    public PageTemplateRepository(AppDbContext dbContext) : base(dbContext)
     {
-        _genericRepository = new GenericRepository<PageTemplate>(dbContext);
+        _dbContext = dbContext;
     }
     
-    public async Task<IReadOnlyList<PageTemplate>> GetAsync()
+    public async Task<PageTemplate?> GetByIdAsyncWithNavigationProps(int id)
     {
-        return await _genericRepository.GetAsync();
-    }
-
-    public async Task<PageTemplate?> GetByIdAsync(int id)
-    {
-        return await _genericRepository.GetByIdAsync(id);
-    }
-
-    public async Task<PageTemplate> CreateAsync(PageTemplate entity)
-    {
-        return await _genericRepository.CreateAsync(entity);
-    }
-
-    public async Task<PageTemplate> UpdateAsync(PageTemplate entity)
-    {
-        return await _genericRepository.UpdateAsync(entity);
-    }
-
-    public async Task<bool> DeleteAsync(PageTemplate entity)
-    {
-        return await _genericRepository.DeleteAsync(entity);
+        return await _dbContext.PageTemplates
+            .Include(x => x.ContentBlocks)
+            .ThenInclude(x => x.DesktopConfiguration)
+            .Include(x => x.ContentBlocks)
+            .ThenInclude(x => x.TabletConfiguration)
+            .Include(x => x.ContentBlocks)
+            .ThenInclude(x => x.MobileConfiguration)
+            .Where(x => x.Id == id)
+            .AsNoTracking()
+            .FirstOrDefaultAsync();
     }
 }

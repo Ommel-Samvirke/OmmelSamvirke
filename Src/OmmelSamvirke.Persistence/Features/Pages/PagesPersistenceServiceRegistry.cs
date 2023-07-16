@@ -13,5 +13,6 @@ public static class PagesPersistenceServiceRegistry
         services.AddScoped(typeof(IContentBlockRepository), typeof(ContentBlockRepository));
         services.AddScoped(typeof(IPageRepository), typeof(PageRepository));
         services.AddScoped(typeof(IPageTemplateRepository), typeof(PageTemplateRepository));
+        services.AddScoped(typeof(IContentBlockLayoutConfigurationRepository), typeof(ContentBlockLayoutConfigurationRepository));
     }
 }

@@ -32,8 +32,8 @@ public class PdfBlockDataTests : PagesBaseTestModel
     {
         const int id = 1;
         Url pdfUrl = new("https://example.com/somepdf.pdf");
-        DateTime dateCreated = DateTime.Now;
-        DateTime dateModified = DateTime.Now;
+        DateTime dateCreated = DateTime.UtcNow;
+        DateTime dateModified = DateTime.UtcNow;
         PdfBlockData pdfBlockData = new(id, dateCreated, dateModified, DefaultPdfBlock, pdfUrl, DefaultPage);
 
         Assert.Multiple(() =>

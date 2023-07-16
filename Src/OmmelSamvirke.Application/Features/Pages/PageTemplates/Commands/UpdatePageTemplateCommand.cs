@@ -28,16 +28,19 @@ public class SaveTemporaryPageTemplateCommandHandler : IRequestHandler<UpdatePag
     private readonly IMapper _mapper;
     private readonly IPageTemplateRepository _pageTemplateRepository;
     private readonly IContentBlockRepository _contentBlockRepository;
+    private readonly IContentBlockLayoutConfigurationRepository _contentBlockLayoutConfigurationRepository;
 
     public SaveTemporaryPageTemplateCommandHandler(
         IMapper mapper,
         IPageTemplateRepository pageTemplateRepository,
-        IContentBlockRepository contentBlockRepository
+        IContentBlockRepository contentBlockRepository,
+        IContentBlockLayoutConfigurationRepository contentBlockLayoutConfigurationRepository
     )
     {
         _mapper = mapper;
         _pageTemplateRepository = pageTemplateRepository;
         _contentBlockRepository = contentBlockRepository;
+        _contentBlockLayoutConfigurationRepository = contentBlockLayoutConfigurationRepository;
     }
     
     public async Task<PageTemplateQueryDto> Handle(UpdatePageTemplateCommand request, CancellationToken cancellationToken)
@@ -45,32 +48,39 @@ public class SaveTemporaryPageTemplateCommandHandler : IRequestHandler<UpdatePag
         UpdatePageTemplateCommandValidator validator = new(_pageTemplateRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        PageTemplate currentPageTemplate = (await _pageTemplateRepository.GetByIdAsync((int)request.OriginalPageTemplate.Id!))!;
+        PageTemplate currentPageTemplate = (await _pageTemplateRepository.GetByIdAsyncWithNavigationProps((int)request.OriginalPageTemplate.Id!))!;
         PageTemplateQueryDto currentPageTemplateDto = _mapper.Map<PageTemplateQueryDto>(currentPageTemplate);
         
         if (!currentPageTemplateDto.Equals(request.OriginalPageTemplate))
             throw new ResourceHasChangedException("The Page Template has changed since you last loaded it");
-        
-        List<ContentBlockCreateDto> newContentBlocks = 
-            request.UpdatedPageTemplate.ContentBlocks
-                .Where(updatedContentBlock => currentPageTemplateDto.ContentBlocks
-                .All(originalContentBlock => ContentBlocksHaveSameDesktopPosition(originalContentBlock, updatedContentBlock))).ToList();
-        
-        List<ContentBlockQueryDto> deletedContentBlocks = 
-            currentPageTemplateDto.ContentBlocks
-                .Where(originalContentBlock => request.UpdatedPageTemplate.ContentBlocks
-                .All(updatedContentBlock => ContentBlocksHaveSameDesktopPosition(originalContentBlock, updatedContentBlock))).ToList();
 
-        await _contentBlockRepository.CreateAsync(_mapper.Map<List<ContentBlock>>(newContentBlocks));
-        await _contentBlockRepository.DeleteAsync(_mapper.Map<List<ContentBlock>>(deletedContentBlocks));
-        
+        await DeleteRemovedContentBlocks(request, currentPageTemplateDto);
         PageTemplate updatedPageTemplate = await _pageTemplateRepository.UpdateAsync(_mapper.Map<PageTemplate>(request.UpdatedPageTemplate));
+        await DeleteRemovedContentBlockLayoutConfigurations(request, currentPageTemplate);
+
         return _mapper.Map<PageTemplateQueryDto>(updatedPageTemplate);
     }
-    
-    private static bool ContentBlocksHaveSameDesktopPosition(ContentBlockQueryDto contentBlock1, ContentBlockCreateDto contentBlock2)
+
+    private async Task DeleteRemovedContentBlockLayoutConfigurations(UpdatePageTemplateCommand request,
+        PageTemplate currentPageTemplate)
     {
-        return contentBlock1.DesktopConfiguration.XPosition == contentBlock2.DesktopConfiguration.XPosition &&
-               contentBlock1.DesktopConfiguration.YPosition == contentBlock2.DesktopConfiguration.YPosition;
+        foreach (ContentBlock contentBlock in currentPageTemplate.ContentBlocks)
+        {
+            if (request.UpdatedPageTemplate.ContentBlocks.Any(updatedContentBlock =>
+                    updatedContentBlock.Id == contentBlock.Id)) continue;
+            await _contentBlockLayoutConfigurationRepository.DeleteAsync(contentBlock.DesktopConfiguration);
+            await _contentBlockLayoutConfigurationRepository.DeleteAsync(contentBlock.TabletConfiguration);
+            await _contentBlockLayoutConfigurationRepository.DeleteAsync(contentBlock.MobileConfiguration);
+        }
+    }
+
+    private async Task DeleteRemovedContentBlocks(UpdatePageTemplateCommand request,
+        PageTemplateQueryDto currentPageTemplateDto)
+    {
+        IEnumerable<ContentBlockQueryDto> contentBlocksToRemove = currentPageTemplateDto.ContentBlocks
+            .Where(contentBlock =>
+                request.UpdatedPageTemplate.ContentBlocks.All(updatedContentBlock =>
+                    updatedContentBlock.Id != contentBlock.Id));
+        await _contentBlockRepository.DeleteAsync(_mapper.Map<List<ContentBlock>>(contentBlocksToRemove));
     }
 }

@@ -16,15 +16,13 @@ public class HeadlineBlock : ContentBlock
     /// <param name="desktopConfiguration"><see cref="ContentBlock.DesktopConfiguration"/></param>
     /// <param name="tabletConfiguration"><see cref="ContentBlock.TabletConfiguration"/></param>
     /// <param name="mobileConfiguration"><see cref="ContentBlock.MobileConfiguration"/></param>
-    /// <param name="pageTemplate"><see cref="ContentBlock.PageTemplate"/></param>
     public HeadlineBlock(
         bool isOptional,
         ContentBlockLayoutConfiguration desktopConfiguration,
         ContentBlockLayoutConfiguration tabletConfiguration,
-        ContentBlockLayoutConfiguration mobileConfiguration,
-        PageTemplate pageTemplate
+        ContentBlockLayoutConfiguration mobileConfiguration
     )
-        : base(isOptional, desktopConfiguration, tabletConfiguration, mobileConfiguration, pageTemplate)
+        : base(isOptional, desktopConfiguration, tabletConfiguration, mobileConfiguration)
     {
     }
 
@@ -46,9 +44,8 @@ public class HeadlineBlock : ContentBlock
         bool isOptional,
         ContentBlockLayoutConfiguration desktopConfiguration,
         ContentBlockLayoutConfiguration tabletConfiguration,
-        ContentBlockLayoutConfiguration mobileConfiguration,
-        PageTemplate pageTemplate
-    ) : base(id, dateCreated, dateModified, isOptional, desktopConfiguration, tabletConfiguration, mobileConfiguration, pageTemplate)
+        ContentBlockLayoutConfiguration mobileConfiguration
+    ) : base(id, dateCreated, dateModified, isOptional, desktopConfiguration, tabletConfiguration, mobileConfiguration)
     {
     }
     

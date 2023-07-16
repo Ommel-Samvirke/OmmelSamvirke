@@ -1,5 +1,6 @@
 ﻿using OmmelSamvirke.Domain.Common;
 using OmmelSamvirke.Domain.Common.Validators;
+using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models;
 

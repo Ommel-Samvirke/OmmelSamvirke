@@ -43,7 +43,7 @@ public class ContentBlockLayoutConfigurationTests : PagesBaseTestModel
     public void Can_Create_HeadlineBlock_With_Id_And_Valid_Data()
     {
         const int id = 1;
-        DateTime now = DateTime.Now;
+        DateTime now = DateTime.UtcNow;
 
         ContentBlockLayoutConfiguration layoutConfiguration = new(
             id,

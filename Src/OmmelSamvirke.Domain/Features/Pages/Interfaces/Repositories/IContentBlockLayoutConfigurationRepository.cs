@@ -3,7 +3,7 @@ using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 
-public interface IPageTemplateRepository : IGenericRepository<PageTemplate>
+public interface IContentBlockLayoutConfigurationRepository : IGenericRepository<ContentBlockLayoutConfiguration>
 {
-    Task<PageTemplate?> GetByIdAsyncWithNavigationProps(int id);
+    
 }

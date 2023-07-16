@@ -26,8 +26,8 @@ public class PageTemplateTests
     {
         const int id = 1;
         const string name = "test_template";
-        DateTime dateCreated = DateTime.Now;
-        DateTime dateModified = DateTime.Now;
+        DateTime dateCreated = DateTime.UtcNow;
+        DateTime dateModified = DateTime.UtcNow;
         PageTemplate pageTemplate = new(id, dateCreated, dateModified, name, new List<ContentBlock>(), PageTemplateState.Public);
 
         Assert.Multiple(() =>

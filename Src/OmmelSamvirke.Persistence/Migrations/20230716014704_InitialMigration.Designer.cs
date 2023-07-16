@@ -12,7 +12,7 @@ using OmmelSamvirke.Persistence.DatabaseContext;
 namespace OmmelSamvirke.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230715134458_InitialMigration")]
+    [Migration("20230716014704_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -313,7 +313,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.Property<int>("MobileConfigurationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PageTemplateId")
+                    b.Property<int?>("PageTemplateId")
                         .HasColumnType("int");
 
                     b.Property<int>("TabletConfigurationId")
@@ -630,11 +630,9 @@ namespace OmmelSamvirke.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.PageTemplate", "PageTemplate")
+                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.PageTemplate", null)
                         .WithMany("ContentBlocks")
-                        .HasForeignKey("PageTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PageTemplateId");
 
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockLayoutConfiguration", "TabletConfiguration")
                         .WithMany()
@@ -645,8 +643,6 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.Navigation("DesktopConfiguration");
 
                     b.Navigation("MobileConfiguration");
-
-                    b.Navigation("PageTemplate");
 
                     b.Navigation("TabletConfiguration");
                 });

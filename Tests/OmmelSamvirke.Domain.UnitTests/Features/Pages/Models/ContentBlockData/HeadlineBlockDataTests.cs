@@ -34,8 +34,8 @@ public class HeadlineBlockDataTests : PagesBaseTestModel
     {
         const int id = 1;
         const string headline = "Some valid headline";
-        DateTime dateCreated = DateTime.Now;
-        DateTime dateModified = DateTime.Now;
+        DateTime dateCreated = DateTime.UtcNow;
+        DateTime dateModified = DateTime.UtcNow;
         HeadlineBlockData headlineBlockData = new(id, dateCreated, dateModified, DefaultHeadlineBlock, headline, DefaultPage);
 
         Assert.Multiple(() =>

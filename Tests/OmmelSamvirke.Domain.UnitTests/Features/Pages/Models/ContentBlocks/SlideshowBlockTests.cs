@@ -28,7 +28,7 @@ public class SlideshowBlockTests : PagesBaseTestModel
     {
         const int id = 1;
         const bool isOptional = true;
-        DateTime now = DateTime.Now;
+        DateTime now = DateTime.UtcNow;
 
         SlideshowBlock slideshowBlock = new(
             id,
@@ -37,8 +37,7 @@ public class SlideshowBlockTests : PagesBaseTestModel
             isOptional,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration,
-            DefaultPageTemplate
+            DefaultMobileConfiguration
         );
 
         Assert.Multiple(() =>

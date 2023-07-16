@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OmmelSamvirke.API.Controllers.Features.Pages.Examples;
-using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Queries;
@@ -28,13 +27,12 @@ public class PageTemplatesController : ControllerBase
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<PageTemplateQueryDto>> Get(int id)
+    public async Task<ActionResult<PageTemplateQueryDto>> GetById(int id)
     {
         PageTemplateQueryDto pageTemplate = await _mediator.Send(new GetPageTemplateQuery(id));
 
         return pageTemplate;
     }
-    
     
     /// <summary>
     /// Retrieves a list of Page Templates by their <paramref name="state"/>.
@@ -43,7 +41,7 @@ public class PageTemplatesController : ControllerBase
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<List<PageTemplateWithoutContentBlocksQueryDto>>> Get([FromQuery]PageTemplateState state)
+    public async Task<ActionResult<List<PageTemplateWithoutContentBlocksQueryDto>>> GetByState([FromQuery]PageTemplateState state)
     {
         List<PageTemplateWithoutContentBlocksQueryDto> pageTemplates = 
             await _mediator.Send(new GetPageTemplatesByStateQuery(state));
@@ -61,21 +59,46 @@ public class PageTemplatesController : ControllerBase
     public async Task<ActionResult> Post(CreatePageTemplateCommand createPageTemplateCommand)
     {
         createPageTemplateCommand.PageTemplateCreateDto.State = PageTemplateState.Hidden;
-        PageTemplateQueryDto pageTemplate = await _mediator.Send(createPageTemplateCommand);
-        return CreatedAtAction(nameof(Post), pageTemplate);
+        PageTemplateQueryDto createdPageTemplate = await _mediator.Send(createPageTemplateCommand);
+        return CreatedAtAction(nameof(Post), createdPageTemplate);
     }
     
     /// <summary>
     /// Change the state of a Page Template to Public.
     /// </summary>
     /// <param name="id">The id of the Page Template that should be made public</param>
-    /// <returns></returns>
-    [HttpPut("make-public/{id:int}")]
+    [HttpPut("MakePublic/{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> Put(int id)
+    public async Task<ActionResult> MakePublic(int id)
     {
-        PageTemplateQueryDto pageTemplate = await _mediator.Send(new MakePageTemplatePublicCommand(id));
-        return Ok(pageTemplate);
+        PageTemplateQueryDto updatedPageTemplate = await _mediator.Send(new MakePageTemplatePublicCommand(id));
+        return Ok(updatedPageTemplate);
+    }
+    
+    /// <summary>
+    /// Change the state of a Page Template to Archived.
+    /// </summary>
+    /// <param name="id">The id of the Page Template that should be archived</param>
+    [HttpPut("Archive/{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Archive(int id)
+    {
+        PageTemplateQueryDto updatedPageTemplate = await _mediator.Send(new ArchivePageTemplateCommand(id));
+        return Ok(updatedPageTemplate);
+    }
+    
+    /// <summary>
+    /// Update the state of a Page Template.
+    /// </summary>
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [SwaggerRequestExample(typeof(UpdatePageTemplateCommand), typeof(UpdatePageTemplateCommandExample))]
+    public async Task<ActionResult> Update(UpdatePageTemplateCommand updatePageTemplateCommand)
+    {
+        PageTemplateQueryDto updatedPageTemplate = await _mediator.Send(updatePageTemplateCommand);
+        return Ok(updatedPageTemplate);
     }
 }

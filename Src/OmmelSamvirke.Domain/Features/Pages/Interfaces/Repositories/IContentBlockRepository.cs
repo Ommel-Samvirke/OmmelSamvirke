@@ -7,4 +7,5 @@ public interface IContentBlockRepository : IGenericRepository<ContentBlock>
 {
     Task<List<ContentBlock>> CreateAsync(List<ContentBlock> contentBlocks);
     Task<bool> DeleteAsync(List<ContentBlock> contentBlocks);
+    Task<List<ContentBlock>> GetByPageTemplateIdAsync(int pageTemplateId);
 }

@@ -28,7 +28,7 @@ public abstract class PagesBaseTestModel
     [SetUp]
     public virtual void SetUp()
     {
-        DateTime now = DateTime.Now;
+        DateTime now = DateTime.UtcNow;
         DefaultDesktopConfiguration = new ContentBlockLayoutConfiguration(
             1, 
             now,
@@ -72,48 +72,42 @@ public abstract class PagesBaseTestModel
             false,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration,
-            DefaultPageTemplate
+            DefaultMobileConfiguration
         );
         
         DefaultImageBlock = new ImageBlock(
             false,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration,
-            DefaultPageTemplate
+            DefaultMobileConfiguration
         );
         
         DefaultPdfBlock = new PdfBlock(
             false,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration,
-            DefaultPageTemplate
+            DefaultMobileConfiguration
         );
         
         DefaultSlideshowBlock = new SlideshowBlock(
             false,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration,
-            DefaultPageTemplate
+            DefaultMobileConfiguration
         );
         
         DefaultTextBlock = new TextBlock(
             false,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration,
-            DefaultPageTemplate
+            DefaultMobileConfiguration
         );
         
         DefaultVideoBlock = new VideoBlock(
             false,
             DefaultDesktopConfiguration,
             DefaultTabletConfiguration,
-            DefaultMobileConfiguration,
-            DefaultPageTemplate
+            DefaultMobileConfiguration
         );
     }
 }

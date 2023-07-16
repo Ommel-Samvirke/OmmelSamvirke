@@ -84,8 +84,8 @@ namespace OmmelSamvirke.Persistence.Migrations
                     DesktopConfigurationId = table.Column<int>(type: "int", nullable: false),
                     TabletConfigurationId = table.Column<int>(type: "int", nullable: false),
                     MobileConfigurationId = table.Column<int>(type: "int", nullable: false),
-                    PageTemplateId = table.Column<int>(type: "int", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PageTemplateId = table.Column<int>(type: "int", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateModified = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -114,8 +114,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                         name: "FK_ContentBlocks_PageTemplates_PageTemplateId",
                         column: x => x.PageTemplateId,
                         principalTable: "PageTemplates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

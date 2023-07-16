@@ -20,11 +20,11 @@ public partial class AppDbContext : DbContext
                      q => q.State is EntityState.Added or EntityState.Modified)
                 )
         {
-            entry.Entity.DateModified = DateTime.Now;
+            entry.Entity.DateModified = DateTime.UtcNow;
 
             if (entry.State == EntityState.Added)
             {
-                entry.Entity.DateCreated = DateTime.Now;
+                entry.Entity.DateCreated = DateTime.UtcNow;
             }
         }
 

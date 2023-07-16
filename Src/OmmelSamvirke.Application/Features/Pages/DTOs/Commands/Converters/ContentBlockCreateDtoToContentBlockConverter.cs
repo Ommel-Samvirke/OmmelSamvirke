@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
 using JetBrains.Annotations;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
-namespace OmmelSamvirke.Application.Features.Pages.DTOs.Queries.Converters;
+namespace OmmelSamvirke.Application.Features.Pages.DTOs.Commands.Converters;
 
 [UsedImplicitly]
-public class ContentBlockDtoToContentBlockConverter : ITypeConverter<ContentBlockQueryDto, ContentBlock>
+public class ContentBlockCreateDtoToContentBlockConverter : ITypeConverter<ContentBlockCreateDto, ContentBlock>
 {
-    public ContentBlock Convert(ContentBlockQueryDto source, ContentBlock destination, ResolutionContext context)
+    public ContentBlock Convert(ContentBlockCreateDto source, ContentBlock destination, ResolutionContext context)
     {
         return source.ContentBlockType switch
         {

@@ -33,8 +33,8 @@ public class VideoBlockDataTests : PagesBaseTestModel
     {
         const int id = 1;
         Url videoUrl = new("https://example.com/somevideo.mp4");
-        DateTime dateCreated = DateTime.Now;
-        DateTime dateModified = DateTime.Now;
+        DateTime dateCreated = DateTime.UtcNow;
+        DateTime dateModified = DateTime.UtcNow;
         VideoBlockData videoBlockData = new(id, dateCreated, dateModified, DefaultVideoBlock, videoUrl, DefaultPage);
 
         Assert.Multiple(() =>
