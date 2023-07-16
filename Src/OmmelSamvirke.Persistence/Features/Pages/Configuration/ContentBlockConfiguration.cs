@@ -16,11 +16,11 @@ public class ContentBlockConfiguration : BaseEntityTypeConfiguration<ContentBloc
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(q => q.MobileConfiguration)
+        builder.HasOne(q => q.TabletConfiguration)
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(q => q.TabletConfiguration)
+        
+        builder.HasOne(q => q.MobileConfiguration)
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);
     }

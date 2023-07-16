@@ -81,9 +81,9 @@ namespace OmmelSamvirke.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IsOptional = table.Column<bool>(type: "bit", nullable: false),
-                    DesktopConfigurationId = table.Column<int>(type: "int", nullable: false),
-                    TabletConfigurationId = table.Column<int>(type: "int", nullable: false),
-                    MobileConfigurationId = table.Column<int>(type: "int", nullable: false),
+                    DesktopConfigurationId = table.Column<int>(type: "int", nullable: true),
+                    TabletConfigurationId = table.Column<int>(type: "int", nullable: true),
+                    MobileConfigurationId = table.Column<int>(type: "int", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PageTemplateId = table.Column<int>(type: "int", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -124,7 +124,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    TemplateId = table.Column<int>(type: "int", nullable: false),
+                    TemplateId = table.Column<int>(type: "int", nullable: true),
                     CommunityId = table.Column<int>(type: "int", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateModified = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -141,8 +141,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                         name: "FK_Pages_PageTemplates_TemplateId",
                         column: x => x.TemplateId,
                         principalTable: "PageTemplates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -154,8 +153,8 @@ namespace OmmelSamvirke.Persistence.Migrations
                     Headline = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ContentBlockId = table.Column<int>(type: "int", nullable: false),
-                    PageId = table.Column<int>(type: "int", nullable: false)
+                    ContentBlockId = table.Column<int>(type: "int", nullable: true),
+                    PageId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -170,8 +169,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                         name: "FK_HeadlineBlockData_Pages_PageId",
                         column: x => x.PageId,
                         principalTable: "Pages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -180,11 +178,11 @@ namespace OmmelSamvirke.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ImageUrl_Address = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ContentBlockId = table.Column<int>(type: "int", nullable: false),
-                    PageId = table.Column<int>(type: "int", nullable: false)
+                    ContentBlockId = table.Column<int>(type: "int", nullable: true),
+                    PageId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -199,8 +197,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                         name: "FK_ImageBlockData_Pages_PageId",
                         column: x => x.PageId,
                         principalTable: "Pages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -209,11 +206,11 @@ namespace OmmelSamvirke.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PdfUrl_Address = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
+                    PdfUrl = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ContentBlockId = table.Column<int>(type: "int", nullable: false),
-                    PageId = table.Column<int>(type: "int", nullable: false)
+                    ContentBlockId = table.Column<int>(type: "int", nullable: true),
+                    PageId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -228,8 +225,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                         name: "FK_PdfBlockData_Pages_PageId",
                         column: x => x.PageId,
                         principalTable: "Pages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -241,8 +237,8 @@ namespace OmmelSamvirke.Persistence.Migrations
                     ImageUrls = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ContentBlockId = table.Column<int>(type: "int", nullable: false),
-                    PageId = table.Column<int>(type: "int", nullable: false)
+                    ContentBlockId = table.Column<int>(type: "int", nullable: true),
+                    PageId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -257,8 +253,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                         name: "FK_SlideshowBlockData_Pages_PageId",
                         column: x => x.PageId,
                         principalTable: "Pages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -270,8 +265,8 @@ namespace OmmelSamvirke.Persistence.Migrations
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ContentBlockId = table.Column<int>(type: "int", nullable: false),
-                    PageId = table.Column<int>(type: "int", nullable: false)
+                    ContentBlockId = table.Column<int>(type: "int", nullable: true),
+                    PageId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -286,8 +281,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                         name: "FK_TextBlockData_Pages_PageId",
                         column: x => x.PageId,
                         principalTable: "Pages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -296,11 +290,11 @@ namespace OmmelSamvirke.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    VideoUrl_Address = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
+                    VideoUrl = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ContentBlockId = table.Column<int>(type: "int", nullable: false),
-                    PageId = table.Column<int>(type: "int", nullable: false)
+                    ContentBlockId = table.Column<int>(type: "int", nullable: true),
+                    PageId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -315,8 +309,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                         name: "FK_VideoBlockData_Pages_PageId",
                         column: x => x.PageId,
                         principalTable: "Pages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

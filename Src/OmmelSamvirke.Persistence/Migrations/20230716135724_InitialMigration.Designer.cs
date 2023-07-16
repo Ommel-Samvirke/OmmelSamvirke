@@ -12,7 +12,7 @@ using OmmelSamvirke.Persistence.DatabaseContext;
 namespace OmmelSamvirke.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230716014704_InitialMigration")]
+    [Migration("20230716135724_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -27,16 +27,18 @@ namespace OmmelSamvirke.Persistence.Migrations
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Admins.Models.Admin", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -46,16 +48,18 @@ namespace OmmelSamvirke.Persistence.Migrations
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Communities.Models.Community", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -70,19 +74,21 @@ namespace OmmelSamvirke.Persistence.Migrations
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.HeadlineBlockData", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ContentBlockId")
+                    b.Property<int?>("ContentBlockId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Headline")
@@ -90,7 +96,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("PageId")
+                    b.Property<int?>("PageId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -104,22 +110,29 @@ namespace OmmelSamvirke.Persistence.Migrations
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.ImageBlockData", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ContentBlockId")
+                    b.Property<int?>("ContentBlockId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PageId")
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<int?>("PageId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -133,23 +146,30 @@ namespace OmmelSamvirke.Persistence.Migrations
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.PdfBlockData", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ContentBlockId")
+                    b.Property<int?>("ContentBlockId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PageId")
+                    b.Property<int?>("PageId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PdfUrl")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.HasKey("Id");
 
@@ -162,26 +182,28 @@ namespace OmmelSamvirke.Persistence.Migrations
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.SlideshowBlockData", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ContentBlockId")
+                    b.Property<int?>("ContentBlockId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImageUrls")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PageId")
+                    b.Property<int?>("PageId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -195,22 +217,24 @@ namespace OmmelSamvirke.Persistence.Migrations
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.TextBlockData", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ContentBlockId")
+                    b.Property<int?>("ContentBlockId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PageId")
+                    b.Property<int?>("PageId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -228,23 +252,30 @@ namespace OmmelSamvirke.Persistence.Migrations
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.VideoBlockData", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ContentBlockId")
+                    b.Property<int?>("ContentBlockId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PageId")
+                    b.Property<int?>("PageId")
                         .HasColumnType("int");
+
+                    b.Property<string>("VideoUrl")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
                     b.HasKey("Id");
 
@@ -257,16 +288,18 @@ namespace OmmelSamvirke.Persistence.Migrations
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockLayoutConfiguration", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Height")
@@ -288,19 +321,21 @@ namespace OmmelSamvirke.Persistence.Migrations
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DesktopConfigurationId")
+                    b.Property<int?>("DesktopConfigurationId")
                         .HasColumnType("int");
 
                     b.Property<string>("Discriminator")
@@ -310,13 +345,13 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.Property<bool>("IsOptional")
                         .HasColumnType("bit");
 
-                    b.Property<int>("MobileConfigurationId")
+                    b.Property<int?>("MobileConfigurationId")
                         .HasColumnType("int");
 
                     b.Property<int?>("PageTemplateId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TabletConfigurationId")
+                    b.Property<int?>("TabletConfigurationId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -338,19 +373,21 @@ namespace OmmelSamvirke.Persistence.Migrations
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.Page", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CommunityId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -358,7 +395,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("TemplateId")
+                    b.Property<int?>("TemplateId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -372,16 +409,18 @@ namespace OmmelSamvirke.Persistence.Migrations
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.PageTemplate", b =>
                 {
-                    b.Property<int?>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateCreated")
+                    b.Property<DateTime?>("DateCreated")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateModified")
+                    b.Property<DateTime?>("DateModified")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -444,14 +483,11 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.HeadlineBlock", "ContentBlock")
                         .WithMany()
                         .HasForeignKey("ContentBlockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.Page", "Page")
                         .WithMany()
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PageId");
 
                     b.Navigation("ContentBlock");
 
@@ -463,37 +499,13 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ImageBlock", "ContentBlock")
                         .WithMany()
                         .HasForeignKey("ContentBlockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.Page", "Page")
                         .WithMany()
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsOne("OmmelSamvirke.Domain.ValueObjects.Url", "ImageUrl", b1 =>
-                        {
-                            b1.Property<int>("ImageBlockDataId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Address")
-                                .IsRequired()
-                                .HasMaxLength(4000)
-                                .HasColumnType("nvarchar(4000)");
-
-                            b1.HasKey("ImageBlockDataId");
-
-                            b1.ToTable("ImageBlockData");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ImageBlockDataId");
-                        });
+                        .HasForeignKey("PageId");
 
                     b.Navigation("ContentBlock");
-
-                    b.Navigation("ImageUrl")
-                        .IsRequired();
 
                     b.Navigation("Page");
                 });
@@ -503,39 +515,15 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.PdfBlock", "ContentBlock")
                         .WithMany()
                         .HasForeignKey("ContentBlockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.Page", "Page")
                         .WithMany()
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsOne("OmmelSamvirke.Domain.ValueObjects.Url", "PdfUrl", b1 =>
-                        {
-                            b1.Property<int>("PdfBlockDataId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Address")
-                                .IsRequired()
-                                .HasMaxLength(4000)
-                                .HasColumnType("nvarchar(4000)");
-
-                            b1.HasKey("PdfBlockDataId");
-
-                            b1.ToTable("PdfBlockData");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PdfBlockDataId");
-                        });
+                        .HasForeignKey("PageId");
 
                     b.Navigation("ContentBlock");
 
                     b.Navigation("Page");
-
-                    b.Navigation("PdfUrl")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.SlideshowBlockData", b =>
@@ -543,14 +531,11 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.SlideshowBlock", "ContentBlock")
                         .WithMany()
                         .HasForeignKey("ContentBlockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.Page", "Page")
                         .WithMany()
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PageId");
 
                     b.Navigation("ContentBlock");
 
@@ -562,14 +547,11 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.TextBlock", "ContentBlock")
                         .WithMany()
                         .HasForeignKey("ContentBlockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.Page", "Page")
                         .WithMany()
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PageId");
 
                     b.Navigation("ContentBlock");
 
@@ -581,39 +563,15 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.VideoBlock", "ContentBlock")
                         .WithMany()
                         .HasForeignKey("ContentBlockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.Page", "Page")
                         .WithMany()
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsOne("OmmelSamvirke.Domain.ValueObjects.Url", "VideoUrl", b1 =>
-                        {
-                            b1.Property<int>("VideoBlockDataId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Address")
-                                .IsRequired()
-                                .HasMaxLength(4000)
-                                .HasColumnType("nvarchar(4000)");
-
-                            b1.HasKey("VideoBlockDataId");
-
-                            b1.ToTable("VideoBlockData");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VideoBlockDataId");
-                        });
+                        .HasForeignKey("PageId");
 
                     b.Navigation("ContentBlock");
 
                     b.Navigation("Page");
-
-                    b.Navigation("VideoUrl")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock", b =>
@@ -621,14 +579,12 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockLayoutConfiguration", "DesktopConfiguration")
                         .WithMany()
                         .HasForeignKey("DesktopConfigurationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockLayoutConfiguration", "MobileConfiguration")
                         .WithMany()
                         .HasForeignKey("MobileConfigurationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.PageTemplate", null)
                         .WithMany("ContentBlocks")
@@ -637,8 +593,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockLayoutConfiguration", "TabletConfiguration")
                         .WithMany()
                         .HasForeignKey("TabletConfigurationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("DesktopConfiguration");
 
@@ -655,9 +610,7 @@ namespace OmmelSamvirke.Persistence.Migrations
 
                     b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.PageTemplate", "Template")
                         .WithMany()
-                        .HasForeignKey("TemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TemplateId");
 
                     b.Navigation("Template");
                 });

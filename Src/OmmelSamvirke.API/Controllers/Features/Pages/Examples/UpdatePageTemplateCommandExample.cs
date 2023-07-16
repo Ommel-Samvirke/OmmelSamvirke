@@ -39,28 +39,35 @@ public class UpdatePageTemplateCommandExample : IExamplesProvider<UpdatePageTemp
             State = PageTemplateState.Public,
             ContentBlocks = new List<ContentBlockCreateDto>
             {
-                new(
-                    false,
-                    new ContentBlockLayoutConfigurationCreateDto(
-                        (int)random.NextInt64(0, 9),
-                        (int)random.NextInt64(0, 9),
-                        (int)random.NextInt64(1, 10),
-                        (int)random.NextInt64(1, 10)
-                    ),
-                    new ContentBlockLayoutConfigurationCreateDto(
-                        (int)random.NextInt64(0, 9),
-                        (int)random.NextInt64(0, 9),
-                        (int)random.NextInt64(1, 10),
-                        (int)random.NextInt64(1, 10)    
-                    ),
-                    new ContentBlockLayoutConfigurationCreateDto(
-                        (int)random.NextInt64(0, 9),
-                        (int)random.NextInt64(0, 9),
-                        (int)random.NextInt64(1, 10),
-                        (int)random.NextInt64(1, 10)
-                    ),
-                    ContentBlockType.HeadlineBlock
-                )
+                new()
+                {
+                    IsOptional = false,
+                    DesktopConfiguration = new ContentBlockLayoutConfigurationCreateDto
+                    {
+                        XPosition = (int)random.NextInt64(0, 9),
+                        YPosition = (int)random.NextInt64(0, 9),
+                        Width = (int)random.NextInt64(1, 10),
+                        Height = (int)random.NextInt64(1, 10)
+                        
+                    },
+                    TabletConfiguration = new ContentBlockLayoutConfigurationCreateDto
+                    {
+                        XPosition = (int)random.NextInt64(0, 9),
+                        YPosition = (int)random.NextInt64(0, 9),
+                        Width = (int)random.NextInt64(1, 10),
+                        Height = (int)random.NextInt64(1, 10)
+                        
+                    },
+                    MobileConfiguration = new ContentBlockLayoutConfigurationCreateDto
+                    {
+                        XPosition = (int)random.NextInt64(0, 9),
+                        YPosition = (int)random.NextInt64(0, 9),
+                        Width = (int)random.NextInt64(1, 10),
+                        Height = (int)random.NextInt64(1, 10)
+                        
+                    },
+                    ContentBlockType = ContentBlockType.HeadlineBlock
+                }
             }
         };
 

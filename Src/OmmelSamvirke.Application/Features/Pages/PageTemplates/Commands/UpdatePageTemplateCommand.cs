@@ -13,8 +13,8 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class UpdatePageTemplateCommand : IRequest<PageTemplateQueryDto>
 {
-    public PageTemplateQueryDto OriginalPageTemplate { get; init; }
-    public PageTemplateUpdateDto UpdatedPageTemplate { get; init; }
+    public PageTemplateQueryDto OriginalPageTemplate { get; set; } = new();
+    public PageTemplateUpdateDto UpdatedPageTemplate { get; set; } = new();
 }
 
 public class UpdatePageTemplateCommandHandler : IRequestHandler<UpdatePageTemplateCommand, PageTemplateQueryDto>
@@ -42,7 +42,7 @@ public class UpdatePageTemplateCommandHandler : IRequestHandler<UpdatePageTempla
         UpdatePageTemplateCommandValidator validator = new(_pageTemplateRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        PageTemplate currentPageTemplate = (await _pageTemplateRepository.GetByIdAsyncWithNavigationProps((int)request.OriginalPageTemplate.Id!))!;
+        PageTemplate currentPageTemplate = (await _pageTemplateRepository.GetByIdAsyncWithNavigationProps(request.OriginalPageTemplate.Id))!;
         PageTemplate requestedUpdatedPageTemplate = _mapper.Map<PageTemplate>(request.UpdatedPageTemplate);
         PageTemplateQueryDto currentPageTemplateDto = _mapper.Map<PageTemplateQueryDto>(currentPageTemplate);
         
@@ -63,9 +63,12 @@ public class UpdatePageTemplateCommandHandler : IRequestHandler<UpdatePageTempla
         {
             if (request.UpdatedPageTemplate.ContentBlocks.Any(updatedContentBlock =>
                     updatedContentBlock.Id == contentBlock.Id)) continue;
-            await _contentBlockLayoutConfigurationRepository.DeleteAsync(contentBlock.DesktopConfiguration);
-            await _contentBlockLayoutConfigurationRepository.DeleteAsync(contentBlock.TabletConfiguration);
-            await _contentBlockLayoutConfigurationRepository.DeleteAsync(contentBlock.MobileConfiguration);
+            if (contentBlock.DesktopConfiguration != null)
+                await _contentBlockLayoutConfigurationRepository.DeleteAsync(contentBlock.DesktopConfiguration);
+            if (contentBlock.TabletConfiguration != null)
+                await _contentBlockLayoutConfigurationRepository.DeleteAsync(contentBlock.TabletConfiguration);
+            if (contentBlock.MobileConfiguration != null)
+                await _contentBlockLayoutConfigurationRepository.DeleteAsync(contentBlock.MobileConfiguration);
         }
     }
 

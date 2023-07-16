@@ -2,20 +2,6 @@
 
 public class PageCreateDto
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     public int PageTemplateId { get; set; }
-
-    public PageCreateDto(string name, int templateId)
-    {
-        Name = name;
-        PageTemplateId = templateId;
-    }
-
-    /// <summary>
-    /// Needed for deserialization
-    /// </summary>
-    public PageCreateDto()
-    {
-        
-    }
 }
