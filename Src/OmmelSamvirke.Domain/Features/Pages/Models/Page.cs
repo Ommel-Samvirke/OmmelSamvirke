@@ -1,5 +1,4 @@
 ﻿using OmmelSamvirke.Domain.Common;
-using OmmelSamvirke.Domain.Features.Communities.Models;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models;
 

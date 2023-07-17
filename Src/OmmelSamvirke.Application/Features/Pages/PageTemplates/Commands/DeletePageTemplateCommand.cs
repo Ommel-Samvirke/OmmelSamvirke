@@ -3,7 +3,6 @@ using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
-using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 

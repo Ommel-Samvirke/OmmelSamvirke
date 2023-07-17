@@ -4,6 +4,8 @@ using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
+namespace OmmelSamvirke.Persistence.Features.Pages.Repositories;
+
 public class ContentBlockDataRepositoriesAggregate : IContentBlockDataRepositoriesAggregate
 {
     private readonly Dictionary<Type, object> _repositories;
@@ -104,7 +106,7 @@ public class ContentBlockDataRepositoriesAggregate : IContentBlockDataRepositori
         Dictionary<Type, List<IContentBlockData>> entitiesByType = contentBlockData.GroupBy(e =>
             e.GetType()).ToDictionary(g =>
                 g.Key, g => g.ToList()
-            );
+        );
 
         foreach (KeyValuePair<Type, List<IContentBlockData>> kvp in entitiesByType)
         {

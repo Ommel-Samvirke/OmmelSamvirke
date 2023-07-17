@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OmmelSamvirke.Domain.Common.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
-using OmmelSamvirke.Persistence.Features.Common.Repositories;
 using OmmelSamvirke.Persistence.Features.Pages.Repositories;
 
 namespace OmmelSamvirke.Persistence.Features.Pages;

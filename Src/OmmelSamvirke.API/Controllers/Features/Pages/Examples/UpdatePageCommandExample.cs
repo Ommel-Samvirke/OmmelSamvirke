@@ -32,7 +32,7 @@ public class UpdatePageCommandExample : IExamplesProvider<UpdatePageCommand>
         
         Page? page = Task.Run(() => pageRepository.GetByIdAsync(PageId)).Result;
         
-        PageQueryDto originalPage = GetOriginalPage(mapper, pageRepository, page);
+        PageQueryDto originalPage = GetOriginalPage(mapper, page);
         PageUpdateDto updatedPage = CreateUpdatedPage(page);
         List<IContentBlockData> updatedContentBlockDataElements = CreateUpdatedContentBlockDataElements(contentBlockDataRepositoriesAggregate, page);
 
@@ -44,7 +44,7 @@ public class UpdatePageCommandExample : IExamplesProvider<UpdatePageCommand>
         };
     }
 
-    private static PageQueryDto GetOriginalPage(IMapper mapper, IPageRepository pageRepository, Page? page)
+    private static PageQueryDto GetOriginalPage(IMapper mapper, Page? page)
     {
         return page is null ? null! : mapper.Map<PageQueryDto>(page);
     }
