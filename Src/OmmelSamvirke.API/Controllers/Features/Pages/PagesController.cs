@@ -37,6 +37,10 @@ public class PagesController : ControllerBase
         return page;
     }
 
+    /// <summary>
+    /// Get a Page's ContentBlockData by its <paramref name="id"/>.
+    /// </summary>
+    /// <param name="id">The id of the Page</param>
     [HttpGet("ContentBlockData/{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -50,6 +54,9 @@ public class PagesController : ControllerBase
         return Ok(contentBlockData);
     }
     
+    /// <summary>
+    /// Get the next page from the provided Community's Pages.
+    /// </summary>
     [HttpGet("GetNext")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -59,6 +66,9 @@ public class PagesController : ControllerBase
         return Ok(page);
     }
     
+    /// <summary>
+    /// Get the previous page from the provided Community's Pages.
+    /// </summary>
     [HttpGet("GetPrevious")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -68,6 +78,12 @@ public class PagesController : ControllerBase
         return Ok(page);
     }
     
+    /// <summary>
+    /// Get a collection of Pages by the id of a Community.
+    /// </summary>
+    /// <param name="getPagesByCommunityIdQuery">
+    /// The id of the Community the Pages should be fetched from
+    /// </param>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -77,6 +93,9 @@ public class PagesController : ControllerBase
         return Ok(pages);
     }
 
+    /// <summary>
+    /// Create a new Page based on a PageTemplate.
+    /// </summary>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -87,6 +106,10 @@ public class PagesController : ControllerBase
         return Ok(page);
     }
     
+    /// <summary>
+    /// Update a Page and its associated ContentBlockData.
+    /// </summary>
+    /// <param name="updatePageCommand"></param>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -97,6 +120,10 @@ public class PagesController : ControllerBase
         return Ok(page);
     }
     
+    /// <summary>
+    /// Delete a Page and its associated ContentBlockData.
+    /// </summary>
+    /// <param name="id">The id of the Page that should be deleted</param>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
