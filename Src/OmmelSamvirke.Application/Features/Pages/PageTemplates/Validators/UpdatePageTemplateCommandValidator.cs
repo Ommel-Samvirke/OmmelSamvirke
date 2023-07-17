@@ -22,9 +22,9 @@ public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTe
             .NotEmpty()
             .WithErrorCode(ErrorCode.BadRequest)
             .WithMessage("Name is required")
-            .MaximumLength(200)
+            .MaximumLength(225)
             .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("Name cannot be longer than 200 characters");
+            .WithMessage("Name cannot be longer than 225 characters");
         
         RuleFor(p => p.OriginalPageTemplate.State)
             .IsInEnum()
@@ -35,9 +35,9 @@ public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTe
             .NotEmpty()
             .WithErrorCode(ErrorCode.BadRequest)
             .WithMessage("Name is required")
-            .MaximumLength(200)
+            .MaximumLength(225)
             .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("Name cannot be longer than 200 characters");
+            .WithMessage("Name cannot be longer than 225 characters");
         
         RuleFor(p => p.UpdatedPageTemplate.State)
             .IsInEnum()

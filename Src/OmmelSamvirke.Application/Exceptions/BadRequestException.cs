@@ -5,7 +5,7 @@ namespace OmmelSamvirke.Application.Exceptions;
 
 public class BadRequestException : Exception
 {
-    public IDictionary<string, string[]> ValidationErrors { get; }
+    public IDictionary<string, string[]>? ValidationErrors { get; }
     
     public BadRequestException(string message) : base(message)
     {

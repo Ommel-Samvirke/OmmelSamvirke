@@ -12,6 +12,6 @@ public class PageTemplatesConfiguration : BaseEntityTypeConfiguration<PageTempla
         builder.ToTable("PageTemplates");
         builder.Property(p => p.Name)
             .IsRequired()
-            .HasMaxLength(200);
+            .HasMaxLength(225);
     }
 }

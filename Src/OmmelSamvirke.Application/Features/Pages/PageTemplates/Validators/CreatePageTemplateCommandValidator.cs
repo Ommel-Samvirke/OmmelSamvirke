@@ -12,7 +12,7 @@ public class CreatePageTemplateCommandValidator : AbstractValidator<CreatePageTe
             .NotEmpty()
             .WithErrorCode(ErrorCode.BadRequest)
             .WithMessage("Name is required")
-            .MaximumLength(200)
+            .MaximumLength(225)
             .WithErrorCode(ErrorCode.BadRequest)
             .WithMessage("Name cannot be longer than 200 characters");
         
