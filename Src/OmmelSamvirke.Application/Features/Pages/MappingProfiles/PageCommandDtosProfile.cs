@@ -2,6 +2,7 @@
 using OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Commands.ContentBlockData;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Commands.Converters;
+using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
@@ -25,6 +26,11 @@ public class PageCommandDtosProfile : Profile
         CreateMap<ContentBlockCreateDto, VideoBlock>();
         
         CreateMap<ContentBlockLayoutConfigurationCreateDto, ContentBlockLayoutConfiguration>();
+        
+        CreateMap<IContentBlockDataDto, IContentBlockData>()
+            .ForMember(dest => dest.Page, opt => opt.Ignore())
+            .ForMember(dest => dest.BaseContentBlock, opt => opt.Ignore());
+        
         CreateMap<HeadlineBlockData, HeadlineBlockDataDto>()
             .ForMember(dest => dest.PageId, opt => opt.MapFrom(src => src.PageId))
             .ReverseMap();

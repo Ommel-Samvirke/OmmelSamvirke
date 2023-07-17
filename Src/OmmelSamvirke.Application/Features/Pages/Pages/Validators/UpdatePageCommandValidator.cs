@@ -8,11 +8,13 @@ namespace OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 public class UpdatePageCommandValidator : AbstractValidator<UpdatePageCommand>
 {
     private readonly IPageRepository _pageRepository;
+    private readonly IPageTemplateRepository _pageTemplateRepository;
 
-    public UpdatePageCommandValidator(IPageRepository pageRepository)
+    public UpdatePageCommandValidator(IPageRepository pageRepository, IPageTemplateRepository pageTemplateRepository)
     {
         _pageRepository = pageRepository;
-        
+        _pageTemplateRepository = pageTemplateRepository;
+
         RuleFor(p => p.OriginalPage.Id)
             .MustAsync(PageMustExist)
             .WithErrorCode(ErrorCode.ResourceNotFound)
@@ -52,6 +54,6 @@ public class UpdatePageCommandValidator : AbstractValidator<UpdatePageCommand>
     
     private async Task<bool> PageTemplateMustExist(int pageTemplateId, CancellationToken cancellationToken)
     {
-        return await _pageRepository.GetByIdAsync(pageTemplateId, cancellationToken) is not null;
+        return await _pageTemplateRepository.GetByIdAsync(pageTemplateId, cancellationToken) is not null;
     }
 }

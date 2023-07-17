@@ -5,12 +5,12 @@ using OmmelSamvirke.Domain.Features.Pages.Enums;
 namespace OmmelSamvirke.Application.Features.Pages.DTOs.Commands.ContentBlockData;
 
 [JsonConverter(typeof(JsonSubtypes), "ContentBlockType")]
-[JsonSubtypes.KnownSubType(typeof(HeadlineBlockDataDto), "HeadlineBlockData")]
-[JsonSubtypes.KnownSubType(typeof(ImageBlockDataDto), "ImageBlockData")]
-[JsonSubtypes.KnownSubType(typeof(PdfBlockDataDto), "PdfBlockData")]
-[JsonSubtypes.KnownSubType(typeof(SlideshowBlockDataDto), "SlideshowBlockData")]
-[JsonSubtypes.KnownSubType(typeof(TextBlockDataDto), "TextBlockData")]
-[JsonSubtypes.KnownSubType(typeof(VideoBlockDataDto), "VideoBlockData")]
+[JsonSubtypes.KnownSubType(typeof(HeadlineBlockDataDto), (int)ContentBlockType.HeadlineBlock)]
+[JsonSubtypes.KnownSubType(typeof(ImageBlockDataDto), (int)ContentBlockType.ImageBlock)]
+[JsonSubtypes.KnownSubType(typeof(PdfBlockDataDto), (int)ContentBlockType.PdfBlock)]
+[JsonSubtypes.KnownSubType(typeof(SlideshowBlockDataDto), (int)ContentBlockType.SlideshowBlock)]
+[JsonSubtypes.KnownSubType(typeof(TextBlockDataDto), (int)ContentBlockType.TextBlock)]
+[JsonSubtypes.KnownSubType(typeof(VideoBlockDataDto), (int)ContentBlockType.VideoBlock)]
 public interface IContentBlockDataDto
 {
     public int Id { get; set; }

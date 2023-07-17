@@ -64,7 +64,7 @@ public class UpdatePageCommandExample : IExamplesProvider<UpdatePageCommand>
         return new PageUpdateDto
         {
             Id = PageId,
-            Name = $"{page.Name} {random.NextInt64(100)}",
+            Name = $"Updated Page {random.NextInt64(100)}",
             PageTemplateId = page.TemplateId,
         };
     }

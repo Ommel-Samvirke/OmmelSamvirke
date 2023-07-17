@@ -7,6 +7,6 @@ public class PdfBlockDataDto : IContentBlockDataDto
     public int Id { get; set; }
     public int BaseContentBlockId { get; set; }
     public int PageId { get; set;  }
-    public string? PdfUrl { get; set; } = string.Empty;
+    public string PdfUrl { get; set; } = string.Empty;
     public ContentBlockType ContentBlockType { get; set; } = ContentBlockType.PdfBlock;
 }

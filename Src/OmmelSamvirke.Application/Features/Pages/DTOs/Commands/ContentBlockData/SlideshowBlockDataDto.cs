@@ -8,6 +8,6 @@ public class SlideshowBlockDataDto : IContentBlockDataDto
     public int Id { get; set; }
     public int BaseContentBlockId { get; set; }
     public int PageId { get; set;  }
-    public List<Url>? ImageUrls { get; set; } = new();
+    public List<Url> ImageUrls { get; set; } = new();
     public ContentBlockType ContentBlockType { get; set; } = ContentBlockType.SlideshowBlock;
 }
