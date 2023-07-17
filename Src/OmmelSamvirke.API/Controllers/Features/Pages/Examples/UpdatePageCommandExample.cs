@@ -15,7 +15,7 @@ namespace OmmelSamvirke.API.Controllers.Features.Pages.Examples;
 public class UpdatePageCommandExample : IExamplesProvider<UpdatePageCommand>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private const int PageId = 9;
+    private const int PageId = 1;
 
     public UpdatePageCommandExample(IServiceScopeFactory serviceScopeFactory)
     {
