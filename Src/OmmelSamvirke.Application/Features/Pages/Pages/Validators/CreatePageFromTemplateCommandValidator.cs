@@ -37,11 +37,11 @@ public class CreatePageFromTemplateCommandValidator : AbstractValidator<CreatePa
     
     private async Task<bool> PageTemplateMustExist(int pageTemplateId, CancellationToken cancellationToken)
     {
-        return await _pageTemplateRepository.GetByIdAsync(pageTemplateId) is not null;
+        return await _pageTemplateRepository.GetByIdAsync(pageTemplateId, cancellationToken) is not null;
     }
     
     private async Task<bool> CommunityMustExist(int communityId, CancellationToken cancellationToken)
     {
-        return await _communityRepository.GetByIdAsync(communityId) is not null;
+        return await _communityRepository.GetByIdAsync(communityId, cancellationToken) is not null;
     }
 }

@@ -29,7 +29,10 @@ public class GetPageTemplateQueryHandler : IRequestHandler<GetPageTemplateQuery,
         GetPageTemplateQueryValidator validator = new(_pageTemplateRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsyncWithNavigationProps(request.PageTemplateId))!;
+        PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsyncWithNavigationProps(
+            request.PageTemplateId,
+            cancellationToken
+        ))!;
         return _mapper.Map<PageTemplateQueryDto>(pageTemplate);
     }
 }

@@ -54,7 +54,7 @@ public class CreatePageFromTemplateCommandHandler : IRequestHandler<CreatePageFr
             TemplateId = request.PageTemplateId,
             CommunityId = request.CommunityId
         };
-        Page createdPage = await _pageRepository.CreateAsync(page);
+        Page createdPage = await _pageRepository.CreateAsync(page,cancellationToken);
 
         PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsyncWithNavigationProps(request.PageTemplateId, cancellationToken))!;
         List<IContentBlockData> contentBlockDataElements = CreateContentBlockDataElements(pageTemplate, createdPage);

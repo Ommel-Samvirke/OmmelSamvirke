@@ -21,6 +21,6 @@ public class GetContentBlockDataQueryValidator : AbstractValidator<GetContentBlo
     
     private async Task<bool> PageMustExist(int pageId, CancellationToken cancellationToken)
     {
-        return await _pageRepository.GetByIdAsync(pageId) is not null;
+        return await _pageRepository.GetByIdAsync(pageId, cancellationToken) is not null;
     }
 }

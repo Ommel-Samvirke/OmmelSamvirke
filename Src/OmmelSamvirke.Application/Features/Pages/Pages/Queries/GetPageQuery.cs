@@ -29,7 +29,7 @@ public class GetPageQueryHandler : IRequestHandler<GetPageQuery, PageQueryDto>
         GetPageQueryValidator validator = new(_pageRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
 
-        Page page = (await _pageRepository.GetByIdAsync(request.PageId))!;
+        Page page = (await _pageRepository.GetByIdAsync(request.PageId, cancellationToken))!;
         return _mapper.Map<PageQueryDto>(page);
     }
 }

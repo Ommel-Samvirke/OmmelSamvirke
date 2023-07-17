@@ -29,11 +29,11 @@ public class GetNextPageQueryValidator : AbstractValidator<GetNextPageQuery>
     
     private async Task<bool> CommunityMustExist(int communityId, CancellationToken cancellationToken)
     {
-        return await _communityRepository.GetByIdAsync(communityId) is not null;
+        return await _communityRepository.GetByIdAsync(communityId, cancellationToken) is not null;
     }
     
     private async Task<bool> CurrentPageMustExist(int currentPageId, CancellationToken cancellationToken)
     {
-        return await _pageRepository.GetByIdAsync(currentPageId) is not null;
+        return await _pageRepository.GetByIdAsync(currentPageId, cancellationToken) is not null;
     }
 }

@@ -25,8 +25,8 @@ public class DeletePageCommandHandler : IRequestHandler<DeletePageCommand, bool>
         DeletePageCommandValidator validator = new(_pageRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        Page page = (await _pageRepository.GetByIdAsync(request.PageId))!;
+        Page page = (await _pageRepository.GetByIdAsync(request.PageId, cancellationToken))!;
 
-        return await _pageRepository.DeleteAsync(page);
+        return await _pageRepository.DeleteAsync(page, cancellationToken);
     }
 }

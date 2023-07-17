@@ -12,7 +12,6 @@ public class PageCommandDtosProfile : Profile
     {
         CreateMap<PageTemplateCreateDto, PageTemplate>();
         CreateMap<PageTemplateUpdateDto, PageTemplate>();
-        CreateMap<PageCreateDto, Page>();
 
         CreateMap<ContentBlock, ContentBlockCreateDto>();
         CreateMap<ContentBlockCreateDto, ContentBlock>().ConvertUsing<ContentBlockCreateDtoToContentBlockConverter>();

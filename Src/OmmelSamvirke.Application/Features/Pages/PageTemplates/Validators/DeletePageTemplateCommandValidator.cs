@@ -27,13 +27,13 @@ public class DeletePageTemplateCommandValidator : AbstractValidator<DeletePageTe
     
     private async Task<bool> PageTemplateMustExist(int pageTemplateId, CancellationToken cancellationToken)
     {
-        PageTemplate? pageTemplate = await _pageTemplateRepository.GetByIdAsync(pageTemplateId);
+        PageTemplate? pageTemplate = await _pageTemplateRepository.GetByIdAsync(pageTemplateId, cancellationToken);
         return pageTemplate is not null;
     }
     
     private async Task<bool> PageTemplateMustNotBeImplementedByAnyPages(int pageTemplateId, CancellationToken cancellationToken)
     {
-        List<Page> pagesImplementingTemplate = await _pageRepository.GetByPageTemplateId(pageTemplateId);
+        List<Page> pagesImplementingTemplate = await _pageRepository.GetByPageTemplateId(pageTemplateId, cancellationToken);
         return pagesImplementingTemplate.Count == 0;
     }
 }

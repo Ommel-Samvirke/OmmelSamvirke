@@ -30,10 +30,10 @@ public class MakePageTemplatePublicCommandHandler : IRequestHandler<MakePageTemp
         MakePageTemplatePublicCommandValidator validator = new(_pageTemplateRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
 
-        PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync(request.PageTemplateId))!;
+        PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync(request.PageTemplateId, cancellationToken))!;
         pageTemplate.State = PageTemplateState.Public;
         
-        PageTemplate updatedPageTemplate = await _pageTemplateRepository.UpdateAsync(pageTemplate);
+        PageTemplate updatedPageTemplate = await _pageTemplateRepository.UpdateAsync(pageTemplate, cancellationToken);
         return _mapper.Map<PageTemplateQueryDto>(updatedPageTemplate);
     }
 }

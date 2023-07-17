@@ -33,7 +33,7 @@ public class GetPageTemplatesByStateQueryHandler : IRequestHandler<GetPageTempla
         GetPageTemplatesByStateQueryValidator validator = new();
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        IReadOnlyList<PageTemplate> pageTemplates = await _pageTemplateRepository.GetAsync();
+        IReadOnlyList<PageTemplate> pageTemplates = await _pageTemplateRepository.GetAsync(cancellationToken);
         List<PageTemplate> filteredPageTemplates = pageTemplates.Where(
             x => x.State == request.PageTemplateState
         ).ToList();

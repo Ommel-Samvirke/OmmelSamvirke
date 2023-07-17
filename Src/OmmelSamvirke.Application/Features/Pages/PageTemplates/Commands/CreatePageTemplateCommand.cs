@@ -32,7 +32,7 @@ public class CreatePageTemplateCommandHandler : IRequestHandler<CreatePageTempla
 
         PageTemplate requestPage = _mapper.Map<PageTemplate>(request.PageTemplateCreateDto);
         
-        PageTemplate createdTemplate = await _pageTemplateRepository.CreateAsync(requestPage);
+        PageTemplate createdTemplate = await _pageTemplateRepository.CreateAsync(requestPage, cancellationToken);
         return _mapper.Map<PageTemplateQueryDto>(createdTemplate);
     }
 }

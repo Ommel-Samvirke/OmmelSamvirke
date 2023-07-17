@@ -21,6 +21,6 @@ public class GetPagesByCommunityIdQueryValidator : AbstractValidator<GetPagesByC
     
     private async Task<bool> CommunityMustExist(int communityId, CancellationToken cancellationToken)
     {
-        return await _communityRepository.GetByIdAsync(communityId) is not null;
+        return await _communityRepository.GetByIdAsync(communityId, cancellationToken) is not null;
     }
 }

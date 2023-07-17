@@ -21,6 +21,6 @@ public class ArchivePageTemplateCommandValidator : AbstractValidator<ArchivePage
     
     private async Task<bool> PageMustExist(int id, CancellationToken cancellationToken)
     {
-        return await _pageTemplateRepository.GetByIdAsync(id) is not null;
+        return await _pageTemplateRepository.GetByIdAsync(id, cancellationToken) is not null;
     }
 }

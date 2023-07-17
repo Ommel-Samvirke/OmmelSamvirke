@@ -47,11 +47,11 @@ public class UpdatePageCommandValidator : AbstractValidator<UpdatePageCommand>
     
     private async Task<bool> PageMustExist(int pageId, CancellationToken cancellationToken)
     {
-        return await _pageRepository.GetByIdAsync(pageId) is not null;
+        return await _pageRepository.GetByIdAsync(pageId, cancellationToken) is not null;
     }
     
     private async Task<bool> PageTemplateMustExist(int pageTemplateId, CancellationToken cancellationToken)
     {
-        return await _pageRepository.GetByIdAsync(pageTemplateId) is not null;
+        return await _pageRepository.GetByIdAsync(pageTemplateId, cancellationToken) is not null;
     }
 }

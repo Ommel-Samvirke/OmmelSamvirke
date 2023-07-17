@@ -39,7 +39,7 @@ public class CreatePageTemplateFromPageCommandValidator : AbstractValidator<Crea
     
     private async Task<bool> PageMustExist(int pageId, CancellationToken cancellationToken)
     {
-        Page? page = await _pageRepository.GetByIdAsync(pageId);
+        Page? page = await _pageRepository.GetByIdAsync(pageId, cancellationToken);
         return page is not null;
     }
     

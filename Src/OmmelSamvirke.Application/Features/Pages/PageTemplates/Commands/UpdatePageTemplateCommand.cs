@@ -42,7 +42,10 @@ public class UpdatePageTemplateCommandHandler : IRequestHandler<UpdatePageTempla
         UpdatePageTemplateCommandValidator validator = new(_pageTemplateRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        PageTemplate currentPageTemplate = (await _pageTemplateRepository.GetByIdAsyncWithNavigationProps(request.OriginalPageTemplate.Id))!;
+        PageTemplate currentPageTemplate = (await _pageTemplateRepository.GetByIdAsyncWithNavigationProps(
+            request.OriginalPageTemplate.Id,
+            cancellationToken
+        ))!;
         PageTemplate requestedUpdatedPageTemplate = _mapper.Map<PageTemplate>(request.UpdatedPageTemplate);
         PageTemplateQueryDto currentPageTemplateDto = _mapper.Map<PageTemplateQueryDto>(currentPageTemplate);
         
@@ -50,7 +53,7 @@ public class UpdatePageTemplateCommandHandler : IRequestHandler<UpdatePageTempla
             throw new ResourceHasChangedException("The Page Template has changed since you last loaded it");
 
         await DeleteRemovedContentBlocks(request, currentPageTemplateDto);
-        PageTemplate updatedPageTemplate = await _pageTemplateRepository.UpdateAsync(requestedUpdatedPageTemplate);
+        PageTemplate updatedPageTemplate = await _pageTemplateRepository.UpdateAsync(requestedUpdatedPageTemplate, cancellationToken);
         await DeleteRemovedContentBlockLayoutConfigurations(request, currentPageTemplate);
 
         return _mapper.Map<PageTemplateQueryDto>(updatedPageTemplate);
