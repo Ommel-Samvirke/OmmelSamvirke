@@ -3,6 +3,7 @@ using MediatR;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
+using OmmelSamvirke.Domain.Features.Communities.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
@@ -16,6 +17,7 @@ public class CreatePageFromTemplateCommand : IRequest<PageQueryDto>
 {
     public int PageTemplateId { get; set; }
     public string PageName { get; set; } = string.Empty;
+    public int CommunityId { get; set; }
 }
 
 public class CreatePageFromTemplateCommandHandler : IRequestHandler<CreatePageFromTemplateCommand, PageQueryDto>
@@ -23,36 +25,40 @@ public class CreatePageFromTemplateCommandHandler : IRequestHandler<CreatePageFr
     private readonly IMapper _mapper;
     private readonly IPageTemplateRepository _pageTemplateRepository;
     private readonly IPageRepository _pageRepository;
-    private readonly IContentBlockDataRepository _contentBlockDataRepository;
+    private readonly ICommunityRepository _communityRepository;
+    private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
 
     public CreatePageFromTemplateCommandHandler(
         IMapper mapper,
         IPageTemplateRepository pageTemplateRepository,
         IPageRepository pageRepository,
-        IContentBlockDataRepository contentBlockDataRepository
+        ICommunityRepository communityRepository,
+        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
     )
     {
         _mapper = mapper;
         _pageTemplateRepository = pageTemplateRepository;
         _pageRepository = pageRepository;
-        _contentBlockDataRepository = contentBlockDataRepository;
+        _communityRepository = communityRepository;
+        _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
     }
     
     public async Task<PageQueryDto> Handle(CreatePageFromTemplateCommand request, CancellationToken cancellationToken)
     {
-        CreatePageFromTemplateCommandValidator validator = new(_pageTemplateRepository);
+        CreatePageFromTemplateCommandValidator validator = new(_pageTemplateRepository, _communityRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsync(request.PageTemplateId))!;
         Page page = new()
         {
             Name = request.PageName, 
-            Template = pageTemplate
+            TemplateId = request.PageTemplateId,
+            CommunityId = request.CommunityId
         };
         Page createdPage = await _pageRepository.CreateAsync(page);
 
+        PageTemplate pageTemplate = (await _pageTemplateRepository.GetByIdAsyncWithNavigationProps(request.PageTemplateId, cancellationToken))!;
         List<IContentBlockData> contentBlockDataElements = CreateContentBlockDataElements(pageTemplate, createdPage);
-        await _contentBlockDataRepository.CreateAsync(contentBlockDataElements);
+        await _contentBlockDataRepositoriesAggregate.CreateAsync(contentBlockDataElements, cancellationToken);
 
         return _mapper.Map<PageQueryDto>(createdPage);
     }
@@ -67,54 +73,54 @@ public class CreatePageFromTemplateCommandHandler : IRequestHandler<CreatePageFr
                 case HeadlineBlock hb:
                     contentBlockData.Add(new HeadlineBlockData
                     {
-                        ContentBlock = hb,
+                        ContentBlockId = hb.Id,
                         Headline = "Overskrift",
-                        Page = createdPage
+                        PageId = createdPage.Id
                     });
                     break;
                 case ImageBlock ib:
                     contentBlockData.Add(new ImageBlockData
                     {
-                        ContentBlock = ib,
+                        ContentBlockId = ib.Id,
                         ImageUrl = "https://fakeimg.pl/600x400?text=Billede",
-                        Page = createdPage
+                        PageId = createdPage.Id
                     });
                     break;
                 case PdfBlock pb:
                     contentBlockData.Add(new PdfBlockData
                     {
-                        ContentBlock = pb,
+                        ContentBlockId = pb.Id,
                         PdfUrl = "https://fakeimg.pl/600x400?text=PDF",
-                        Page = createdPage
+                        PageId = createdPage.Id
                     });
                     break;
                 case SlideshowBlock sb:
                     contentBlockData.Add(new SlideshowBlockData
                     {
-                        ContentBlock = sb,
+                        ContentBlockId = sb.Id,
                         ImageUrls = new List<Url>
                         {
                             new("https://fakeimg.pl/600x400?text=Billede1"),
                             new("https://fakeimg.pl/600x400?text=Billede2"),
                             new("https://fakeimg.pl/600x400?text=Billede3")
                         },
-                        Page = createdPage
+                        PageId = createdPage.Id
                     });
                     break;
                 case TextBlock tb:
                     contentBlockData.Add(new TextBlockData
                     {
-                        ContentBlock = tb,
+                        ContentBlockId = tb.Id,
                         Text = "Tekstindhold",
-                        Page = createdPage
+                        PageId = createdPage.Id
                     });
                     break;
                 case VideoBlock vb:
                     contentBlockData.Add(new VideoBlockData
                     {
-                        ContentBlock = vb, 
+                        ContentBlockId = vb.Id, 
                         VideoUrl = "https://www.youtube.com/watch?v=c21QZnQtGqo",
-                        Page = createdPage
+                        PageId = createdPage.Id
                     });
                     break;
             }

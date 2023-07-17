@@ -10,16 +10,16 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 public class CreatePageTemplateFromPageCommandValidator : AbstractValidator<CreatePageTemplateFromPageCommand>
 {
     private readonly IPageRepository _pageRepository;
-    private readonly IContentBlockDataRepository _contentBlockRepository;
+    private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
 
     public CreatePageTemplateFromPageCommandValidator(
         IPageRepository pageRepository,
-        IContentBlockDataRepository contentBlockRepository
+        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
     )
     {
         _pageRepository = pageRepository;
-        _contentBlockRepository = contentBlockRepository;
-        
+        _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
+
         RuleFor(p => p.PageUpdateDto.Id)
             .MustAsync(PageMustExist)
             .WithErrorCode(ErrorCode.ResourceNotFound)
@@ -45,7 +45,7 @@ public class CreatePageTemplateFromPageCommandValidator : AbstractValidator<Crea
     
     private async Task<bool> ContentBlocksMustExist(int pageId, CancellationToken cancellationToken)
     {
-        List<IContentBlockData> contentBlockData = await _contentBlockRepository.GetByPageIdAsync(pageId);
+        List<IContentBlockData> contentBlockData = await _contentBlockDataRepositoriesAggregate.GetByPageIdAsync(pageId, cancellationToken);
         return contentBlockData.Where(c => c.BaseContentBlock is not null).ToList().Count > 0;
     }
 }

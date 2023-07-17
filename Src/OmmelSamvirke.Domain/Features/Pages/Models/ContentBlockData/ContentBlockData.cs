@@ -27,4 +27,7 @@ public abstract class ContentBlockData<T> : BaseModel, IContentBlockData where T
     /// The page that this content block data is associated with.
     /// </summary>
     public Page? Page { get; set; }
+
+    public int PageId { get; set; }
+    public int ContentBlockId { get; set; }
 }

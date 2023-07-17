@@ -1,4 +1,5 @@
 ﻿using OmmelSamvirke.Domain.Common;
+using OmmelSamvirke.Domain.Features.Communities.Models;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models;
 
@@ -16,7 +17,12 @@ public class Page : BaseModel
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// Represents the template which is used to create this page.
+    /// The Id of the template which is used to create this page.
     /// </summary>
-    public PageTemplate? Template { get; set; }
+    public int TemplateId { get; set; }
+
+    /// <summary>
+    /// The id of the community the page belongs to.
+    /// </summary>
+    public int CommunityId { get; set; }
 }

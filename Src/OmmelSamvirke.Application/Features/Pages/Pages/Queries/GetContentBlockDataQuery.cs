@@ -18,17 +18,17 @@ public class GetContentBlockDataQueryHandler : IRequestHandler<GetContentBlockDa
 {
     private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
-    private readonly IContentBlockDataRepository _contentBlockDataRepository;
+    private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
 
     public GetContentBlockDataQueryHandler(
         IMapper mapper,
         IPageRepository pageRepository,
-        IContentBlockDataRepository contentBlockDataRepository
+        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
     )
     {
         _mapper = mapper;
         _pageRepository = pageRepository;
-        _contentBlockDataRepository = contentBlockDataRepository;
+        _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
     }
     
     public async Task<List<ContentBlockDataQueryDto>> Handle(GetContentBlockDataQuery request, CancellationToken cancellationToken)
@@ -36,7 +36,7 @@ public class GetContentBlockDataQueryHandler : IRequestHandler<GetContentBlockDa
         GetContentBlockDataQueryValidator validator = new(_pageRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        List<IContentBlockData> contentBlockData = await _contentBlockDataRepository.GetByPageIdAsync(request.PageId);
+        List<IContentBlockData> contentBlockData = await _contentBlockDataRepositoriesAggregate.GetByPageIdAsync(request.PageId, cancellationToken);
         return MapContentBlockData(contentBlockData);
     }
     

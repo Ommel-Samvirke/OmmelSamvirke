@@ -1,15 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OmmelSamvirke.Domain.Common;
 using OmmelSamvirke.Domain.Common.Interfaces;
+using OmmelSamvirke.Persistence.DatabaseContext;
 
 namespace OmmelSamvirke.Persistence.Features.Common.Repositories;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 {
     protected DbSet<T> DbSet { get; }
-    protected DbContext DbDbContext { get; }
+    protected AppDbContext DbDbContext { get; }
 
-    public GenericRepository(DbContext dbDbContext)
+    public GenericRepository(AppDbContext dbDbContext)
     {
         DbDbContext = dbDbContext;
         DbSet = dbDbContext.Set<T>();

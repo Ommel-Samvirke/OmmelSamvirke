@@ -34,7 +34,7 @@ public class PageTemplatesController : ControllerBase
             PageTemplateId = id
         });
 
-        return pageTemplate;
+        return Ok(pageTemplate);
     }
     
     /// <summary>
@@ -52,7 +52,7 @@ public class PageTemplatesController : ControllerBase
                 PageTemplateState = state
             });
 
-        return pageTemplates;
+        return Ok(pageTemplates);
     }
     
     /// <summary>
@@ -62,11 +62,25 @@ public class PageTemplatesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [SwaggerRequestExample(typeof(CreatePageTemplateCommand), typeof(CreatePageTemplateCommandExample))]
-    public async Task<ActionResult> Post(CreatePageTemplateCommand createPageTemplateCommand)
+    public async Task<ActionResult> Create(CreatePageTemplateCommand createPageTemplateCommand)
     {
         createPageTemplateCommand.PageTemplateCreateDto.State = PageTemplateState.Hidden;
         PageTemplateQueryDto createdPageTemplate = await _mediator.Send(createPageTemplateCommand);
-        return CreatedAtAction(nameof(Post), createdPageTemplate);
+        return CreatedAtAction(nameof(Create), createdPageTemplate);
+    }
+    
+    /// <summary>
+    /// Create a PageTemplate from an existing Page.
+    /// </summary>
+    /// <param name="createPageTemplateFromPageCommand"></param>
+    /// <returns></returns>
+    [HttpPost("FromPage")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> CreateFromPage(CreatePageTemplateFromPageCommand createPageTemplateFromPageCommand)
+    {
+        PageTemplateQueryDto createdPageTemplate = await _mediator.Send(createPageTemplateFromPageCommand);
+        return CreatedAtAction(nameof(CreateFromPage), createdPageTemplate);
     }
     
     /// <summary>
@@ -112,5 +126,22 @@ public class PageTemplatesController : ControllerBase
     {
         PageTemplateQueryDto updatedPageTemplate = await _mediator.Send(updatePageTemplateCommand);
         return Ok(updatedPageTemplate);
+    }
+    
+    /// <summary>
+    /// Delete a Page Template.
+    /// </summary>
+    /// <param name="id">The id of the Page Template that should be deleted</param>
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> Delete(int id)
+    {
+        bool isDeleted = await _mediator.Send(new DeletePageTemplateCommand
+        {
+            PageTemplateId = id
+        });
+
+        return isDeleted ? Ok() : StatusCode(StatusCodes.Status500InternalServerError);
     }
 }

@@ -22,28 +22,31 @@ public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePa
     private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
     private readonly IPageTemplateRepository _pageTemplateRepository;
-    private readonly IContentBlockDataRepository _contentBlockDataRepository;
+    private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
 
     public CreatePageTemplateFromPageCommandHandler(
         IMapper mapper,
         IPageRepository pageRepository,
         IPageTemplateRepository pageTemplateRepository,
-        IContentBlockDataRepository contentBlockDataRepository
+        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
     )
     {
         _mapper = mapper;
         _pageRepository = pageRepository;
         _pageTemplateRepository = pageTemplateRepository;
-        _contentBlockDataRepository = contentBlockDataRepository;
+        _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
     }
     
     public async Task<PageTemplateQueryDto> Handle(CreatePageTemplateFromPageCommand request, CancellationToken cancellationToken)
     {
-        CreatePageTemplateFromPageCommandValidator validator = new(_pageRepository, _contentBlockDataRepository);
+        CreatePageTemplateFromPageCommandValidator validator = new(_pageRepository, _contentBlockDataRepositoriesAggregate);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
 
-        Page page = (await _pageRepository.GetByIdAsync(request.PageUpdateDto.Id))!;
-        List<IContentBlockData> contentBlockData = await _contentBlockDataRepository.GetByPageIdAsync(request.PageUpdateDto.Id);
+        Page page = (await _pageRepository.GetByIdAsync(request.PageUpdateDto.Id, cancellationToken))!;
+        List<IContentBlockData> contentBlockData = await _contentBlockDataRepositoriesAggregate.GetByPageIdAsync(
+            request.PageUpdateDto.Id,
+            cancellationToken
+        );
 
         List<ContentBlock> contentBlocks = contentBlockData.Select(
             contentBlockDataItem => contentBlockDataItem.BaseContentBlock
@@ -56,10 +59,10 @@ public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePa
             State = PageTemplateState.Custom
         };
         
-        PageTemplate createdTemplate = await _pageTemplateRepository.CreateAsync(customPageTemplate);
-        page.Template = createdTemplate;
+        PageTemplate createdTemplate = await _pageTemplateRepository.CreateAsync(customPageTemplate, cancellationToken);
+        page.TemplateId = createdTemplate.Id;
         
-        await _pageRepository.UpdateAsync(page);
+        await _pageRepository.UpdateAsync(page, cancellationToken);
 
         return _mapper.Map<PageTemplateQueryDto>(createdTemplate);
     }

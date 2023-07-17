@@ -26,11 +26,6 @@ public class UpdatePageCommandValidator : AbstractValidator<UpdatePageCommand>
             .WithErrorCode(ErrorCode.BadRequest)
             .WithMessage("Page name must be less than 200 characters");
 
-        RuleFor(p => p.OriginalPage.Template)
-            .NotNull()
-            .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("Page template must be set");
-        
         RuleFor(p => p.UpdatedPage.Name)
             .NotEmpty()
             .WithErrorCode(ErrorCode.BadRequest)

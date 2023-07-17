@@ -22,17 +22,17 @@ public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand
 {
     private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
-    private readonly IContentBlockDataRepository _contentBlockDataRepository;
+    private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
 
     public SaveTemporaryPageCommandHandler(
         IMapper mapper,
         IPageRepository pageRepository,
-        IContentBlockDataRepository contentBlockDataRepository
+        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
     )
     {
         _mapper = mapper;
         _pageRepository = pageRepository;
-        _contentBlockDataRepository = contentBlockDataRepository;
+        _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
     }
     
     public async Task<PageQueryDto> Handle(UpdatePageCommand request, CancellationToken cancellationToken)
@@ -40,14 +40,14 @@ public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand
         UpdatePageCommandValidator validator = new(_pageRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        Page currentPage = (await _pageRepository.GetByIdAsync(request.OriginalPage.Id))!;
+        Page currentPage = (await _pageRepository.GetByIdAsync(request.OriginalPage.Id, cancellationToken))!;
         PageQueryDto currentPageDto = _mapper.Map<PageQueryDto>(currentPage);
 
         if (!currentPageDto.Equals(request.OriginalPage))
             throw new ResourceHasChangedException("The Page has changed since you last loaded it");
         
         List<IContentBlockData> contentBlockDataOriginal =
-            await _contentBlockDataRepository.GetByPageIdAsync(request.UpdatedPage.Id);
+            await _contentBlockDataRepositoriesAggregate.GetByPageIdAsync(request.UpdatedPage.Id, cancellationToken);
         
         List<IContentBlockData> newContentBlockData = 
             request.UpdatedContentBlockDataElements
@@ -65,10 +65,10 @@ public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand
                     newData.BaseContentBlock != null &&
                     newData.BaseContentBlock.Id != originalContentBlockData.BaseContentBlock.Id)).ToList();
         
-        await _contentBlockDataRepository.CreateAsync(newContentBlockData);
-        await _contentBlockDataRepository.DeleteAsync(deletedContentBlocks);
+        await _contentBlockDataRepositoriesAggregate.CreateAsync(newContentBlockData, cancellationToken);
+        await _contentBlockDataRepositoriesAggregate.DeleteAsync(deletedContentBlocks, cancellationToken);
         
-        Page updatedPage = await _pageRepository.UpdateAsync(_mapper.Map<Page>(request.UpdatedPage));
+        Page updatedPage = await _pageRepository.UpdateAsync(_mapper.Map<Page>(request.UpdatedPage), cancellationToken);
         return _mapper.Map<PageQueryDto>(updatedPage);
     }
 }

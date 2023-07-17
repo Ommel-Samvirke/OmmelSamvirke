@@ -19,9 +19,9 @@ public static class PersistenceServiceRegistry
         });
         
         services.AddCommonPersistenceServices();
-        services.AddPagesPersistenceServices(configuration);
         services.AddCommunitiesPersistenceServices(configuration);
         services.AddAdminsPersistenceServices(configuration);
+        services.AddPagesPersistenceServices(configuration);
 
         return services;
     }
