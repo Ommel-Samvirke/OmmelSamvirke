@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries.ContentBlockData;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries.Converters;
@@ -31,6 +32,7 @@ public class PagesQueryDtosProfile : Profile
         CreateMap<VideoBlockData, VideoBlockDataQueryDto>();
         
         CreateMap<Page, PageQueryDto>().ReverseMap();
+        CreateMap<Page, PageUpdateDto>().ReverseMap();
         CreateMap<ContentBlockLayoutConfiguration, ContentBlockLayoutConfigurationQueryDto>().ReverseMap();
     }
 }

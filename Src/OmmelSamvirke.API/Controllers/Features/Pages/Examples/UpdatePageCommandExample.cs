@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Commands.ContentBlockData;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.Pages.Commands;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces;
@@ -14,7 +15,7 @@ namespace OmmelSamvirke.API.Controllers.Features.Pages.Examples;
 public class UpdatePageCommandExample : IExamplesProvider<UpdatePageCommand>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private const int PageId = 1;
+    private const int PageId = 9;
 
     public UpdatePageCommandExample(IServiceScopeFactory serviceScopeFactory)
     {
@@ -34,7 +35,11 @@ public class UpdatePageCommandExample : IExamplesProvider<UpdatePageCommand>
         
         PageQueryDto originalPage = GetOriginalPage(mapper, page);
         PageUpdateDto updatedPage = CreateUpdatedPage(page);
-        List<IContentBlockData> updatedContentBlockDataElements = CreateUpdatedContentBlockDataElements(contentBlockDataRepositoriesAggregate, page);
+        List<IContentBlockDataDto> updatedContentBlockDataElements = CreateUpdatedContentBlockDataElements(
+            mapper,
+            contentBlockDataRepositoriesAggregate,
+            page
+        );
 
         return new UpdatePageCommand
         {
@@ -64,49 +69,64 @@ public class UpdatePageCommandExample : IExamplesProvider<UpdatePageCommand>
         };
     }
     
-    private static List<IContentBlockData> CreateUpdatedContentBlockDataElements(
+    private static List<IContentBlockDataDto> CreateUpdatedContentBlockDataElements(
+        IMapper mapper,
         IContentBlockDataRepositoriesAggregate contentBlockDataRepository,
         Page? page
     )
     {
         if (page is null)
-            return new List<IContentBlockData>();
+            return new List<IContentBlockDataDto>();
 
         Random random = new();
 
         List<IContentBlockData> contentBlockDataElements = 
             Task.Run(() => contentBlockDataRepository.GetByPageIdAsync(page.Id)).Result;
+        
+        List<IContentBlockDataDto> updatedContentBlockDataElements = new();
 
         foreach (IContentBlockData contentBlockDataElement in contentBlockDataElements)
         {
             switch (contentBlockDataElement)
             {
                 case HeadlineBlockData hbd:
-                    hbd.Headline = $"Updated Headline {random.NextInt64(100)}";
+                    HeadlineBlockDataDto headlineBlockDataDto = mapper.Map<HeadlineBlockDataDto>(hbd);
+                    headlineBlockDataDto.Headline = $"Updated Headline {random.NextInt64(100)}";
+                    updatedContentBlockDataElements.Add(headlineBlockDataDto);
                     break;
                 case ImageBlockData ibd:
-                    ibd.ImageUrl = $"https://example.com/image-{random.NextInt64(100)}.png";
+                    ImageBlockDataDto imageBlockDataDto = mapper.Map<ImageBlockDataDto>(ibd);
+                    imageBlockDataDto.ImageUrl = $"https://example.com/image-{random.NextInt64(100)}.png";
+                    updatedContentBlockDataElements.Add(imageBlockDataDto);
                     break;
                 case PdfBlockData pbd:
-                    pbd.PdfUrl = $"https://example.com/pdf-{random.NextInt64(100)}.pdf";
+                    PdfBlockDataDto pdfBlockDataDto = mapper.Map<PdfBlockDataDto>(pbd);
+                    pdfBlockDataDto.PdfUrl = $"https://example.com/pdf-{random.NextInt64(100)}.pdf";
+                    updatedContentBlockDataElements.Add(pdfBlockDataDto);
                     break;
                 case SlideshowBlockData sbd:
-                    sbd.ImageUrls = new List<Url>
+                    SlideshowBlockDataDto slideshowBlockDataDto = mapper.Map<SlideshowBlockDataDto>(sbd);
+                    slideshowBlockDataDto.ImageUrls = new List<Url>
                     {
                         new($"https://example.com/slideshow-{random.NextInt64(100)}.png"),
                         new($"https://example.com/slideshow-{random.NextInt64(100)}.png"),
                         new($"https://example.com/slideshow-{random.NextInt64(100)}.png"),
                     };
+                    updatedContentBlockDataElements.Add(slideshowBlockDataDto);
                     break;
                 case TextBlockData tbd:
-                    tbd.Text = $"Updated Text {random.NextInt64(100)}";
+                    TextBlockDataDto textBlockDataDto = mapper.Map<TextBlockDataDto>(tbd);
+                    textBlockDataDto.Text = $"Updated Text {random.NextInt64(100)}";
+                    updatedContentBlockDataElements.Add(textBlockDataDto);
                     break;
                 case VideoBlockData vbd:
-                    vbd.VideoUrl = $"https://example.com/video-{random.NextInt64(100)}.mp4";
+                    VideoBlockDataDto videoBlockDataDto = mapper.Map<VideoBlockDataDto>(vbd);
+                    videoBlockDataDto.VideoUrl = $"https://example.com/video-{random.NextInt64(100)}.mp4";
+                    updatedContentBlockDataElements.Add(videoBlockDataDto);
                     break;
             }
         }
 
-        return contentBlockDataElements;
+        return updatedContentBlockDataElements;
     }
 }

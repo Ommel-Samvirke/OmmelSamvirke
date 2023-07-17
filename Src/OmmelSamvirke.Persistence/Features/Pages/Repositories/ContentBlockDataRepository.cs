@@ -21,6 +21,8 @@ public class ContentBlockDataRepository<T, TU> : IContentBlockDataRepository<T, 
     public async Task<List<IContentBlockData>> GetByPageIdAsync(int pageId, CancellationToken cancellationToken = default)
     {
         List<T> result = await _dbSet.AsNoTracking()
+            .Include(e => e.Page)
+            .Include(e => e.ContentBlock)
             .Where(e => e.Page != null && e.Page.Id == pageId)
             .ToListAsync(cancellationToken);
             

@@ -9,14 +9,14 @@ namespace OmmelSamvirke.Persistence.Features.Pages.Repositories;
 public class ContentBlockDataRepositoriesAggregate : IContentBlockDataRepositoriesAggregate
 {
     private readonly Dictionary<Type, object> _repositories;
-    private readonly List<Type> _contentBlockTypes = new()
+    private readonly List<Type> _contentBlockDataTypes = new()
     {
-        typeof(HeadlineBlock),
-        typeof(ImageBlock),
-        typeof(PdfBlock),
-        typeof(SlideshowBlock),
-        typeof(TextBlock),
-        typeof(VideoBlock),
+        typeof(HeadlineBlockData),
+        typeof(ImageBlockData),
+        typeof(PdfBlockData),
+        typeof(SlideshowBlockData),
+        typeof(TextBlockData),
+        typeof(VideoBlockData),
     };
     
     public ContentBlockDataRepositoriesAggregate(
@@ -42,17 +42,16 @@ public class ContentBlockDataRepositoriesAggregate : IContentBlockDataRepositori
     {
         List<IContentBlockData> resultList = new();
     
-        foreach (Type contentBlockType in _contentBlockTypes)
+        foreach (Type contentBlockType in _contentBlockDataTypes)
         {
             object repository = _repositories[contentBlockType];
+            
             MethodInfo? method = repository.GetType().GetMethod("GetByPageIdAsync");
             if (method == null) continue;
-        
-            MethodInfo generic = method.MakeGenericMethod(contentBlockType, contentBlockType.BaseType!.GenericTypeArguments[0]);
-            object? result = generic.Invoke(repository, new object[] {pageId, cancellationToken});
-            if (result is not Task task) continue;
             
+            Task task = (Task)method.Invoke(repository, new object[] { pageId, cancellationToken })!;
             await task.ConfigureAwait(false);
+
             PropertyInfo? resultProperty = task.GetType().GetProperty("Result");
             if (resultProperty == null) continue;
             

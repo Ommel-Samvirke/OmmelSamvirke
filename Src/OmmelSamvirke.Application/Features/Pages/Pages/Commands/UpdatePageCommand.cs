@@ -3,6 +3,7 @@ using MediatR;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Exceptions;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Commands.ContentBlockData;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces;
@@ -15,7 +16,7 @@ public class UpdatePageCommand : IRequest<PageQueryDto>
 {
     public PageQueryDto OriginalPage { get; set; } = new();
     public PageUpdateDto UpdatedPage { get; set; } = new();
-    public List<IContentBlockData> UpdatedContentBlockDataElements { get; set; } = new();
+    public List<IContentBlockDataDto> UpdatedContentBlockDataElements { get; set; } = new();
 }
 
 public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand, PageQueryDto>
@@ -49,23 +50,23 @@ public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand
         List<IContentBlockData> contentBlockDataOriginal =
             await _contentBlockDataRepositoriesAggregate.GetByPageIdAsync(request.UpdatedPage.Id, cancellationToken);
         
-        List<IContentBlockData> newContentBlockData = 
+        List<IContentBlockDataDto> newContentBlockData = _mapper.Map<List<IContentBlockDataDto>>(
             request.UpdatedContentBlockDataElements
-                .Where(updatedContentBlockData => contentBlockDataOriginal
-                .All(originalData => 
-                    updatedContentBlockData.BaseContentBlock != null &&
-                    originalData.BaseContentBlock != null &&
-                    originalData.BaseContentBlock.Id != updatedContentBlockData.BaseContentBlock.Id)).ToList();
+                    .Where(updatedContentBlockData => contentBlockDataOriginal
+                    .All(originalData =>
+                        originalData.BaseContentBlock != null &&
+                    originalData.BaseContentBlock.Id != updatedContentBlockData.BaseContentBlockId))
+                    .ToList()
+        );
         
         List<IContentBlockData> deletedContentBlocks = 
             contentBlockDataOriginal
                 .Where(originalContentBlockData => request.UpdatedContentBlockDataElements
                 .All(newData => 
                     originalContentBlockData.BaseContentBlock != null &&
-                    newData.BaseContentBlock != null &&
-                    newData.BaseContentBlock.Id != originalContentBlockData.BaseContentBlock.Id)).ToList();
+                    newData.BaseContentBlockId != originalContentBlockData.BaseContentBlock.Id)).ToList();
         
-        await _contentBlockDataRepositoriesAggregate.CreateAsync(newContentBlockData, cancellationToken);
+        await _contentBlockDataRepositoriesAggregate.CreateAsync(_mapper.Map<List<IContentBlockData>>(newContentBlockData), cancellationToken);
         await _contentBlockDataRepositoriesAggregate.DeleteAsync(deletedContentBlocks, cancellationToken);
         
         Page updatedPage = await _pageRepository.UpdateAsync(_mapper.Map<Page>(request.UpdatedPage), cancellationToken);
