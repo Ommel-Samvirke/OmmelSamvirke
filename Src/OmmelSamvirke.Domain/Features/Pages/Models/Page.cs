@@ -1,4 +1,5 @@
 ﻿using OmmelSamvirke.Domain.Common;
+using OmmelSamvirke.Domain.Features.Pages.Enums;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models;
 
@@ -24,4 +25,9 @@ public class Page : BaseModel
     /// The id of the community the page belongs to.
     /// </summary>
     public int CommunityId { get; set; }
+
+    /// <summary>
+    /// The visibility state of the page. Can be either visible or hidden.
+    /// </summary>
+    public PageState State { get; set; }
 }

@@ -4,6 +4,7 @@ using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 using OmmelSamvirke.Domain.Features.Communities.Interfaces.Repositories;
+using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
@@ -52,7 +53,8 @@ public class CreatePageFromTemplateCommandHandler : IRequestHandler<CreatePageFr
         {
             Name = request.PageName, 
             TemplateId = request.PageTemplateId,
-            CommunityId = request.CommunityId
+            CommunityId = request.CommunityId,
+            State = PageState.Hidden
         };
         Page createdPage = await _pageRepository.CreateAsync(page,cancellationToken);
 

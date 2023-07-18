@@ -75,29 +75,6 @@ namespace OmmelSamvirke.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Pages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    TemplateId = table.Column<int>(type: "int", nullable: false),
-                    CommunityId = table.Column<int>(type: "int", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pages_Communities_CommunityId",
-                        column: x => x.CommunityId,
-                        principalTable: "Communities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ContentBlocks",
                 columns: table => new
                 {
@@ -138,6 +115,36 @@ namespace OmmelSamvirke.Persistence.Migrations
                         column: x => x.PageTemplateId,
                         principalTable: "PageTemplates",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    TemplateId = table.Column<int>(type: "int", nullable: false),
+                    CommunityId = table.Column<int>(type: "int", nullable: false),
+                    State = table.Column<int>(type: "int", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateModified = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pages_Communities_CommunityId",
+                        column: x => x.CommunityId,
+                        principalTable: "Communities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Pages_PageTemplates_TemplateId",
+                        column: x => x.TemplateId,
+                        principalTable: "PageTemplates",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -360,6 +367,11 @@ namespace OmmelSamvirke.Persistence.Migrations
                 column: "CommunityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pages_TemplateId",
+                table: "Pages",
+                column: "TemplateId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PdfBlockData_ContentBlockId",
                 table: "PdfBlockData",
                 column: "ContentBlockId");
@@ -434,10 +446,10 @@ namespace OmmelSamvirke.Persistence.Migrations
                 name: "ContentBlockLayoutConfigurations");
 
             migrationBuilder.DropTable(
-                name: "PageTemplates");
+                name: "Communities");
 
             migrationBuilder.DropTable(
-                name: "Communities");
+                name: "PageTemplates");
         }
     }
 }

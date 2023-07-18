@@ -1,8 +1,11 @@
-﻿namespace OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
+﻿using OmmelSamvirke.Domain.Features.Pages.Enums;
+
+namespace OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
 
 public class PageUpdateDto
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public int PageTemplateId { get; set; }
+    public PageState State { get; set; }
 }

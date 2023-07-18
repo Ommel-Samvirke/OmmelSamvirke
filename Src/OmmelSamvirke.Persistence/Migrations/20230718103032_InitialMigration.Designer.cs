@@ -12,7 +12,7 @@ using OmmelSamvirke.Persistence.DatabaseContext;
 namespace OmmelSamvirke.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230717195618_InitialMigration")]
+    [Migration("20230718103032_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -395,12 +395,17 @@ namespace OmmelSamvirke.Persistence.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
                     b.Property<int>("TemplateId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CommunityId");
+
+                    b.HasIndex("TemplateId");
 
                     b.ToTable("Pages");
                 });
@@ -623,6 +628,12 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.HasOne("OmmelSamvirke.Domain.Features.Communities.Models.Community", null)
                         .WithMany("Pages")
                         .HasForeignKey("CommunityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.PageTemplate", null)
+                        .WithMany()
+                        .HasForeignKey("TemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
