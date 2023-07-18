@@ -1,4 +1,6 @@
 ﻿using System.Net;
+using Newtonsoft.Json;
+using OmmelSamvirke.API.Exceptions;
 using OmmelSamvirke.API.Middleware.Models;
 using OmmelSamvirke.Application.Exceptions;
 
@@ -19,53 +21,62 @@ public class ExceptionMiddleware
         {
             await _next(httpContext);
         }
-        catch (Exception ex)
+        catch (RequestException ex)
         {
-            await HandleExceptionAsync(httpContext, ex);
+            httpContext.Response.StatusCode = (int)ex.StatusCode;
+            httpContext.Response.ContentType = "application/json";
+
+            var response = new 
+            {
+                StatusCode = ex.StatusCode,
+                Message = ex.Message
+            };
+
+            await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(response));
         }
     }
     
-    private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
-    {
-        HttpStatusCode statusCode;
-        CustomProblemDetails problem;
-
-        switch (exception)
-        {
-            case BadRequestException badRequestException:
-                statusCode = HttpStatusCode.BadRequest;
-                problem = new CustomProblemDetails
-                {
-                    Title = badRequestException.Message,
-                    Status = (int)statusCode,
-                    Detail = badRequestException.InnerException?.Message,
-                    Type = nameof(BadRequestException),
-                    Errors = badRequestException.ValidationErrors
-                };
-                break;
-            case NotFoundException notFoundException:
-                statusCode = HttpStatusCode.NotFound;
-                problem = new CustomProblemDetails
-                {
-                    Title = notFoundException.Message,
-                    Status = (int)statusCode,
-                    Detail = notFoundException.InnerException?.Message,
-                    Type = nameof(NotFoundException)
-                };
-                break;
-            default:
-                statusCode = HttpStatusCode.InternalServerError;
-                problem = new CustomProblemDetails
-                {
-                    Title = exception.Message,
-                    Status = (int)statusCode,
-                    Detail = exception.StackTrace,
-                    Type = nameof(HttpStatusCode.InternalServerError)
-                };
-                break;
-        }
-
-        httpContext.Response.StatusCode = (int)statusCode;
-        await httpContext.Response.WriteAsJsonAsync(problem);
-    }
+    // private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
+    // {
+    //     HttpStatusCode statusCode;
+    //     CustomProblemDetails problem;
+    //
+    //     switch (exception)
+    //     {
+    //         case BadRequestException badRequestException:
+    //             statusCode = HttpStatusCode.BadRequest;
+    //             problem = new CustomProblemDetails
+    //             {
+    //                 Title = badRequestException.Message,
+    //                 Status = (int)statusCode,
+    //                 Detail = badRequestException.InnerException?.Message,
+    //                 Type = nameof(BadRequestException),
+    //                 Errors = badRequestException.ValidationErrors
+    //             };
+    //             break;
+    //         case NotFoundException notFoundException:
+    //             statusCode = HttpStatusCode.NotFound;
+    //             problem = new CustomProblemDetails
+    //             {
+    //                 Title = notFoundException.Message,
+    //                 Status = (int)statusCode,
+    //                 Detail = notFoundException.InnerException?.Message,
+    //                 Type = nameof(NotFoundException)
+    //             };
+    //             break;
+    //         default:
+    //             statusCode = HttpStatusCode.InternalServerError;
+    //             problem = new CustomProblemDetails
+    //             {
+    //                 Title = exception.Message,
+    //                 Status = (int)statusCode,
+    //                 Detail = exception.StackTrace,
+    //                 Type = nameof(HttpStatusCode.InternalServerError)
+    //             };
+    //             break;
+    //     }
+    //
+    //     httpContext.Response.StatusCode = (int)statusCode;
+    //     await httpContext.Response.WriteAsJsonAsync(problem);
+    // }
 }

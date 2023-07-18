@@ -133,7 +133,7 @@ public class PagesController : ControllerBase
         {
             PageId = id
         });
-        
+
         return isDeleted ? Ok() : StatusCode(StatusCodes.Status500InternalServerError);
     }
 }

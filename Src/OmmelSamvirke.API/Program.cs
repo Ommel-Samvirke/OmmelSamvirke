@@ -1,5 +1,7 @@
 using System.Reflection;
+using MediatR;
 using Microsoft.OpenApi.Models;
+using OmmelSamvirke.API.Behaviors;
 using OmmelSamvirke.API.Middleware;
 using OmmelSamvirke.Application;
 using OmmelSamvirke.Persistence;
@@ -21,6 +23,8 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ExceptionHandlingBehavior<,>));
+
 builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -37,15 +41,14 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<Program>();
 
 WebApplication app = builder.Build();
 
-app.UseMiddleware<SanitizationMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<SanitizationMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseDeveloperExceptionPage();
 
     app.Use(async (context, next) =>
     {
