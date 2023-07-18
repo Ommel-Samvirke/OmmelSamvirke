@@ -58,7 +58,7 @@ public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTe
             .WithMessage("Name cannot be longer than 225 characters")
             .MustAsync(NameMustBeUnique)
             .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("Name must be unique");
+            .WithMessage("Page Template Name must be unique");
         
         RuleFor(p => p.UpdatedPageTemplate.State)
             .IsInEnum()
@@ -68,7 +68,7 @@ public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTe
         RuleFor(p => p.UpdatedPageTemplate.ContentBlocks.Count)
             .GreaterThan(0)
             .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("Page template must have at least one content block");
+            .WithMessage("Page Template must have at least one content block");
     }
     
     private async Task<bool> PageTemplateMustExist(int pageTemplateId, CancellationToken cancellationToken)

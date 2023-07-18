@@ -23,7 +23,7 @@ public class CreatePageTemplateCommandValidator : AbstractValidator<CreatePageTe
             .WithMessage("Name cannot be longer than 200 characters")
             .MustAsync(NameMustBeUnique)
             .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("Name must be unique");
+            .WithMessage("Page Template Name must be unique");
         
         RuleFor(p => p.PageTemplateCreateDto.State)
             .IsInEnum()

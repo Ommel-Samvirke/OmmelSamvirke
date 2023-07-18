@@ -3,6 +3,7 @@ using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.Pages.Commands;
 using OmmelSamvirke.Domain.Features.Communities.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
+using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 
@@ -27,7 +28,10 @@ public class CreatePageFromTemplateCommandValidator : AbstractValidator<CreatePa
             .WithMessage("Name is required")
             .MaximumLength(200)
             .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("Name cannot be longer than 200 characters");
+            .WithMessage("Name cannot be longer than 200 characters")
+            .MustAsync((p, _, cancellationToken) => NameMustBeUnique(p.PageName, p.CommunityId, cancellationToken))
+            .WithErrorCode(ErrorCode.BadRequest)
+            .WithMessage("Page Name must be unique");
         
         RuleFor(p => p.CommunityId)
             .MustAsync(CommunityMustExist)
@@ -43,5 +47,11 @@ public class CreatePageFromTemplateCommandValidator : AbstractValidator<CreatePa
     private async Task<bool> CommunityMustExist(int communityId, CancellationToken cancellationToken)
     {
         return await _communityRepository.GetByIdAsync(communityId, cancellationToken) is not null;
+    }
+    
+    private async Task<bool> NameMustBeUnique(string name, int communityId, CancellationToken cancellationToken)
+    {
+        IReadOnlyList<Page> pages = await _communityRepository.GetPages(communityId);
+        return pages.All(p => p.Name != name);
     }
 }

@@ -6,6 +6,7 @@ using OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Commands.ContentBlockData;
 using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
+using OmmelSamvirke.Domain.Features.Communities.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
@@ -26,24 +27,27 @@ public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand
     private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
     private readonly IPageTemplateRepository _pageTemplateRepository;
+    private readonly ICommunityRepository _communityRepository;
     private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
 
     public SaveTemporaryPageCommandHandler(
         IMapper mapper,
         IPageRepository pageRepository,
         IPageTemplateRepository pageTemplateRepository,
+        ICommunityRepository communityRepository,
         IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
     )
     {
         _mapper = mapper;
         _pageRepository = pageRepository;
         _pageTemplateRepository = pageTemplateRepository;
+        _communityRepository = communityRepository;
         _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
     }
     
     public async Task<PageQueryDto> Handle(UpdatePageCommand request, CancellationToken cancellationToken)
     {
-        UpdatePageCommandValidator validator = new(_pageRepository, _pageTemplateRepository);
+        UpdatePageCommandValidator validator = new(_pageRepository, _pageTemplateRepository, _communityRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
         Page currentPage = (await _pageRepository.GetByIdAsync(request.OriginalPage.Id, cancellationToken))!;

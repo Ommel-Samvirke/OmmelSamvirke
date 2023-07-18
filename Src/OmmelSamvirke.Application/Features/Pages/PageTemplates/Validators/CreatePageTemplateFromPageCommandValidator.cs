@@ -44,7 +44,7 @@ public class CreatePageTemplateFromPageCommandValidator : AbstractValidator<Crea
             .WithMessage("Page name cannot be longer than 200 characters")
             .MustAsync(NameMustBeUnique)
             .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("Page name must be unique");
+            .WithMessage("Page Template name must be unique");
     }
     
     private async Task<bool> PageMustExist(int pageId, CancellationToken cancellationToken)
