@@ -11,14 +11,17 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 public class CreatePageTemplateFromPageCommandValidator : AbstractValidator<CreatePageTemplateFromPageCommand>
 {
     private readonly IPageRepository _pageRepository;
+    private readonly IPageTemplateRepository _pageTemplateRepository;
     private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
 
     public CreatePageTemplateFromPageCommandValidator(
         IPageRepository pageRepository,
+        IPageTemplateRepository pageTemplateRepository,
         IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
     )
     {
         _pageRepository = pageRepository;
+        _pageTemplateRepository = pageTemplateRepository;
         _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
 
         RuleFor(p => p.PageUpdateDto.Id)
@@ -36,9 +39,12 @@ public class CreatePageTemplateFromPageCommandValidator : AbstractValidator<Crea
             .NotEmpty()
             .WithErrorCode(ErrorCode.BadRequest)
             .WithMessage("Page name must be set")
-            .MaximumLength(190)
+            .MaximumLength(200)
             .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("Page name must be less than 190 characters so '-template' can be added to Page Template name");
+            .WithMessage("Page name cannot be longer than 200 characters")
+            .MustAsync(NameMustBeUnique)
+            .WithErrorCode(ErrorCode.BadRequest)
+            .WithMessage("Page name must be unique");
     }
     
     private async Task<bool> PageMustExist(int pageId, CancellationToken cancellationToken)
@@ -62,5 +68,11 @@ public class CreatePageTemplateFromPageCommandValidator : AbstractValidator<Crea
             .ToList()!;
 
         return ContentBlock.AreAnyBlocksOverlapping(contentBlocks);
+    }
+    
+    private async Task<bool> NameMustBeUnique(string name, CancellationToken cancellationToken)
+    {
+        IReadOnlyList<PageTemplate> pageTemplates = await _pageTemplateRepository.GetAsync(cancellationToken);
+        return pageTemplates.All(p => p.Name != $"{name}-template");
     }
 }

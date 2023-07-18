@@ -3,6 +3,7 @@ using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
+using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
@@ -54,7 +55,10 @@ public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTe
             .WithMessage("Name is required")
             .MaximumLength(225)
             .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("Name cannot be longer than 225 characters");
+            .WithMessage("Name cannot be longer than 225 characters")
+            .MustAsync(NameMustBeUnique)
+            .WithErrorCode(ErrorCode.BadRequest)
+            .WithMessage("Name must be unique");
         
         RuleFor(p => p.UpdatedPageTemplate.State)
             .IsInEnum()
@@ -81,5 +85,11 @@ public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTe
             .ToList()!;
 
         return ContentBlock.AreAnyBlocksOverlapping(contentBlocks);
+    }
+    
+    private async Task<bool> NameMustBeUnique(string name, CancellationToken cancellationToken)
+    {
+        IReadOnlyList<PageTemplate> pageTemplates = await _pageTemplateRepository.GetAsync(cancellationToken);
+        return pageTemplates.All(p => p.Name != name);
     }
 }
