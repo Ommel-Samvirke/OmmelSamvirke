@@ -17,9 +17,9 @@ namespace OmmelSamvirke.Application.Features.Pages.Pages.Commands;
 
 public class UpdatePageCommand : IRequest<PageQueryDto>
 {
-    public PageQueryDto OriginalPage { get; set; } = new();
-    public PageUpdateDto UpdatedPage { get; set; } = new();
-    public List<IContentBlockDataDto> UpdatedContentBlockDataElements { get; set; } = new();
+    public PageQueryDto OriginalPage { get; init; } = new();
+    public PageUpdateDto UpdatedPage { get; init; } = new();
+    public List<IContentBlockDataDto> UpdatedContentBlockDataElements { get; init; } = new();
 }
 
 public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand, PageQueryDto>

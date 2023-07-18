@@ -14,7 +14,7 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 
 public class CreatePageTemplateFromPageCommand : IRequest<PageTemplateQueryDto>
 {
-    public PageUpdateDto PageUpdateDto { get; set; } = new();
+    public PageUpdateDto PageUpdateDto { get; init; } = new();
 }
 
 public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePageTemplateFromPageCommand, PageTemplateQueryDto>
