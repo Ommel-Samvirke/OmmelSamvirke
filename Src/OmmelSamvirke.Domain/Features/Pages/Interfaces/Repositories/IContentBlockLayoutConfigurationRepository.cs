@@ -5,5 +5,6 @@ namespace OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 
 public interface IContentBlockLayoutConfigurationRepository : IGenericRepository<ContentBlockLayoutConfiguration>
 {
-    
+    Task<bool> DeleteAsync(List<ContentBlockLayoutConfiguration?> contentBlocks,
+        CancellationToken cancellationToken = default);
 }

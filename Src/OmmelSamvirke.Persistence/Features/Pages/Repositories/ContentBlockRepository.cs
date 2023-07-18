@@ -9,10 +9,12 @@ namespace OmmelSamvirke.Persistence.Features.Pages.Repositories;
 public class ContentBlockRepository : GenericRepository<ContentBlock>, IContentBlockRepository
 {
     private readonly AppDbContext _dbContext;
+    private readonly IContentBlockLayoutConfigurationRepository _configurationRepository;
 
-    public ContentBlockRepository(AppDbContext dbDbContext) : base(dbDbContext)
+    public ContentBlockRepository(AppDbContext dbDbContext, IContentBlockLayoutConfigurationRepository configurationRepository) : base(dbDbContext)
     {
         _dbContext = dbDbContext;
+        _configurationRepository = configurationRepository;
     }
 
     public async Task<List<ContentBlock>> CreateAsync(List<ContentBlock> contentBlocks, CancellationToken cancellationToken = default)
@@ -29,6 +31,10 @@ public class ContentBlockRepository : GenericRepository<ContentBlock>, IContentB
     {
         try
         {
+            await _configurationRepository.DeleteAsync(contentBlocks.Select(p => p.DesktopConfiguration).ToList(), cancellationToken);
+            await _configurationRepository.DeleteAsync(contentBlocks.Select(p => p.TabletConfiguration).ToList(), cancellationToken);
+            await _configurationRepository.DeleteAsync(contentBlocks.Select(p => p.MobileConfiguration).ToList(), cancellationToken);
+            
             DbSet.RemoveRange(contentBlocks);
             foreach (ContentBlock entity in contentBlocks) 
                 DbSet.Entry(entity).State = EntityState.Deleted;

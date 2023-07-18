@@ -25,7 +25,6 @@ public class PageTemplateRepository : GenericRepository<PageTemplate>, IPageTemp
             .Include(x => x.ContentBlocks)
             .ThenInclude(x => x.MobileConfiguration)
             .Where(x => x.Id == id)
-            .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
     }
 }

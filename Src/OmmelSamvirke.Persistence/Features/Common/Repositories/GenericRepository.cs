@@ -44,16 +44,9 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 
     public async Task<bool> DeleteAsync(T entity, CancellationToken cancellationToken = default)
     {
-        try
-        {
-            DbDbContext.ChangeTracker.Clear();
-            DbDbContext.Remove(entity);
-            DbDbContext.Entry(entity).State = EntityState.Deleted;
-            await DbDbContext.SaveChangesAsync(cancellationToken);
-            return true;
-        } catch (Exception)
-        {
-            return false;
-        }
+        DbDbContext.Remove(entity);
+        DbDbContext.Entry(entity).State = EntityState.Deleted;
+        await DbDbContext.SaveChangesAsync(cancellationToken);
+        return true;
     }
 }

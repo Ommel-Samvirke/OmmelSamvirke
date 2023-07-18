@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using JetBrains.Annotations;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
+using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Application.Features.Pages.DTOs.Commands.Converters;
@@ -10,7 +12,7 @@ public class ContentBlockCreateDtoToContentBlockConverter : ITypeConverter<Conte
 {
     public ContentBlock Convert(ContentBlockCreateDto source, ContentBlock destination, ResolutionContext context)
     {
-        return source.ContentBlockType switch
+        ContentBlock contentBlock = source.ContentBlockType switch
         {
             ContentBlockType.HeadlineBlock => context.Mapper.Map<HeadlineBlock>(source),
             ContentBlockType.ImageBlock => context.Mapper.Map<ImageBlock>(source),
@@ -20,5 +22,11 @@ public class ContentBlockCreateDtoToContentBlockConverter : ITypeConverter<Conte
             ContentBlockType.VideoBlock => context.Mapper.Map<VideoBlock>(source),
             _ => throw new ArgumentException("Invalid ContentBlock type")
         };
+        
+        contentBlock.DesktopConfiguration = context.Mapper.Map<ContentBlockLayoutConfiguration>(source.DesktopConfiguration);
+        contentBlock.TabletConfiguration = context.Mapper.Map<ContentBlockLayoutConfiguration>(source.TabletConfiguration);
+        contentBlock.MobileConfiguration = context.Mapper.Map<ContentBlockLayoutConfiguration>(source.MobileConfiguration);
+        
+        return contentBlock;
     }
 }
