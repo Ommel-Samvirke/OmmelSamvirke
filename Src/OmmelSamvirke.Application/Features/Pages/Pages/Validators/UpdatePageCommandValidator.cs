@@ -71,7 +71,7 @@ public class UpdatePageCommandValidator : AbstractValidator<UpdatePageCommand>
     private async Task<bool> NameMustBeUnique(string name, int pageId, CancellationToken cancellationToken)
     {
         Page originalPage = (await _pageRepository.GetByIdAsync(pageId, cancellationToken))!;
-        IReadOnlyList<Page> pages = await _communityRepository.GetPages(originalPage.CommunityId);
+        IReadOnlyList<Page> pages = await _communityRepository.GetPages(originalPage.CommunityId, cancellationToken);
         return pages.All(p => p.Name != name);
     }
 }

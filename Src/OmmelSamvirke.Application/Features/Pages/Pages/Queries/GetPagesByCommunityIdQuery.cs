@@ -32,7 +32,7 @@ public class GetPagesByCommunityIdQueryHandler : IRequestHandler<GetPagesByCommu
         GetPagesByCommunityIdQueryValidator validator = new(_communityRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
 
-        List<Page> pages = await _communityRepository.GetPages(request.CommunityId);
+        List<Page> pages = await _communityRepository.GetPages(request.CommunityId, cancellationToken);
         return _mapper.Map<List<PageQueryDto>>(pages);
     }
 }

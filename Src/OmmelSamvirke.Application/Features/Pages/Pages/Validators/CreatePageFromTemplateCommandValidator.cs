@@ -51,7 +51,7 @@ public class CreatePageFromTemplateCommandValidator : AbstractValidator<CreatePa
     
     private async Task<bool> NameMustBeUnique(string name, int communityId, CancellationToken cancellationToken)
     {
-        IReadOnlyList<Page> pages = await _communityRepository.GetPages(communityId);
+        IReadOnlyList<Page> pages = await _communityRepository.GetPages(communityId, cancellationToken);
         return pages.All(p => p.Name != name);
     }
 }

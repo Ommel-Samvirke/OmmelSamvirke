@@ -33,7 +33,7 @@ public class GetPreviousPageQueryHandler : IRequestHandler<GetPreviousPageQuery,
         GetPreviousPageQueryValidator validator = new(_communityRepository, _pageRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
 
-        Page page = await _communityRepository.GetPreviousPage(request.CommunityId, request.CurrentPageId);
+        Page page = await _communityRepository.GetPreviousPage(request.CommunityId, request.CurrentPageId, cancellationToken);
         return _mapper.Map<PageQueryDto>(page);
     }
 }

@@ -16,9 +16,9 @@ public class CommunityRepository : GenericRepository<Community>, ICommunityRepos
         _dbSet = dbContext.Set<Community>();
     }
 
-    public async Task<Page> GetNextPage(int communityId, int currentPageId)
+    public async Task<Page> GetNextPage(int communityId, int currentPageId, CancellationToken cancellationToken = default)
     {
-        Community community = await GetCommunityWithPages(communityId);
+        Community community = await GetCommunityWithPages(communityId, cancellationToken);
         List<Page> sortedPages = OrderPagesById(community);
 
         int currentPageIndex = GetPageIndex(currentPageId, sortedPages, "Current page not found");
@@ -26,9 +26,9 @@ public class CommunityRepository : GenericRepository<Community>, ICommunityRepos
         return currentPageIndex == sortedPages.Count - 1 ? sortedPages[0] : sortedPages[currentPageIndex + 1];
     }
 
-    public async Task<Page> GetPreviousPage(int communityId, int currentPageId)
+    public async Task<Page> GetPreviousPage(int communityId, int currentPageId, CancellationToken cancellationToken = default)
     {
-        Community community = await GetCommunityWithPages(communityId);
+        Community community = await GetCommunityWithPages(communityId, cancellationToken);
         List<Page> sortedPages = OrderPagesById(community);
 
         int currentPageIndex = GetPageIndex(currentPageId, sortedPages, "Current page not found");
@@ -36,16 +36,19 @@ public class CommunityRepository : GenericRepository<Community>, ICommunityRepos
         return currentPageIndex == 0 ? sortedPages[^1] : sortedPages[currentPageIndex - 1];
     }
 
-    public async Task<List<Page>> GetPages(int communityId)
+    public async Task<List<Page>> GetPages(int communityId, CancellationToken cancellationToken = default)
     {
-        Community community = await GetCommunityWithPages(communityId);
+        Community community = await GetCommunityWithPages(communityId, cancellationToken);
         
         return OrderPagesById(community);
     }
 
-    private async Task<Community> GetCommunityWithPages(int communityId)
+    private async Task<Community> GetCommunityWithPages(int communityId, CancellationToken cancellationToken = default)
     {
-        Community? community = await _dbSet.Include(e => e.Pages).FirstOrDefaultAsync(e => e.Id == communityId);
+        Community? community = await _dbSet.Include(e => e.Pages).FirstOrDefaultAsync(e => 
+            e.Id == communityId,
+            cancellationToken
+        );
 
         if (community?.Pages is null)
         {
@@ -55,12 +58,12 @@ public class CommunityRepository : GenericRepository<Community>, ICommunityRepos
         return community;
     }
 
-    private List<Page> OrderPagesById(Community community)
+    private static List<Page> OrderPagesById(Community community)
     {
         return community.Pages.OrderBy(p => p.Id).ToList();
     }
 
-    private int GetPageIndex(int pageId, List<Page> pages, string errorMessage)
+    private static int GetPageIndex(int pageId, List<Page> pages, string errorMessage)
     {
         int pageIndex = pages.FindIndex(p => p.Id == pageId);
 
