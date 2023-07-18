@@ -23,23 +23,26 @@ public class UpdatePageTemplateCommandHandler : IRequestHandler<UpdatePageTempla
     private readonly IPageTemplateRepository _pageTemplateRepository;
     private readonly IContentBlockRepository _contentBlockRepository;
     private readonly IContentBlockLayoutConfigurationRepository _contentBlockLayoutConfigurationRepository;
+    private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
 
     public UpdatePageTemplateCommandHandler(
         IMapper mapper,
         IPageTemplateRepository pageTemplateRepository,
         IContentBlockRepository contentBlockRepository,
-        IContentBlockLayoutConfigurationRepository contentBlockLayoutConfigurationRepository
+        IContentBlockLayoutConfigurationRepository contentBlockLayoutConfigurationRepository,
+        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
     )
     {
         _mapper = mapper;
         _pageTemplateRepository = pageTemplateRepository;
         _contentBlockRepository = contentBlockRepository;
         _contentBlockLayoutConfigurationRepository = contentBlockLayoutConfigurationRepository;
+        _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
     }
     
     public async Task<PageTemplateQueryDto> Handle(UpdatePageTemplateCommand request, CancellationToken cancellationToken)
     {
-        UpdatePageTemplateCommandValidator validator = new(_pageTemplateRepository);
+        UpdatePageTemplateCommandValidator validator = new(_pageTemplateRepository, _contentBlockDataRepositoriesAggregate);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
         PageTemplate currentPageTemplate = (await _pageTemplateRepository.GetByIdAsyncWithNavigationProps(

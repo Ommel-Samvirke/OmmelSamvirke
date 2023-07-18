@@ -4,6 +4,7 @@ using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
+using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 
@@ -26,7 +27,10 @@ public class CreatePageTemplateFromPageCommandValidator : AbstractValidator<Crea
             .WithMessage("Page does not exist")
             .MustAsync(ContentBlocksMustExist)
             .WithErrorCode(ErrorCode.BadRequest)
-            .WithMessage("Page does not have any content blocks");
+            .WithMessage("Page does not have any content blocks")
+            .MustAsync(ContentBlocksMustNotOverlap)
+            .WithErrorCode(ErrorCode.BadRequest)
+            .WithMessage("Page content blocks must not overlap");
         
         RuleFor(p => p.PageUpdateDto.Name)
             .NotEmpty()
@@ -47,5 +51,16 @@ public class CreatePageTemplateFromPageCommandValidator : AbstractValidator<Crea
     {
         List<IContentBlockData> contentBlockData = await _contentBlockDataRepositoriesAggregate.GetByPageIdAsync(pageId, cancellationToken);
         return contentBlockData.Where(c => c.BaseContentBlock is not null).ToList().Count > 0;
+    }
+
+    private async Task<bool> ContentBlocksMustNotOverlap(int pageId, CancellationToken cancellationToken)
+    {
+        List<IContentBlockData> contentBlockData = await _contentBlockDataRepositoriesAggregate.GetByPageIdAsync(pageId, cancellationToken);
+        List<ContentBlock> contentBlocks = contentBlockData
+            .Select(c => c.BaseContentBlock)
+            .Where(c => c is not null)
+            .ToList()!;
+
+        return ContentBlock.AreAnyBlocksOverlapping(contentBlocks);
     }
 }
