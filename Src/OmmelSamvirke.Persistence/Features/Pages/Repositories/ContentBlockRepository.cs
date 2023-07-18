@@ -31,13 +31,13 @@ public class ContentBlockRepository : GenericRepository<ContentBlock>, IContentB
     {
         try
         {
-            await _configurationRepository.DeleteAsync(contentBlocks.Select(p => p.DesktopConfiguration).ToList(), cancellationToken);
-            await _configurationRepository.DeleteAsync(contentBlocks.Select(p => p.TabletConfiguration).ToList(), cancellationToken);
-            await _configurationRepository.DeleteAsync(contentBlocks.Select(p => p.MobileConfiguration).ToList(), cancellationToken);
-            
             DbSet.RemoveRange(contentBlocks);
             foreach (ContentBlock entity in contentBlocks) 
                 DbSet.Entry(entity).State = EntityState.Deleted;
+            
+            await _configurationRepository.DeleteAsync(contentBlocks.Select(p => p.DesktopConfiguration).ToList(), cancellationToken);
+            await _configurationRepository.DeleteAsync(contentBlocks.Select(p => p.TabletConfiguration).ToList(), cancellationToken);
+            await _configurationRepository.DeleteAsync(contentBlocks.Select(p => p.MobileConfiguration).ToList(), cancellationToken);
             
             await DbDbContext.SaveChangesAsync(cancellationToken);
             return true;
