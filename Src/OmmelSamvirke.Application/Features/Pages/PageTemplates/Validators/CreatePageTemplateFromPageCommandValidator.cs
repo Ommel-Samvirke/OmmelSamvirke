@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using OmmelSamvirke.Application.Errors;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
-using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
@@ -12,17 +11,17 @@ public class CreatePageTemplateFromPageCommandValidator : AbstractValidator<Crea
 {
     private readonly IPageRepository _pageRepository;
     private readonly IPageTemplateRepository _pageTemplateRepository;
-    private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
+    private readonly IContentBlockRepository _contentBlockRepository;
 
     public CreatePageTemplateFromPageCommandValidator(
         IPageRepository pageRepository,
         IPageTemplateRepository pageTemplateRepository,
-        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
+        IContentBlockRepository contentBlockRepository
     )
     {
         _pageRepository = pageRepository;
         _pageTemplateRepository = pageTemplateRepository;
-        _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
+        _contentBlockRepository = contentBlockRepository;
 
         RuleFor(p => p.PageUpdateDto.Id)
             .MustAsync(PageMustExist)
@@ -53,20 +52,15 @@ public class CreatePageTemplateFromPageCommandValidator : AbstractValidator<Crea
         return page is not null;
     }
     
-    private async Task<bool> ContentBlocksMustExist(int pageId, CancellationToken cancellationToken)
+    private async Task<bool> ContentBlocksMustExist(int pageTemplateId, CancellationToken cancellationToken)
     {
-        List<IContentBlockData> contentBlockData = await _contentBlockDataRepositoriesAggregate.GetByPageIdAsync(pageId, cancellationToken);
-        return contentBlockData.Where(c => c.BaseContentBlock is not null).ToList().Count > 0;
+        List<ContentBlock> contentBlocks = await _contentBlockRepository.GetByPageTemplateIdAsync(pageTemplateId, cancellationToken);
+        return contentBlocks.Count > 0;
     }
 
-    private async Task<bool> ContentBlocksMustNotOverlap(int pageId, CancellationToken cancellationToken)
+    private async Task<bool> ContentBlocksMustNotOverlap(int pageTemplateId, CancellationToken cancellationToken)
     {
-        List<IContentBlockData> contentBlockData = await _contentBlockDataRepositoriesAggregate.GetByPageIdAsync(pageId, cancellationToken);
-        List<ContentBlock> contentBlocks = contentBlockData
-            .Select(c => c.BaseContentBlock)
-            .Where(c => c is not null)
-            .ToList()!;
-
+        List<ContentBlock> contentBlocks = await _contentBlockRepository.GetByPageTemplateIdAsync(pageTemplateId, cancellationToken);
         return ContentBlock.AreAnyBlocksOverlapping(contentBlocks);
     }
     

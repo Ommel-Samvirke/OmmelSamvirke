@@ -51,6 +51,8 @@ public abstract class ContentBlock : BaseModel
             .Where(config => config != null)
             .ToList();
 
+        if (configs.Count <= 1) return true;
+
         for (int i = 0; i < configs.Count; i++)
         {
             for (int j = i + 1; j < configs.Count; j++)

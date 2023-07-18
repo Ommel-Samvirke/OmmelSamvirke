@@ -23,7 +23,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 
     public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        return await DbSet.AsNoTracking().FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
+        return await DbSet.FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
     }
 
     public async Task<T> CreateAsync(T entity, CancellationToken cancellationToken = default)

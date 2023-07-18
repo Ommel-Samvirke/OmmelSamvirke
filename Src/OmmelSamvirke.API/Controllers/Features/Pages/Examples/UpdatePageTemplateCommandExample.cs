@@ -12,7 +12,6 @@ namespace OmmelSamvirke.API.Controllers.Features.Pages.Examples;
 public class UpdatePageTemplateCommandExample : IExamplesProvider<UpdatePageTemplateCommand>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private const int PageTemplateId = 1;
 
     public UpdatePageTemplateCommandExample(IServiceScopeFactory serviceScopeFactory)
     {
@@ -27,14 +26,18 @@ public class UpdatePageTemplateCommandExample : IExamplesProvider<UpdatePageTemp
         IPageTemplateRepository pageTemplateRepository = scope.ServiceProvider.GetRequiredService<IPageTemplateRepository>();
         
         Random random = new();
-        PageTemplate? pageTemplate = Task.Run(() => pageTemplateRepository.GetByIdAsyncWithNavigationProps(PageTemplateId)).Result;
-        if (pageTemplate is null)
+        PageTemplate? firstPageTemplate = Task.Run(() => pageTemplateRepository.GetAsync()).Result.FirstOrDefault();
+
+        if (firstPageTemplate is null)
             return null!;
+        
+        PageTemplate pageTemplate = Task.Run(() => 
+            pageTemplateRepository.GetByIdAsyncWithNavigationProps(firstPageTemplate.Id)).Result!;
 
         PageTemplateQueryDto originalPageTemplate = mapper.Map<PageTemplateQueryDto>(pageTemplate);
         PageTemplateUpdateDto updatedPageTemplate = new()
         {
-            Id = PageTemplateId,
+            Id = pageTemplate.Id,
             Name = $"Updated Page Template {random.NextInt64(100)}",
             State = PageTemplateState.Public,
             ContentBlocks = new List<ContentBlockCreateDto>

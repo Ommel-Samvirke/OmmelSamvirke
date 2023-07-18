@@ -1,7 +1,8 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using OmmelSamvirke.Application.Errors;
+using OmmelSamvirke.Application.Features.Pages.DTOs.Commands;
 using OmmelSamvirke.Application.Features.Pages.PageTemplates.Commands;
-using OmmelSamvirke.Domain.Features.Pages.Interfaces;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
@@ -10,21 +11,30 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 
 public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTemplateCommand>
 {
+    private readonly IMapper _mapper;
     private readonly IPageTemplateRepository _pageTemplateRepository;
-    private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
+    private readonly IContentBlockRepository _contentBlockRepository;
+    private readonly IPageRepository _pageRepository;
 
     public UpdatePageTemplateCommandValidator(
+        IMapper mapper,
         IPageTemplateRepository pageTemplateRepository,
-        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
+        IContentBlockRepository contentBlockRepository,
+        IPageRepository pageRepository
     )
     {
+        _mapper = mapper;
         _pageTemplateRepository = pageTemplateRepository;
-        _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
+        _contentBlockRepository = contentBlockRepository;
+        _pageRepository = pageRepository;
 
         RuleFor(p => p.OriginalPageTemplate.Id)
             .MustAsync(PageTemplateMustExist)
             .WithErrorCode(ErrorCode.ResourceNotFound)
-            .WithMessage("Page template does not exist");
+            .WithMessage("Page template does not exist")
+            .MustAsync((p, _, cancellationToken) => PageTemplateMustNotUpdateContentBlocksIfInUse(p, cancellationToken))
+            .WithErrorCode(ErrorCode.ResourceInUse)
+            .WithMessage("The ContentBlocks of the PageTemplate cannot be updated, because the PageTemplate is in use");
         
         RuleFor(p => p.OriginalPageTemplate.Name)
             .NotEmpty()
@@ -76,14 +86,9 @@ public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTe
         return await _pageTemplateRepository.GetByIdAsync(pageTemplateId, cancellationToken) is not null;
     }
     
-    private async Task<bool> ContentBlocksMustNotOverlap(int pageId, CancellationToken cancellationToken)
+    private async Task<bool> ContentBlocksMustNotOverlap(int pageTemplateId, CancellationToken cancellationToken)
     {
-        List<IContentBlockData> contentBlockData = await _contentBlockDataRepositoriesAggregate.GetByPageIdAsync(pageId, cancellationToken);
-        List<ContentBlock> contentBlocks = contentBlockData
-            .Select(c => c.BaseContentBlock)
-            .Where(c => c is not null)
-            .ToList()!;
-
+        List<ContentBlock> contentBlocks = await _contentBlockRepository.GetByPageTemplateIdAsync(pageTemplateId, cancellationToken);
         return ContentBlock.AreAnyBlocksOverlapping(contentBlocks);
     }
     
@@ -91,5 +96,26 @@ public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTe
     {
         IReadOnlyList<PageTemplate> pageTemplates = await _pageTemplateRepository.GetAsync(cancellationToken);
         return pageTemplates.All(p => p.Name != name);
+    }
+    
+    private async Task<bool> PageTemplateMustNotUpdateContentBlocksIfInUse(UpdatePageTemplateCommand command, CancellationToken cancellationToken)
+    {
+        List<ContentBlockCreateDto> originalContentBlocks =
+            _mapper.Map<List<ContentBlockCreateDto>>(command.OriginalPageTemplate.ContentBlocks);
+        List<ContentBlockCreateDto> updatedContentBlocks = command.UpdatedPageTemplate.ContentBlocks;
+
+        bool isOriginalSubsetOfUpdated = !originalContentBlocks.Select(item => item.Id)
+            .Except(updatedContentBlocks.Select(item => item.Id)).Any();
+
+        bool isUpdatedSubsetOfOriginal = !updatedContentBlocks.Select(item => item.Id)
+            .Except(originalContentBlocks.Select(item => item.Id)).Any();
+
+        bool contentBlocksAreEqual = isOriginalSubsetOfUpdated && isUpdatedSubsetOfOriginal;
+
+        if (contentBlocksAreEqual)
+            return true;
+
+        IReadOnlyList<Page> pages = await _pageRepository.GetAsync(cancellationToken);
+        return pages.All(p => p.TemplateId != command.OriginalPageTemplate.Id);
     }
 }

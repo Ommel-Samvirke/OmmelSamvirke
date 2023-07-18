@@ -22,7 +22,7 @@ public class UpdatePageCommand : IRequest<PageQueryDto>
     public List<IContentBlockDataDto> UpdatedContentBlockDataElements { get; init; } = new();
 }
 
-public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand, PageQueryDto>
+public class UpdatePageCommandHandler : IRequestHandler<UpdatePageCommand, PageQueryDto>
 {
     private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
@@ -30,7 +30,7 @@ public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand
     private readonly ICommunityRepository _communityRepository;
     private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
 
-    public SaveTemporaryPageCommandHandler(
+    public UpdatePageCommandHandler(
         IMapper mapper,
         IPageRepository pageRepository,
         IPageTemplateRepository pageTemplateRepository,
@@ -62,10 +62,10 @@ public class SaveTemporaryPageCommandHandler : IRequestHandler<UpdatePageCommand
 
         await _contentBlockDataRepositoriesAggregate.UpdateAsync(updatedContentBlockData, cancellationToken);
         
-        Page pageToBeUpdated = _mapper.Map<Page>(request.UpdatedPage);
-        pageToBeUpdated.CommunityId = currentPage.CommunityId;
-        pageToBeUpdated.TemplateId = currentPage.TemplateId;
-        Page updatedPage = await _pageRepository.UpdateAsync(pageToBeUpdated, cancellationToken);
+        currentPage.Name = request.UpdatedPage.Name;
+        currentPage.State = request.UpdatedPage.State;
+        
+        Page updatedPage = await _pageRepository.UpdateAsync(currentPage, cancellationToken);
         return _mapper.Map<PageQueryDto>(updatedPage);
     }
 

@@ -15,7 +15,6 @@ namespace OmmelSamvirke.API.Controllers.Features.Pages.Examples;
 public class UpdatePageCommandExample : IExamplesProvider<UpdatePageCommand>
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private const int PageId = 1;
 
     public UpdatePageCommandExample(IServiceScopeFactory serviceScopeFactory)
     {
@@ -31,14 +30,17 @@ public class UpdatePageCommandExample : IExamplesProvider<UpdatePageCommand>
         IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate = 
             scope.ServiceProvider.GetRequiredService<IContentBlockDataRepositoriesAggregate>();
         
-        Page? page = Task.Run(() => pageRepository.GetByIdAsync(PageId)).Result;
+        Page? firstPage = Task.Run(() => pageRepository.GetAsync()).Result.FirstOrDefault();
         
-        PageQueryDto originalPage = GetOriginalPage(mapper, page);
-        PageUpdateDto updatedPage = CreateUpdatedPage(page);
+        if (firstPage is null)
+            return null!;
+        
+        PageQueryDto originalPage = GetOriginalPage(mapper, firstPage);
+        PageUpdateDto updatedPage = CreateUpdatedPage(firstPage);
         List<IContentBlockDataDto> updatedContentBlockDataElements = CreateUpdatedContentBlockDataElements(
             mapper,
             contentBlockDataRepositoriesAggregate,
-            page
+            firstPage
         );
 
         return new UpdatePageCommand
@@ -63,7 +65,7 @@ public class UpdatePageCommandExample : IExamplesProvider<UpdatePageCommand>
 
         return new PageUpdateDto
         {
-            Id = PageId,
+            Id = page.Id,
             Name = $"Updated Page {random.NextInt64(100)}",
             PageTemplateId = page.TemplateId,
         };

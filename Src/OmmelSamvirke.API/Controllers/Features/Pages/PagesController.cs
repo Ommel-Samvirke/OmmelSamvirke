@@ -60,7 +60,7 @@ public class PagesController : ControllerBase
     [HttpGet("GetNext")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> GetNextPage(GetNextPageQuery getNextPageQuery)
+    public async Task<ActionResult> GetNextPage([FromQuery] GetNextPageQuery getNextPageQuery)
     {
         PageQueryDto page = await _mediator.Send(getNextPageQuery);
         return Ok(page);
@@ -72,7 +72,7 @@ public class PagesController : ControllerBase
     [HttpGet("GetPrevious")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> GetPreviousPage(GetPreviousPageQuery getPreviousPageQuery)
+    public async Task<ActionResult> GetPreviousPage([FromQuery] GetPreviousPageQuery getPreviousPageQuery)
     {
         PageQueryDto page = await _mediator.Send(getPreviousPageQuery);
         return Ok(page);

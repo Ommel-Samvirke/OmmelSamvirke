@@ -21,28 +21,28 @@ public class UpdatePageTemplateCommandHandler : IRequestHandler<UpdatePageTempla
 {
     private readonly IMapper _mapper;
     private readonly IPageTemplateRepository _pageTemplateRepository;
+    private readonly IPageRepository _pageRepository;
     private readonly IContentBlockRepository _contentBlockRepository;
     private readonly IContentBlockLayoutConfigurationRepository _contentBlockLayoutConfigurationRepository;
-    private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
 
     public UpdatePageTemplateCommandHandler(
         IMapper mapper,
         IPageTemplateRepository pageTemplateRepository,
+        IPageRepository pageRepository,
         IContentBlockRepository contentBlockRepository,
-        IContentBlockLayoutConfigurationRepository contentBlockLayoutConfigurationRepository,
-        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
+        IContentBlockLayoutConfigurationRepository contentBlockLayoutConfigurationRepository
     )
     {
         _mapper = mapper;
         _pageTemplateRepository = pageTemplateRepository;
+        _pageRepository = pageRepository;
         _contentBlockRepository = contentBlockRepository;
         _contentBlockLayoutConfigurationRepository = contentBlockLayoutConfigurationRepository;
-        _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
     }
     
     public async Task<PageTemplateQueryDto> Handle(UpdatePageTemplateCommand request, CancellationToken cancellationToken)
     {
-        UpdatePageTemplateCommandValidator validator = new(_pageTemplateRepository, _contentBlockDataRepositoriesAggregate);
+        UpdatePageTemplateCommandValidator validator = new(_mapper, _pageTemplateRepository, _contentBlockRepository, _pageRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
         PageTemplate currentPageTemplate = (await _pageTemplateRepository.GetByIdAsyncWithNavigationProps(

@@ -23,23 +23,26 @@ public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePa
     private readonly IPageRepository _pageRepository;
     private readonly IPageTemplateRepository _pageTemplateRepository;
     private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
+    private readonly IContentBlockRepository _contentBlockRepository;
 
     public CreatePageTemplateFromPageCommandHandler(
         IMapper mapper,
         IPageRepository pageRepository,
         IPageTemplateRepository pageTemplateRepository,
-        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
+        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate,
+        IContentBlockRepository contentBlockRepository
     )
     {
         _mapper = mapper;
         _pageRepository = pageRepository;
         _pageTemplateRepository = pageTemplateRepository;
         _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
+        _contentBlockRepository = contentBlockRepository;
     }
     
     public async Task<PageTemplateQueryDto> Handle(CreatePageTemplateFromPageCommand request, CancellationToken cancellationToken)
     {
-        CreatePageTemplateFromPageCommandValidator validator = new(_pageRepository, _pageTemplateRepository, _contentBlockDataRepositoriesAggregate);
+        CreatePageTemplateFromPageCommandValidator validator = new(_pageRepository, _pageTemplateRepository, _contentBlockRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
 
         Page page = (await _pageRepository.GetByIdAsync(request.PageUpdateDto.Id, cancellationToken))!;
