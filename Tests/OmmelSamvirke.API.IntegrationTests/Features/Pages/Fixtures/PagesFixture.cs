@@ -1,4 +1,5 @@
-﻿using OmmelSamvirke.Domain.Features.Pages.Models;
+﻿using OmmelSamvirke.Domain.Features.Pages.Enums;
+using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Persistence.DatabaseContext;
 using OmmelSamvirke.TestUtilities.Features.Pages;
 
@@ -11,20 +12,31 @@ public class PagesFixture
     public PagesFixture(AppDbContext dbContext)
     {
         _dbContext = dbContext;
-        PopulateDatabase();
+        ClearTables();
     }
 
-    private void PopulateDatabase()
-    {
-        ClearTables();
-        PopulatePageTemplates();
-    }
-    
-    private void PopulatePageTemplates()
+    public void InsertPageTemplate(PageTemplateState state = PageTemplateState.Public)
     {
         PageTemplate pageTemplate = GlobalPagesFixtures.DefaultPageTemplate();
+        pageTemplate.State = state;
         
         _dbContext.PageTemplates.Add(pageTemplate);
+        _dbContext.SaveChanges();
+    }
+
+    public void InsertPageTemplates(List<PageTemplateState> states)
+    {
+        List<PageTemplate> pageTemplates = new();
+        
+        foreach (PageTemplateState pageTemplateState in states)
+        {
+            PageTemplate pageTemplate = GlobalPagesFixtures.DefaultPageTemplate();
+            pageTemplate.State = pageTemplateState;
+            
+            pageTemplates.Add(pageTemplate);    
+        }
+        
+        _dbContext.PageTemplates.AddRange(pageTemplates);
         _dbContext.SaveChanges();
     }
     
