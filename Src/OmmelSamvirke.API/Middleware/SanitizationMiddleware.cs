@@ -14,13 +14,13 @@ public class SanitizationMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        HtmlSanitizer sanitizer = new HtmlSanitizer();
+        HtmlSanitizer sanitizer = new();
         
         string injectedContent = await new StreamReader(context.Request.Body).ReadToEndAsync();
         string sanitizedContent = sanitizer.Sanitize(injectedContent);
         
         byte[] bytes = Encoding.UTF8.GetBytes(sanitizedContent);
-        ByteArrayContent byteArrayContent = new ByteArrayContent(bytes);
+        ByteArrayContent byteArrayContent = new(bytes);
         context.Request.Body = await byteArrayContent.ReadAsStreamAsync();
         
         await _next(context);

@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using MediatR;
 using Microsoft.OpenApi.Models;
 using OmmelSamvirke.API.Behaviors;
@@ -7,6 +8,7 @@ using OmmelSamvirke.Application;
 using OmmelSamvirke.Persistence;
 using Swashbuckle.AspNetCore.Filters;
 
+[assembly: InternalsVisibleTo("OmmelSamvirke.API.E2ETests")]
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
