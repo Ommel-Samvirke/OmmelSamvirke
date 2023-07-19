@@ -18,6 +18,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Src\OmmelSamvirke.Domain\OmmelSamvirke.Domain.csproj" />
+      <ProjectReference Include="..\OmmelSamvirke.TestUtilities\OmmelSamvirke.TestUtilities.csproj" />
     </ItemGroup>
 
 </Project>

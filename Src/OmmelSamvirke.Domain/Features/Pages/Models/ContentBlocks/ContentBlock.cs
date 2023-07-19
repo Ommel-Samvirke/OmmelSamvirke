@@ -51,7 +51,7 @@ public abstract class ContentBlock : BaseModel
             .Where(config => config != null)
             .ToList();
 
-        if (configs.Count <= 1) return true;
+        if (configs.Count <= 1) return false;
 
         for (int i = 0; i < configs.Count; i++)
         {
@@ -77,8 +77,8 @@ public abstract class ContentBlock : BaseModel
             contentBlock2Config.XPosition + contentBlock2Config.Width <= contentBlock1Config.XPosition)
             return false;
         
-        if (contentBlock1Config.YPosition + contentBlock1Config.Height > contentBlock2Config.YPosition || 
-               contentBlock2Config.YPosition + contentBlock2Config.Height > contentBlock1Config.YPosition)
+        if (contentBlock1Config.YPosition + contentBlock1Config.Height <= contentBlock2Config.YPosition || 
+            contentBlock2Config.YPosition + contentBlock2Config.Height <= contentBlock1Config.YPosition)
             return false;
 
         return true;

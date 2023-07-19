@@ -2,9 +2,9 @@
 
 namespace OmmelSamvirke.TestUtilities.Features.Common;
 
-public static class EntityCreator
+internal static class EntityCreator
 {
-    public static T Create<T>(T entity) where T : BaseModel
+    internal static T Create<T>(T entity) where T : BaseModel
     {
         entity.DateCreated = DateTime.UtcNow;
         entity.DateModified = entity.DateCreated;
