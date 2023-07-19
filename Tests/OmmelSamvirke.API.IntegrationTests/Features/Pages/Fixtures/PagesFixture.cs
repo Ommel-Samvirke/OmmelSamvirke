@@ -1,7 +1,6 @@
-﻿using OmmelSamvirke.Domain.Common;
-using OmmelSamvirke.Domain.Features.Pages.Enums;
-using OmmelSamvirke.Domain.Features.Pages.Models;
+﻿using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Persistence.DatabaseContext;
+using OmmelSamvirke.TestUtilities.Features.Pages;
 
 namespace OmmelSamvirke.API.E2ETests.Features.Pages.Fixtures;
 
@@ -15,27 +14,23 @@ public class PagesFixture
         PopulateDatabase();
     }
 
-    public void PopulateDatabase()
+    private void PopulateDatabase()
     {
+        ClearTables();
         PopulatePageTemplates();
     }
     
     private void PopulatePageTemplates()
     {
-        PageTemplate pageTemplate = CreateEntity(new PageTemplate
-        {
-            Name = "TestTemplateInMemory",
-            State = PageTemplateState.Public
-        });
+        PageTemplate pageTemplate = GlobalPagesFixtures.DefaultPageTemplate();
         
         _dbContext.PageTemplates.Add(pageTemplate);
         _dbContext.SaveChanges();
     }
     
-    private static T CreateEntity<T>(T entity) where T : BaseModel
+    private void ClearTables()
     {
-        entity.DateCreated = DateTime.UtcNow;
-        entity.DateModified = entity.DateCreated;
-        return entity;
+        _dbContext.PageTemplates.RemoveRange(_dbContext.PageTemplates);
+        _dbContext.SaveChanges();
     }
 }

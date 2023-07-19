@@ -36,7 +36,7 @@ public abstract class BaseWebClientProvider
                         return dbProvider.DbContextOptions;
                     });
 
-                    services.AddTransient<AppDbContext>(provider =>
+                    services.AddSingleton<AppDbContext>(provider =>
                     {
                         ITestDbProvider dbProvider = provider.GetRequiredService<ITestDbProvider>();
                         return dbProvider.CreateDbContext();

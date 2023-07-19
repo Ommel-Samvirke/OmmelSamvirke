@@ -16,7 +16,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Persistence.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.Domain.UnitTests", "Tests\OmmelSamvirke.Domain.UnitTests\OmmelSamvirke.Domain.UnitTests.csproj", "{816D2C1A-FBEA-4EF6-A92B-2129434CD737}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.API.E2ETests", "Tests\OmmelSamvirke.API.E2ETests\OmmelSamvirke.API.E2ETests.csproj", "{8A7A9009-E475-400D-8BC4-E247000D8CD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.API.IntegrationTests", "Tests\OmmelSamvirke.API.IntegrationTests\OmmelSamvirke.API.IntegrationTests.csproj", "{8A7A9009-E475-400D-8BC4-E247000D8CD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmmelSamvirke.TestUtilities", "Tests\OmmelSamvirke.TestUtilities\OmmelSamvirke.TestUtilities.csproj", "{C177E77D-1B0E-4494-B651-42E8067F34ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,5 +62,9 @@ Global
 		{8A7A9009-E475-400D-8BC4-E247000D8CD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A7A9009-E475-400D-8BC4-E247000D8CD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A7A9009-E475-400D-8BC4-E247000D8CD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C177E77D-1B0E-4494-B651-42E8067F34ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C177E77D-1B0E-4494-B651-42E8067F34ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C177E77D-1B0E-4494-B651-42E8067F34ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C177E77D-1B0E-4494-B651-42E8067F34ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

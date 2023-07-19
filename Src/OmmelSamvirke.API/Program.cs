@@ -8,7 +8,7 @@ using OmmelSamvirke.Application;
 using OmmelSamvirke.Persistence;
 using Swashbuckle.AspNetCore.Filters;
 
-[assembly: InternalsVisibleTo("OmmelSamvirke.API.E2ETests")]
+[assembly: InternalsVisibleTo("OmmelSamvirke.API.IntegrationTests")]
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

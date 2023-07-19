@@ -6,6 +6,8 @@
         <Nullable>enable</Nullable>
 
         <IsPackable>false</IsPackable>
+
+        <RootNamespace>OmmelSamvirke.API.E2ETests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,6 +23,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Src\OmmelSamvirke.API\OmmelSamvirke.API.csproj" />
+      <ProjectReference Include="..\OmmelSamvirke.TestUtilities\OmmelSamvirke.TestUtilities.csproj" />
     </ItemGroup>
 
     <ItemGroup>
