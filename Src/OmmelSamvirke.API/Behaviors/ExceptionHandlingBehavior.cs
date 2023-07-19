@@ -15,7 +15,7 @@ public class ExceptionHandlingBehavior<TRequest, TResponse> : IPipelineBehavior<
         }
         catch (BadRequestException ex)
         {
-            throw new RequestException(ex.Message, HttpStatusCode.InternalServerError);
+            throw new RequestException(ex.Message, HttpStatusCode.BadRequest);
         }
         catch (NotFoundException ex)
         {

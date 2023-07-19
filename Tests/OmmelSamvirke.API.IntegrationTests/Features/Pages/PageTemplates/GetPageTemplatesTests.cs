@@ -11,7 +11,7 @@ using OmmelSamvirke.TestUtilities.Features.Pages;
 namespace OmmelSamvirke.API.E2ETests.Features.Pages.PageTemplates;
 
 [TestFixture]
-public class GetPageTemplates : BaseWebClientProvider
+public class GetPageTemplatesTests : BaseWebClientProvider
 {
     private static PagesFixture _pagesFixture = null!;
     
