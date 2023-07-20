@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OmmelSamvirke.Application.Exceptions;
 using OmmelSamvirke.Domain.Features.Communities.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Communities.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models;
@@ -19,7 +18,7 @@ public class CommunityRepository : GenericRepository<Community>, ICommunityRepos
 
     public async Task<Page> GetNextPage(int communityId, int currentPageId, CancellationToken cancellationToken = default)
     {
-        Community community = await GetCommunityWithPages(communityId, cancellationToken);
+        Community? community = await GetCommunityWithPages(communityId, cancellationToken);
         List<Page> sortedPages = OrderPagesById(community);
 
         int currentPageIndex = GetPageIndex(currentPageId, sortedPages, "Current page not found");
@@ -29,7 +28,7 @@ public class CommunityRepository : GenericRepository<Community>, ICommunityRepos
 
     public async Task<Page> GetPreviousPage(int communityId, int currentPageId, CancellationToken cancellationToken = default)
     {
-        Community community = await GetCommunityWithPages(communityId, cancellationToken);
+        Community? community = await GetCommunityWithPages(communityId, cancellationToken);
         List<Page> sortedPages = OrderPagesById(community);
 
         int currentPageIndex = GetPageIndex(currentPageId, sortedPages, "Current page not found");
@@ -39,28 +38,26 @@ public class CommunityRepository : GenericRepository<Community>, ICommunityRepos
 
     public async Task<List<Page>> GetPages(int communityId, CancellationToken cancellationToken = default)
     {
-        Community community = await GetCommunityWithPages(communityId, cancellationToken);
+        Community? community = await GetCommunityWithPages(communityId, cancellationToken);
         
         return OrderPagesById(community);
     }
 
-    private async Task<Community> GetCommunityWithPages(int communityId, CancellationToken cancellationToken = default)
+    private async Task<Community?> GetCommunityWithPages(int communityId, CancellationToken cancellationToken = default)
     {
         Community? community = await _dbSet.Include(e => e.Pages).FirstOrDefaultAsync(e => 
             e.Id == communityId,
             cancellationToken
         );
 
-        if (community?.Pages is null)
-        {
-            throw new NotFoundException("Community or pages is null");
-        }
-
         return community;
     }
 
-    private static List<Page> OrderPagesById(Community community)
+    private static List<Page> OrderPagesById(Community? community)
     {
+        if (community is null)
+            return new List<Page>();
+        
         return community.Pages.OrderBy(p => p.Id).ToList();
     }
 
