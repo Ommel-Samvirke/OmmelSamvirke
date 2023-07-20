@@ -1,42 +1,21 @@
 ﻿using System.Net;
 using System.Text;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using OmmelSamvirke.API.E2ETests.Common;
-using OmmelSamvirke.API.E2ETests.Features.Pages.Fixtures;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
-using OmmelSamvirke.Persistence.DatabaseContext;
 using OmmelSamvirke.TestUtilities.Features.Pages;
 
 namespace OmmelSamvirke.API.E2ETests.Features.Pages.PageTemplates;
 
 public class PutPageTemplatesTests : BaseWebClientProvider
 {
-    private static PagesFixture _pagesFixture = null!;
-    private readonly JsonSerializerSettings _jsonSerializerSettings = new()
-    {
-        ContractResolver = new CamelCasePropertyNamesContractResolver()
-    };
-
-    [SetUp]
-    public override void SetUp()
-    {
-        base.SetUp();
-
-        using IServiceScope scope = Factory.Services.CreateScope();
-        AppDbContext dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-        _pagesFixture = new PagesFixture(dbContext);
-    }
-    
     [Test]
     public async Task MakePublic_GivenValidId_ReturnsOk()
     {
-        _pagesFixture.InsertPageTemplate();
+        TestFixtures.InsertPageTemplate();
         
         HttpResponseMessage response = await Client.PutAsync("/api/PageTemplates/MakePublic/1", null!);
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -45,7 +24,7 @@ public class PutPageTemplatesTests : BaseWebClientProvider
     [Test]
     public async Task Archive_GivenValidId_ReturnsOk()
     {
-        _pagesFixture.InsertPageTemplate();
+        TestFixtures.InsertPageTemplate();
         
         HttpResponseMessage response = await Client.PutAsync("/api/PageTemplates/Archive/1", null!);
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -68,13 +47,13 @@ public class PutPageTemplatesTests : BaseWebClientProvider
     [Test]
     public async Task Update_GivenValidData_ReturnsOk()
     {
-        PageTemplate originalPageTemplate = _pagesFixture.InsertPageTemplate();
+        PageTemplate originalPageTemplate = TestFixtures.InsertPageTemplate();
         ContentBlock contentBlock = GlobalContentBlockFixtures.DefaultContentBlock();
 
         string updatedContentBlocks = JsonConvert.SerializeObject(new List<ContentBlock>
         {
             contentBlock
-        }, _jsonSerializerSettings);
+        }, SerializerSettings.JsonSerializerSettings);
 
         string requestBody =
             $@"{{
@@ -121,13 +100,13 @@ public class PutPageTemplatesTests : BaseWebClientProvider
         {
             GlobalContentBlockFixtures.DefaultContentBlock()
         };
-        PageTemplate originalPageTemplate = _pagesFixture.InsertPageTemplate(pageTemplate);
+        PageTemplate originalPageTemplate = TestFixtures.InsertPageTemplate(pageTemplate);
         ContentBlock contentBlock = GlobalContentBlockFixtures.DefaultContentBlock();
 
         string updatedContentBlocks = JsonConvert.SerializeObject(new List<ContentBlock>
         {
             contentBlock
-        }, _jsonSerializerSettings);
+        }, SerializerSettings.JsonSerializerSettings);
 
         string requestBody =
             $@"{{
@@ -156,11 +135,5 @@ public class PutPageTemplatesTests : BaseWebClientProvider
             ));
 
         Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Conflict));
-    }
-    
-    [TearDown]
-    public override void TearDown()
-    {
-        base.TearDown();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using OmmelSamvirke.API.E2ETests.Common.Fixtures;
 using OmmelSamvirke.Persistence.DatabaseContext;
 
 namespace OmmelSamvirke.API.E2ETests.Common;
@@ -9,6 +10,7 @@ public abstract class BaseWebClientProvider
 {
     protected HttpClient Client = null!;
     internal WebApplicationFactory<Program> Factory = null!;
+    protected static TestFixtures TestFixtures = null!;
 
     [SetUp]
     public virtual void SetUp()
@@ -45,6 +47,11 @@ public abstract class BaseWebClientProvider
             });
 
         Client = Factory.CreateClient();
+        
+        using IServiceScope scope = Factory.Services.CreateScope();
+        AppDbContext dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        TestFixtures = new TestFixtures(dbContext);
     }
     
     [TearDown]

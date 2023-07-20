@@ -1,30 +1,14 @@
 ﻿using System.Net;
 using System.Text;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using OmmelSamvirke.API.E2ETests.Common;
-using OmmelSamvirke.API.E2ETests.Features.Pages.Fixtures;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
-using OmmelSamvirke.Persistence.DatabaseContext;
 using OmmelSamvirke.TestUtilities.Features.Pages;
 
 namespace OmmelSamvirke.API.E2ETests.Features.Pages.PageTemplates;
 
 public class PostPageTemplatesTests : BaseWebClientProvider
 {
-    private static PagesFixture _pagesFixture = null!;
-    
-    [SetUp]
-    public override void SetUp()
-    {
-        base.SetUp();
-
-        using IServiceScope scope = Factory.Services.CreateScope();
-        AppDbContext dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-        _pagesFixture = new PagesFixture(dbContext);
-    }
-    
     [Test]
     public async Task CreatePageTemplates_WhenPageTemplateIsValid_ReturnsPageTemplate()
     {
@@ -94,7 +78,7 @@ public class PostPageTemplatesTests : BaseWebClientProvider
     [Test]
     public async Task CreatePageTemplates_WhenPageTemplateAlreadyExists_ReturnsBadRequest()
     {
-        _pagesFixture.InsertPageTemplate();
+        TestFixtures.InsertPageTemplate();
         
         HttpResponseMessage response = await Client.PostAsync("/api/PageTemplates", new StringContent(
             $@"{{
@@ -113,10 +97,4 @@ public class PostPageTemplatesTests : BaseWebClientProvider
     }
     
     // TODO - Add test for when a Page Template is created from a Page
-
-    [TearDown]
-    public override void TearDown()
-    {
-        base.TearDown();
-    }
 }

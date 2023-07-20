@@ -1,11 +1,8 @@
 ﻿using System.Net;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OmmelSamvirke.API.E2ETests.Common;
-using OmmelSamvirke.API.E2ETests.Features.Pages.Fixtures;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
-using OmmelSamvirke.Persistence.DatabaseContext;
 using OmmelSamvirke.TestUtilities.Features.Pages;
 
 namespace OmmelSamvirke.API.E2ETests.Features.Pages.PageTemplates;
@@ -13,23 +10,10 @@ namespace OmmelSamvirke.API.E2ETests.Features.Pages.PageTemplates;
 [TestFixture]
 public class GetPageTemplatesTests : BaseWebClientProvider
 {
-    private static PagesFixture _pagesFixture = null!;
-    
-    [SetUp]
-    public override void SetUp()
-    {
-        base.SetUp();
-
-        using IServiceScope scope = Factory.Services.CreateScope();
-        AppDbContext dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-        _pagesFixture = new PagesFixture(dbContext);
-    }
-    
     [Test]
     public async Task GetById_WhenIdExists_ReturnsPageTemplate()
     {
-        _pagesFixture.InsertPageTemplate();
+        TestFixtures.InsertPageTemplate();
         
         HttpResponseMessage response = await Client.GetAsync("/api/PageTemplates/1");
         string responseBody = await response.Content.ReadAsStringAsync();
@@ -47,7 +31,7 @@ public class GetPageTemplatesTests : BaseWebClientProvider
     [Test]
     public async Task GetById_WhenIdDoesNotExist_ReturnNotFound()
     {
-        _pagesFixture.InsertPageTemplate();
+        TestFixtures.InsertPageTemplate();
         
         HttpResponseMessage response = await Client.GetAsync("/api/PageTemplates/2");
         
@@ -57,7 +41,7 @@ public class GetPageTemplatesTests : BaseWebClientProvider
     [Test]
     public async Task GetByState_WhenStateHasNoPageTemplates_ReturnsEmptyList()
     {
-        _pagesFixture.InsertPageTemplates(new List<PageTemplateState>
+        TestFixtures.InsertPageTemplates(new List<PageTemplateState>
         {
             PageTemplateState.Archived,
             PageTemplateState.Custom,
@@ -76,7 +60,7 @@ public class GetPageTemplatesTests : BaseWebClientProvider
     [Test]
     public async Task GetByState_WhenStateHasPageTemplates_ReturnsPageTemplates()
     {
-        _pagesFixture.InsertPageTemplates(new List<PageTemplateState>
+        TestFixtures.InsertPageTemplates(new List<PageTemplateState>
         {
             PageTemplateState.Public,
             PageTemplateState.Public,
@@ -101,11 +85,5 @@ public class GetPageTemplatesTests : BaseWebClientProvider
         HttpResponseMessage response = await Client.GetAsync("/api/PageTemplates?state=999999999");
         
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-    }
-    
-    [TearDown]
-    public override void TearDown()
-    {
-        base.TearDown();
     }
 }
