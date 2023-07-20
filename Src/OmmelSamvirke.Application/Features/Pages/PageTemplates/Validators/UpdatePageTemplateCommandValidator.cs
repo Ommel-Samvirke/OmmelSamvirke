@@ -12,7 +12,6 @@ namespace OmmelSamvirke.Application.Features.Pages.PageTemplates.Validators;
 public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTemplateCommand>
 {
     private readonly IMapper _mapper;
-    private readonly IPageTemplateRepository _pageTemplateRepository;
     private readonly IContentBlockRepository _contentBlockRepository;
     private readonly IPageRepository _pageRepository;
 
@@ -24,12 +23,11 @@ public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTe
     )
     {
         _mapper = mapper;
-        _pageTemplateRepository = pageTemplateRepository;
         _contentBlockRepository = contentBlockRepository;
         _pageRepository = pageRepository;
 
         RuleFor(p => p.OriginalPageTemplate.Id)
-            .MustAsync(PageTemplateMustExist)
+            .MustAsync(pageTemplateRepository.ExistsAsync)
             .WithErrorCode(ErrorCode.ResourceNotFound)
             .WithMessage("Page template does not exist")
             .MustAsync((p, _, cancellationToken) => PageTemplateMustNotUpdateContentBlocksIfInUse(p, cancellationToken))
@@ -66,7 +64,7 @@ public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTe
             .MaximumLength(225)
             .WithErrorCode(ErrorCode.BadRequest)
             .WithMessage("Name cannot be longer than 225 characters")
-            .MustAsync(NameMustBeUnique)
+            .MustAsync((p, cancellationToken) => pageTemplateRepository.IsPropertyUniqueAsync("Name", p, cancellationToken))
             .WithErrorCode(ErrorCode.BadRequest)
             .WithMessage("Page Template Name must be unique");
         
@@ -80,24 +78,13 @@ public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTe
             .WithErrorCode(ErrorCode.BadRequest)
             .WithMessage("Page Template must have at least one content block");
     }
-    
-    private async Task<bool> PageTemplateMustExist(int pageTemplateId, CancellationToken cancellationToken)
-    {
-        return await _pageTemplateRepository.GetByIdAsync(pageTemplateId, cancellationToken) is not null;
-    }
-    
+
     private async Task<bool> ContentBlocksMustNotOverlap(int pageTemplateId, CancellationToken cancellationToken)
     {
         List<ContentBlock> contentBlocks = await _contentBlockRepository.GetByPageTemplateIdAsync(pageTemplateId, cancellationToken);
         return !ContentBlock.AreAnyBlocksOverlapping(contentBlocks);
     }
-    
-    private async Task<bool> NameMustBeUnique(string name, CancellationToken cancellationToken)
-    {
-        IReadOnlyList<PageTemplate> pageTemplates = await _pageTemplateRepository.GetAsync(cancellationToken);
-        return pageTemplates.All(p => p.Name != name);
-    }
-    
+
     private async Task<bool> PageTemplateMustNotUpdateContentBlocksIfInUse(UpdatePageTemplateCommand command, CancellationToken cancellationToken)
     {
         List<ContentBlockCreateDto> originalContentBlocks =

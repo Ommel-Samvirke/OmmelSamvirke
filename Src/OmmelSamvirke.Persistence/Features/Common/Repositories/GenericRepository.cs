@@ -49,4 +49,14 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
         await DbDbContext.SaveChangesAsync(cancellationToken);
         return true;
     }
+
+    public Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default)
+    {
+        return DbSet.AnyAsync(q => q.Id == id, cancellationToken);
+    }
+
+    public Task<bool> IsPropertyUniqueAsync(string propertyName, string propertyValue, CancellationToken cancellationToken = default)
+    {
+        return DbSet.AllAsync(q => !EF.Property<string>(q, propertyName).Equals(propertyValue), cancellationToken);
+    }
 }

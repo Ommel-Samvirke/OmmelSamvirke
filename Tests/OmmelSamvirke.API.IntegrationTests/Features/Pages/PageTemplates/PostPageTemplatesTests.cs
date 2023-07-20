@@ -3,7 +3,7 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using OmmelSamvirke.API.E2ETests.Common;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
-using OmmelSamvirke.TestUtilities.Features.Pages;
+using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.API.E2ETests.Features.Pages.PageTemplates;
 
@@ -57,7 +57,7 @@ public class PostPageTemplatesTests : BaseWebClientProvider
     [TestCase(1)]
     [TestCase(100)]
     [TestCase(225)]
-    public async Task CreatePageTemplates_WhenPageTemplateNameValid_ReturnsBadRequest(int nameLength)
+    public async Task CreatePageTemplates_WhenPageTemplateNameValid_ReturnsCreated(int nameLength)
     {
         HttpResponseMessage response = await Client.PostAsync("/api/PageTemplates", new StringContent(
             $@"{{
@@ -78,12 +78,12 @@ public class PostPageTemplatesTests : BaseWebClientProvider
     [Test]
     public async Task CreatePageTemplates_WhenPageTemplateAlreadyExists_ReturnsBadRequest()
     {
-        TestFixtures.InsertPageTemplate();
+        PageTemplate pageTemplate = TestFixtures.InsertPageTemplate();
         
         HttpResponseMessage response = await Client.PostAsync("/api/PageTemplates", new StringContent(
             $@"{{
                 ""pageTemplateCreateDto"": {{
-                    ""name"": ""{GlobalPageTemplatesFixtures.DefaultPageTemplate().Name}""
+                    ""name"": ""{pageTemplate.Name}""
                 }}
             }}",
             Encoding.UTF8,

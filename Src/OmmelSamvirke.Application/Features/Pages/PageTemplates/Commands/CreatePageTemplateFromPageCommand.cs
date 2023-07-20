@@ -42,7 +42,7 @@ public class CreatePageTemplateFromPageCommandHandler : IRequestHandler<CreatePa
     
     public async Task<PageTemplateQueryDto> Handle(CreatePageTemplateFromPageCommand request, CancellationToken cancellationToken)
     {
-        CreatePageTemplateFromPageCommandValidator validator = new(_pageRepository, _pageTemplateRepository, _contentBlockRepository);
+        CreatePageTemplateFromPageCommandValidator validator = new(_pageRepository, _contentBlockRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
 
         Page page = (await _pageRepository.GetByIdAsync(request.PageUpdateDto.Id, cancellationToken))!;

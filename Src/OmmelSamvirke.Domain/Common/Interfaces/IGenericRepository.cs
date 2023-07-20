@@ -7,4 +7,6 @@ public interface IGenericRepository<T> where T : BaseModel
     Task<T> CreateAsync(T entity, CancellationToken cancellationToken = default);
     Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default);
     Task<bool> DeleteAsync(T entity, CancellationToken cancellationToken = default);
+    Task<bool> ExistsAsync(int id, CancellationToken cancellationToken = default);
+    Task<bool> IsPropertyUniqueAsync(string propertyName, string propertyValue, CancellationToken cancellationToken = default);
 }

@@ -46,7 +46,7 @@ public class CreatePageFromTemplateCommandHandler : IRequestHandler<CreatePageFr
     
     public async Task<PageQueryDto> Handle(CreatePageFromTemplateCommand request, CancellationToken cancellationToken)
     {
-        CreatePageFromTemplateCommandValidator validator = new(_pageTemplateRepository, _communityRepository);
+        CreatePageFromTemplateCommandValidator validator = new(_pageTemplateRepository, _communityRepository, _pageRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
         Page page = new()

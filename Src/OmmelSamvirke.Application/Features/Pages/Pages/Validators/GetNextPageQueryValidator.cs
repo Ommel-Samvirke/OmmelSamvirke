@@ -8,32 +8,16 @@ namespace OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 
 public class GetNextPageQueryValidator : AbstractValidator<GetNextPageQuery>
 {
-    private readonly ICommunityRepository _communityRepository;
-    private readonly IPageRepository _pageRepository;
-
     public GetNextPageQueryValidator(ICommunityRepository communityRepository, IPageRepository pageRepository)
     {
-        _communityRepository = communityRepository;
-        _pageRepository = pageRepository;
-        
         RuleFor(p => p.CommunityId)
-            .MustAsync(CommunityMustExist)
+            .MustAsync(communityRepository.ExistsAsync)
             .WithErrorCode(ErrorCode.ResourceNotFound)
             .WithMessage("Community does not exist");
         
         RuleFor(p => p.CurrentPageId)
-            .MustAsync(CurrentPageMustExist)
+            .MustAsync(pageRepository.ExistsAsync)
             .WithErrorCode(ErrorCode.ResourceNotFound)
             .WithMessage("Page does not exist");
-    }
-    
-    private async Task<bool> CommunityMustExist(int communityId, CancellationToken cancellationToken)
-    {
-        return await _communityRepository.GetByIdAsync(communityId, cancellationToken) is not null;
-    }
-    
-    private async Task<bool> CurrentPageMustExist(int currentPageId, CancellationToken cancellationToken)
-    {
-        return await _pageRepository.GetByIdAsync(currentPageId, cancellationToken) is not null;
     }
 }
