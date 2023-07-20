@@ -43,7 +43,7 @@ public class GetPagesTests : BaseWebClientProvider
         TestFixtures.InsertContentBlockData();
         TestFixtures.InsertContentBlockData();
 
-        HttpResponseMessage response = await Client.GetAsync("/api/Pages/ContentBlockData/1");
+        HttpResponseMessage response = await Client.GetAsync("/api/Pages/1/ContentBlockData");
         string jsonResponse = await response.Content.ReadAsStringAsync();
         List<dynamic> deserializedResponse = JsonConvert.DeserializeObject<List<dynamic>>(jsonResponse)!;
         
@@ -59,7 +59,7 @@ public class GetPagesTests : BaseWebClientProvider
     {
         TestFixtures.InsertPage();
 
-        HttpResponseMessage response = await Client.GetAsync("/api/Pages/ContentBlockData/1");
+        HttpResponseMessage response = await Client.GetAsync("/api/Pages/1/ContentBlockData");
         string jsonResponse = await response.Content.ReadAsStringAsync();
         List<dynamic> deserializedResponse = JsonConvert.DeserializeObject<List<dynamic>>(jsonResponse)!;
         

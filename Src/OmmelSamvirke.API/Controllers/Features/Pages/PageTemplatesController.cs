@@ -87,7 +87,7 @@ public class PageTemplatesController : ControllerBase
     /// Change the state of a Page Template to Public.
     /// </summary>
     /// <param name="id">The id of the Page Template that should be made public</param>
-    [HttpPut("MakePublic/{id:int}")]
+    [HttpPut("{id:int}/MakePublic")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> MakePublic(int id)
@@ -103,7 +103,7 @@ public class PageTemplatesController : ControllerBase
     /// Change the state of a Page Template to Archived.
     /// </summary>
     /// <param name="id">The id of the Page Template that should be archived</param>
-    [HttpPut("Archive/{id:int}")]
+    [HttpPut("{id:int}/Archive")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> Archive(int id)

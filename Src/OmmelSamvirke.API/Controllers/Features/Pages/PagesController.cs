@@ -41,7 +41,7 @@ public class PagesController : ControllerBase
     /// Get a Page's ContentBlockData by its <paramref name="id"/>.
     /// </summary>
     /// <param name="id">The id of the Page</param>
-    [HttpGet("ContentBlockData/{id:int}")]
+    [HttpGet("{id:int}/ContentBlockData")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<List<ContentBlockDataQueryDto>>> GetContentBlockData(int id)

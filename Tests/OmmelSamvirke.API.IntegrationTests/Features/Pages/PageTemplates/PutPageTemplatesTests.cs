@@ -17,7 +17,7 @@ public class PutPageTemplatesTests : BaseWebClientProvider
     {
         TestFixtures.InsertPageTemplate();
         
-        HttpResponseMessage response = await Client.PutAsync("/api/PageTemplates/MakePublic/1", null!);
+        HttpResponseMessage response = await Client.PutAsync("/api/PageTemplates/1/MakePublic", null!);
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
     
@@ -26,21 +26,21 @@ public class PutPageTemplatesTests : BaseWebClientProvider
     {
         TestFixtures.InsertPageTemplate();
         
-        HttpResponseMessage response = await Client.PutAsync("/api/PageTemplates/Archive/1", null!);
+        HttpResponseMessage response = await Client.PutAsync("/api/PageTemplates/1/Archive", null!);
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
     
     [Test]
     public async Task MakePublic_GivenInvalidId_ReturnsNotFound()
     {
-        HttpResponseMessage response = await Client.PutAsync("/api/PageTemplates/MakePublic/1", null!);
+        HttpResponseMessage response = await Client.PutAsync("/api/PageTemplates/1/MakePublic", null!);
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
     }
     
     [Test]
     public async Task Archive_GivenInvalidId_ReturnsNotFound()
     {
-        HttpResponseMessage response = await Client.PutAsync("/api/PageTemplates/Archive/1", null!);
+        HttpResponseMessage response = await Client.PutAsync("/api/PageTemplates/1/Archive", null!);
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
     }
 
