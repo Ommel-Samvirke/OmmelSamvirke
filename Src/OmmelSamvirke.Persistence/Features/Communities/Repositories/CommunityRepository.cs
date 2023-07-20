@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OmmelSamvirke.Application.Exceptions;
 using OmmelSamvirke.Domain.Features.Communities.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Communities.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models;
@@ -52,7 +53,7 @@ public class CommunityRepository : GenericRepository<Community>, ICommunityRepos
 
         if (community?.Pages is null)
         {
-            throw new Exception("Community or pages is null");
+            throw new NotFoundException("Community or pages is null");
         }
 
         return community;

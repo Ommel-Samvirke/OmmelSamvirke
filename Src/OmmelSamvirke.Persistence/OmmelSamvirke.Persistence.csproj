@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\OmmelSamvirke.Application\OmmelSamvirke.Application.csproj" />
       <ProjectReference Include="..\OmmelSamvirke.Domain\OmmelSamvirke.Domain.csproj" />
     </ItemGroup>
 

@@ -103,7 +103,7 @@ public class PagesController : ControllerBase
     public async Task<ActionResult> Create(CreatePageFromTemplateCommand createPageFromTemplateCommand)
     {
         PageQueryDto page = await _mediator.Send(createPageFromTemplateCommand);
-        return Ok(page);
+        return CreatedAtAction(nameof(Create), page);
     }
     
     /// <summary>
