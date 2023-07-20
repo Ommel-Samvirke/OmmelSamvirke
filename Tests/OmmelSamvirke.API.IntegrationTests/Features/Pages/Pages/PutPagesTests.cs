@@ -106,4 +106,100 @@ public class PutPagesTests : BaseWebClientProvider
 
         Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Conflict));
     }
+    
+    [Test]
+    public async Task Update_GivenRequestContainsEmptyNonOptionalContentBlockData_ReturnsBadRequest()
+    {
+        TestFixtures.InsertCommunity();
+        TestFixtures.InsertPageTemplate();
+        Page originalPage = TestFixtures.InsertPage();
+        HeadlineBlockData headlineBlockData = (HeadlineBlockData)TestFixtures.InsertContentBlockData().First();
+        headlineBlockData.Headline = "Updated headline";
+
+        string requestBody =
+            $@"{{
+                ""originalPage"": {{
+                    ""name"": ""{originalPage.Name}"",
+                    ""state"": {(int)originalPage.State},
+                    ""id"": {originalPage.Id},
+                    ""dateCreated"": ""{originalPage.DateCreated:yyyy-MM-ddTHH:mm:ss.ffffff}"",
+                    ""dateModified"": ""{originalPage.DateModified:yyyy-MM-ddTHH:mm:ss.ffffff}""
+                }},
+                ""updatedPage"": {{
+                    ""name"": ""Updated name"",
+                    ""state"": {(int)PageState.Visible},
+                    ""id"": {originalPage.Id},
+                    ""pageTemplateId"": 1
+                }},
+                ""updatedContentBlockDataElements"": [
+                    {{
+                        ""id"": 1,
+                        ""baseContentBlockId"": 1,
+                        ""pageId"": 1,
+                        ""headline"": """",
+                        ""contentBlockType"": 0
+                    }}
+                ]
+            }}";
+
+        HttpResponseMessage responseMessage = await Client.PutAsync("/api/Pages", 
+            new StringContent(requestBody,
+            Encoding.UTF8,
+            "application/json"
+        ));
+        
+        Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+    }
+    
+    [Test]
+    public async Task Update_GivenRequestContainsEmptyOptionalContentBlockData_ReturnsOk()
+    {
+        TestFixtures.InsertCommunity();
+        TestFixtures.InsertPageTemplate();
+        Page originalPage = TestFixtures.InsertPage();
+        TestFixtures.InsertContentBlockData(isOptional: true);
+        HeadlineBlockData headlineBlockData2 = (HeadlineBlockData)TestFixtures.InsertContentBlockData().First();
+        headlineBlockData2.Headline = "Updated headline";
+
+        string requestBody =
+            $@"{{
+                ""originalPage"": {{
+                    ""name"": ""{originalPage.Name}"",
+                    ""state"": {(int)originalPage.State},
+                    ""id"": {originalPage.Id},
+                    ""dateCreated"": ""{originalPage.DateCreated:yyyy-MM-ddTHH:mm:ss.ffffff}"",
+                    ""dateModified"": ""{originalPage.DateModified:yyyy-MM-ddTHH:mm:ss.ffffff}""
+                }},
+                ""updatedPage"": {{
+                    ""name"": ""Updated name"",
+                    ""state"": {(int)PageState.Visible},
+                    ""id"": {originalPage.Id},
+                    ""pageTemplateId"": 1
+                }},
+                ""updatedContentBlockDataElements"": [
+                    {{
+                        ""id"": 1,
+                        ""baseContentBlockId"": 1,
+                        ""pageId"": 1,
+                        ""headline"": """",
+                        ""contentBlockType"": 0
+                    }},
+                    {{
+                        ""id"": 2,
+                        ""baseContentBlockId"": 1,
+                        ""pageId"": 1,
+                        ""headline"": ""{headlineBlockData2.Headline}"",
+                        ""contentBlockType"": 0
+                    }}
+                ]
+            }}";
+
+        HttpResponseMessage responseMessage = await Client.PutAsync("/api/Pages", 
+            new StringContent(requestBody,
+                Encoding.UTF8,
+                "application/json"
+            ));
+        
+        Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+    }
 }

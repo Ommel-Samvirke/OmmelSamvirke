@@ -6,9 +6,10 @@ namespace OmmelSamvirke.API.E2ETests.Common.Fixtures;
 
 public partial class TestFixtures
 {
-    public List<IContentBlockData> InsertContentBlockData()
+    public List<IContentBlockData> InsertContentBlockData(bool isOptional = false)
     {
         HeadlineBlockData headlineBlockData = GlobalContentBlockDataFixtures.DefaultContentBlockData();
+        headlineBlockData.ContentBlock!.IsOptional = isOptional;
         
         _dbContext.HeadlineBlockData.Add(headlineBlockData);
         _dbContext.SaveChanges();

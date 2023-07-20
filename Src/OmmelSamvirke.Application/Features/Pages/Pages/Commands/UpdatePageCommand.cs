@@ -27,23 +27,26 @@ public class UpdatePageCommandHandler : IRequestHandler<UpdatePageCommand, PageQ
     private readonly IPageRepository _pageRepository;
     private readonly IPageTemplateRepository _pageTemplateRepository;
     private readonly IContentBlockDataRepositoriesAggregate _contentBlockDataRepositoriesAggregate;
+    private readonly IContentBlockRepository _contentBlockRepository;
 
     public UpdatePageCommandHandler(
         IMapper mapper,
         IPageRepository pageRepository,
         IPageTemplateRepository pageTemplateRepository,
-        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate
+        IContentBlockDataRepositoriesAggregate contentBlockDataRepositoriesAggregate,
+        IContentBlockRepository contentBlockRepository
     )
     {
         _mapper = mapper;
         _pageRepository = pageRepository;
         _pageTemplateRepository = pageTemplateRepository;
         _contentBlockDataRepositoriesAggregate = contentBlockDataRepositoriesAggregate;
+        _contentBlockRepository = contentBlockRepository;
     }
     
     public async Task<PageQueryDto> Handle(UpdatePageCommand request, CancellationToken cancellationToken)
     {
-        UpdatePageCommandValidator validator = new(_pageRepository, _pageTemplateRepository);
+        UpdatePageCommandValidator validator = new(_pageRepository, _pageTemplateRepository, _contentBlockRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
         Page currentPage = (await _pageRepository.GetByIdAsync(request.OriginalPage.Id, cancellationToken))!;
