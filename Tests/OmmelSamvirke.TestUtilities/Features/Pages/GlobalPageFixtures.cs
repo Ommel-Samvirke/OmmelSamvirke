@@ -1,7 +1,6 @@
 ﻿using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.TestUtilities.Features.Common;
-using OmmelSamvirke.TestUtilities.Features.Communities;
 
 namespace OmmelSamvirke.TestUtilities.Features.Pages;
 
