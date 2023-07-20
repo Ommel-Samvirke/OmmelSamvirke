@@ -53,7 +53,9 @@ public class UpdatePageCommandHandler : IRequestHandler<UpdatePageCommand, PageQ
         Page currentPage = (await _pageRepository.GetByIdAsync(request.OriginalPage.Id, cancellationToken))!;
         PageQueryDto currentPageDto = _mapper.Map<PageQueryDto>(currentPage);
 
-        if (!currentPageDto.Equals(request.OriginalPage))
+        if (!currentPageDto.Equals(request.OriginalPage)||
+            !AreEqualDownToMilliseconds(currentPageDto.DateModified, request.OriginalPage.DateModified)
+           )
             throw new ResourceHasChangedException("The Page has changed since you last loaded it");
 
         List<IContentBlockDataDto> contentBlockDataDtos =
@@ -135,5 +137,21 @@ public class UpdatePageCommandHandler : IRequestHandler<UpdatePageCommand, PageQ
         }
 
         return resultList;
+    }
+    
+    private static bool AreEqualDownToMilliseconds(DateTime? date1, DateTime? date2)
+    {
+        if (date1 == null || date2 == null) return false;
+        
+        DateTime dt1 = (DateTime)date1;
+        DateTime dt2 = (DateTime)date2;
+            
+        return dt1.Year == dt2.Year
+               && dt1.Month == dt2.Month
+               && dt1.Day == dt2.Day
+               && dt1.Hour == dt2.Hour
+               && dt1.Minute == dt2.Minute
+               && dt1.Second == dt2.Second
+               && dt1.Millisecond == dt2.Millisecond;
     }
 }
