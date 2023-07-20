@@ -15,4 +15,9 @@ public partial class TestFixtures
 
         return page;
     }
+
+    public int CountPages()
+    {
+        return _dbContext.Pages.Count();
+    }
 }
