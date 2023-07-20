@@ -89,7 +89,7 @@ public class UpdatePageTemplateCommandValidator : AbstractValidator<UpdatePageTe
     private async Task<bool> ContentBlocksMustNotOverlap(int pageTemplateId, CancellationToken cancellationToken)
     {
         List<ContentBlock> contentBlocks = await _contentBlockRepository.GetByPageTemplateIdAsync(pageTemplateId, cancellationToken);
-        return ContentBlock.AreAnyBlocksOverlapping(contentBlocks);
+        return !ContentBlock.AreAnyBlocksOverlapping(contentBlocks);
     }
     
     private async Task<bool> NameMustBeUnique(string name, CancellationToken cancellationToken)

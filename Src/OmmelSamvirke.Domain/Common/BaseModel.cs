@@ -39,7 +39,7 @@ public abstract class BaseModel : IEquatable<BaseModel>
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return Id == other.Id && DateCreated.Equals(other.DateCreated) && DateModified.Equals(other.DateModified);
+        return Id == other.Id;
     }
 
     /// <summary>

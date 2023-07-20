@@ -15,16 +15,28 @@ public class PagesFixture
         ClearTables();
     }
 
-    public void InsertPageTemplate(PageTemplateState state = PageTemplateState.Public)
+    public PageTemplate InsertPageTemplate(PageTemplateState state = PageTemplateState.Public)
     {
         PageTemplate pageTemplate = GlobalPagesFixtures.DefaultPageTemplate();
         pageTemplate.State = state;
         
         _dbContext.PageTemplates.Add(pageTemplate);
         _dbContext.SaveChanges();
+        _dbContext.ChangeTracker.Clear();
+
+        return pageTemplate;
+    }
+    
+    public PageTemplate InsertPageTemplate(PageTemplate pageTemplate)
+    {
+        _dbContext.PageTemplates.Add(pageTemplate);
+        _dbContext.SaveChanges();
+        _dbContext.ChangeTracker.Clear();
+
+        return pageTemplate;
     }
 
-    public void InsertPageTemplates(List<PageTemplateState> states)
+    public List<PageTemplate> InsertPageTemplates(List<PageTemplateState> states)
     {
         List<PageTemplate> pageTemplates = new();
         
@@ -38,11 +50,15 @@ public class PagesFixture
         
         _dbContext.PageTemplates.AddRange(pageTemplates);
         _dbContext.SaveChanges();
+        _dbContext.ChangeTracker.Clear();
+
+        return pageTemplates;
     }
-    
+
     private void ClearTables()
     {
         _dbContext.PageTemplates.RemoveRange(_dbContext.PageTemplates);
         _dbContext.SaveChanges();
+        _dbContext.ChangeTracker.Clear();
     }
 }

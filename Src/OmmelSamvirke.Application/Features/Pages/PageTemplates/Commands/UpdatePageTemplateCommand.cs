@@ -51,7 +51,9 @@ public class UpdatePageTemplateCommandHandler : IRequestHandler<UpdatePageTempla
         ))!;
         PageTemplateQueryDto currentPageTemplateDto = _mapper.Map<PageTemplateQueryDto>(currentPageTemplate);
         
-        if (!currentPageTemplateDto.Equals(request.OriginalPageTemplate))
+        if (!currentPageTemplateDto.Equals(request.OriginalPageTemplate) ||
+            !AreEqualDownToMilliseconds(currentPageTemplate.DateModified, request.OriginalPageTemplate.DateModified)
+        )
             throw new ResourceHasChangedException("The Page Template has changed since you last loaded it");
 
         await DeleteRemovedContentBlocks(request, currentPageTemplateDto);
@@ -89,5 +91,21 @@ public class UpdatePageTemplateCommandHandler : IRequestHandler<UpdatePageTempla
                 request.UpdatedPageTemplate.ContentBlocks.All(updatedContentBlock =>
                     updatedContentBlock.Id != contentBlock.Id));
         await _contentBlockRepository.DeleteAsync(_mapper.Map<List<ContentBlock>>(contentBlocksToRemove));
+    }
+
+    private static bool AreEqualDownToMilliseconds(DateTime? date1, DateTime? date2)
+    {
+        if (date1 == null || date2 == null) return false;
+        
+        DateTime dt1 = (DateTime)date1;
+        DateTime dt2 = (DateTime)date2;
+            
+        return dt1.Year == dt2.Year
+               && dt1.Month == dt2.Month
+               && dt1.Day == dt2.Day
+               && dt1.Hour == dt2.Hour
+               && dt1.Minute == dt2.Minute
+               && dt1.Second == dt2.Second
+               && dt1.Millisecond == dt2.Millisecond;
     }
 }
