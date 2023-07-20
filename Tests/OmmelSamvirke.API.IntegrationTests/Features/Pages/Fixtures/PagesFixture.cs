@@ -54,6 +54,11 @@ public class PagesFixture
 
         return pageTemplates;
     }
+    
+    public int CountPageTemplates()
+    {
+        return _dbContext.PageTemplates.Count();
+    }
 
     private void ClearTables()
     {
