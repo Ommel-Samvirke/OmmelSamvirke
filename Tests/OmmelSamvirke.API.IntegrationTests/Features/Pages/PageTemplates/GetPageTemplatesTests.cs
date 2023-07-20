@@ -39,8 +39,8 @@ public class GetPageTemplatesTests : BaseWebClientProvider
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(jsonResponseBody["id"]!.Value<int>(), Is.EqualTo(1));
-            Assert.That(jsonResponseBody["name"]!.Value<string>(), Is.EqualTo(GlobalPagesFixtures.DefaultPageTemplate().Name));
-            Assert.That(jsonResponseBody["state"]!.Value<int>(), Is.EqualTo((int)GlobalPagesFixtures.DefaultPageTemplate().State));
+            Assert.That(jsonResponseBody["name"]!.Value<string>(), Is.EqualTo(GlobalPageTemplatesFixtures.DefaultPageTemplate().Name));
+            Assert.That(jsonResponseBody["state"]!.Value<int>(), Is.EqualTo((int)GlobalPageTemplatesFixtures.DefaultPageTemplate().State));
         });
     }
     

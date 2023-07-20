@@ -23,7 +23,7 @@ public class ContentBlockDataRepository<T, TU> : IContentBlockDataRepository<T, 
         List<T> result = await _dbSet.AsNoTracking()
             .Include(e => e.Page)
             .Include(e => e.ContentBlock)
-            .Where(e => e.Page != null && e.Page.Id == pageId)
+            .Where(e => e.PageId == pageId)
             .ToListAsync(cancellationToken);
             
         return result.Cast<IContentBlockData>().ToList();

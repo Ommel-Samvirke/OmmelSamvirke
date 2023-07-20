@@ -116,7 +116,7 @@ public class PutPageTemplatesTests : BaseWebClientProvider
     [Test]
     public async Task Update_GivenOriginalPageTemplateDtoHasStaleModifiedDate_ReturnsConflict()
     {
-        PageTemplate pageTemplate = GlobalPagesFixtures.DefaultPageTemplate();
+        PageTemplate pageTemplate = GlobalPageTemplatesFixtures.DefaultPageTemplate();
         pageTemplate.ContentBlocks = new List<ContentBlock>
         {
             GlobalContentBlockFixtures.DefaultContentBlock()

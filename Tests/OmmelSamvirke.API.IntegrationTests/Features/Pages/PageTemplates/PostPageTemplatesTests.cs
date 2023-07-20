@@ -99,7 +99,7 @@ public class PostPageTemplatesTests : BaseWebClientProvider
         HttpResponseMessage response = await Client.PostAsync("/api/PageTemplates", new StringContent(
             $@"{{
                 ""pageTemplateCreateDto"": {{
-                    ""name"": ""{GlobalPagesFixtures.DefaultPageTemplate().Name}""
+                    ""name"": ""{GlobalPageTemplatesFixtures.DefaultPageTemplate().Name}""
                 }}
             }}",
             Encoding.UTF8,

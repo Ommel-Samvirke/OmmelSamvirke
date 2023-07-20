@@ -4,7 +4,7 @@ using OmmelSamvirke.TestUtilities.Features.Common;
 
 namespace OmmelSamvirke.TestUtilities.Features.Pages;
 
-public static class GlobalPagesFixtures
+public static class GlobalPageTemplatesFixtures
 {
     public static PageTemplate DefaultPageTemplate()
     {
