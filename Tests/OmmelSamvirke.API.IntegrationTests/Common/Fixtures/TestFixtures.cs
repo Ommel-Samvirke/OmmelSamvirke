@@ -1,6 +1,6 @@
 ﻿using OmmelSamvirke.Persistence.DatabaseContext;
 
-namespace OmmelSamvirke.API.E2ETests.Common.Fixtures;
+namespace OmmelSamvirke.API.IntegrationTests.Common.Fixtures;
 
 public partial class TestFixtures
 {

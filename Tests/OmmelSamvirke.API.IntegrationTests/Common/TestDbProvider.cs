@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using OmmelSamvirke.Persistence.DatabaseContext;
 
-namespace OmmelSamvirke.API.E2ETests.Common;
+namespace OmmelSamvirke.API.IntegrationTests.Common;
 
 public class TestDbProvider : ITestDbProvider
 {

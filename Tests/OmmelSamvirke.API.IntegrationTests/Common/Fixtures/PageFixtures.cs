@@ -1,7 +1,7 @@
 ﻿using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.TestUtilities.Features.Pages;
 
-namespace OmmelSamvirke.API.E2ETests.Common.Fixtures;
+namespace OmmelSamvirke.API.IntegrationTests.Common.Fixtures;
 
 public partial class TestFixtures
 {

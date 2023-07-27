@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using OmmelSamvirke.API.E2ETests.Common.Fixtures;
 using OmmelSamvirke.Persistence.DatabaseContext;
+using TestFixtures = OmmelSamvirke.API.IntegrationTests.Common.Fixtures.TestFixtures;
 
-namespace OmmelSamvirke.API.E2ETests.Common;
+namespace OmmelSamvirke.API.IntegrationTests.Common;
 
 public abstract class BaseWebClientProvider
 {

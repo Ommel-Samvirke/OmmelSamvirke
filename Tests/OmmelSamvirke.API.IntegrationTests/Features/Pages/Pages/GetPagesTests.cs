@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using OmmelSamvirke.API.E2ETests.Common;
+using OmmelSamvirke.API.IntegrationTests.Common;
 using OmmelSamvirke.Domain.Features.Pages.Models;
 
-namespace OmmelSamvirke.API.E2ETests.Features.Pages.Pages;
+namespace OmmelSamvirke.API.IntegrationTests.Features.Pages.Pages;
 
 public class GetPagesTests : BaseWebClientProvider
 {

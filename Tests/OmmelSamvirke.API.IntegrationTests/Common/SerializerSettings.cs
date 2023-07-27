@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace OmmelSamvirke.API.E2ETests.Common;
+namespace OmmelSamvirke.API.IntegrationTests.Common;
 
 public static class SerializerSettings
 {

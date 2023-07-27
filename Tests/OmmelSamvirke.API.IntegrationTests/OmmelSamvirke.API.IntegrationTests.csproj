@@ -7,7 +7,7 @@
 
         <IsPackable>false</IsPackable>
 
-        <RootNamespace>OmmelSamvirke.API.E2ETests</RootNamespace>
+        <RootNamespace>OmmelSamvirke.API.IntegrationTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

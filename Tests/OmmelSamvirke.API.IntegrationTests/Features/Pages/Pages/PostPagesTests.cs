@@ -2,11 +2,11 @@
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using OmmelSamvirke.API.E2ETests.Common;
+using OmmelSamvirke.API.IntegrationTests.Common;
 using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.TestUtilities.Features.Pages;
 
-namespace OmmelSamvirke.API.E2ETests.Features.Pages.Pages;
+namespace OmmelSamvirke.API.IntegrationTests.Features.Pages.Pages;
 
 public class PostPagesTests : BaseWebClientProvider
 {

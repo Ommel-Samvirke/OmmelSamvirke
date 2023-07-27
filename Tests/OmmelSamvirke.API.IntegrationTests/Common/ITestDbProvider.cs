@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OmmelSamvirke.Persistence.DatabaseContext;
 
-namespace OmmelSamvirke.API.E2ETests.Common;
+namespace OmmelSamvirke.API.IntegrationTests.Common;
 
 public interface ITestDbProvider
 {
