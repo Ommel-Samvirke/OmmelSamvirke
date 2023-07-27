@@ -8,14 +8,14 @@ namespace OmmelSamvirke.API.E2ETests.Common;
 
 public abstract class BaseWebClientProvider
 {
-    protected HttpClient Client = null!;
-    internal WebApplicationFactory<Program> Factory = null!;
     protected static TestFixtures TestFixtures = null!;
+    protected HttpClient Client = null!;
+    private WebApplicationFactory<Program> _factory = null!;
 
     [SetUp]
     public virtual void SetUp()
     {
-        Factory = new WebApplicationFactory<Program>()
+        _factory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
@@ -46,9 +46,9 @@ public abstract class BaseWebClientProvider
                 });
             });
 
-        Client = Factory.CreateClient();
+        Client = _factory.CreateClient();
         
-        using IServiceScope scope = Factory.Services.CreateScope();
+        using IServiceScope scope = _factory.Services.CreateScope();
         AppDbContext dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
         TestFixtures = new TestFixtures(dbContext);
@@ -58,6 +58,6 @@ public abstract class BaseWebClientProvider
     public virtual void TearDown()
     {
         Client.Dispose();
-        Factory.Dispose();
+        _factory.Dispose();
     }
 }

@@ -13,10 +13,15 @@ public class DeletePageCommand : IRequest<bool>
 
 public class DeletePageCommandHandler : IRequestHandler<DeletePageCommand, bool>
 {
+    private readonly ILayoutConfigurationRepository _layoutConfigurationRepository;
     private readonly IPageRepository _pageRepository;
 
-    public DeletePageCommandHandler(IPageRepository pageRepository)
+    public DeletePageCommandHandler(
+        IPageRepository pageRepository,
+        ILayoutConfigurationRepository layoutConfigurationRepository
+    )
     {
+        _layoutConfigurationRepository = layoutConfigurationRepository;
         _pageRepository = pageRepository;
     }
     
@@ -25,8 +30,11 @@ public class DeletePageCommandHandler : IRequestHandler<DeletePageCommand, bool>
         DeletePageCommandValidator validator = new(_pageRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
         
-        Page page = (await _pageRepository.GetByIdAsync(request.PageId, cancellationToken))!;
+        Page page = (await _pageRepository.GetByIdWithRelationsAsync(request.PageId, cancellationToken))!;
 
-        return await _pageRepository.DeleteAsync(page, cancellationToken);
+        bool pageIsDeleted = await _pageRepository.DeleteAsync(page, cancellationToken);
+        bool layoutsAreDeleted = await _layoutConfigurationRepository.DeleteByPageAsync(page, cancellationToken);
+        
+        return pageIsDeleted && layoutsAreDeleted;
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 using OmmelSamvirke.Persistence.Features.Common.Configuration;
 
@@ -9,19 +8,9 @@ public class ContentBlockConfiguration : BaseEntityTypeConfiguration<ContentBloc
 {
     protected override void ConfigureEntity(EntityTypeBuilder<ContentBlock> builder)
     {
-        builder.ToTable("ContentBlocks");
-        builder.Property(q => q.IsOptional).IsRequired();
-        
-        builder.HasOne(q => q.DesktopConfiguration)
-            .WithMany()
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(q => q.TabletConfiguration)
-            .WithMany()
-            .OnDelete(DeleteBehavior.Restrict);
-        
-        builder.HasOne(q => q.MobileConfiguration)
-            .WithMany()
-            .OnDelete(DeleteBehavior.Restrict);
+        builder.Property(p => p.XPosition).IsRequired();
+        builder.Property(p => p.YPosition).IsRequired();
+        builder.Property(p => p.Width).IsRequired();
+        builder.Property(p => p.Height).IsRequired();
     }
 }

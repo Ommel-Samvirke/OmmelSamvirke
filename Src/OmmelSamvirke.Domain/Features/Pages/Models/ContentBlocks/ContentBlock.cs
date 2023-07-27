@@ -1,4 +1,7 @@
-﻿using OmmelSamvirke.Domain.Common;
+﻿using JsonSubTypes;
+using Newtonsoft.Json;
+using OmmelSamvirke.Domain.Common;
+using OmmelSamvirke.Domain.Features.Pages.Enums;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
@@ -6,81 +9,32 @@ namespace OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 /// This class represents a content block that can be placed on a page. 
 /// It serves as a base class for more specific types of content blocks.
 /// </summary>
+[JsonConverter(typeof(JsonSubtypes), "ContentBlockType")]
+[JsonSubtypes.KnownSubType(typeof(HeadlineBlock), (int)ContentBlockType.HeadlineBlock)]
+[JsonSubtypes.KnownSubType(typeof(ImageBlock), (int)ContentBlockType.ImageBlock)]
+[JsonSubtypes.KnownSubType(typeof(PdfBlock), (int)ContentBlockType.PdfBlock)]
+[JsonSubtypes.KnownSubType(typeof(SlideshowBlock), (int)ContentBlockType.SlideshowBlock)]
+[JsonSubtypes.KnownSubType(typeof(TextBlock), (int)ContentBlockType.TextBlock)]
+[JsonSubtypes.KnownSubType(typeof(VideoBlock), (int)ContentBlockType.VideoBlock)]
 public abstract class ContentBlock : BaseModel
 {
     /// <summary>
-    /// Whether the block is optional or not.
+    /// The X position of the block on the page.
     /// </summary>
-    public bool IsOptional { get; set; }
+    public int XPosition { get; set; }
 
     /// <summary>
-    /// The layout configuration for Desktop devices.
+    /// The Y position of the block on the page.
     /// </summary>
-    public ContentBlockLayoutConfiguration? DesktopConfiguration { get; set; }
+    public int YPosition { get; set; }
 
     /// <summary>
-    /// The layout configuration for Tablet devices.
+    /// The width of the block.
     /// </summary>
-    public ContentBlockLayoutConfiguration? TabletConfiguration { get; set; }
+    public int Width { get; set; }
 
     /// <summary>
-    /// The layout configuration for Mobile devices.
+    /// The height of the block.
     /// </summary>
-    public ContentBlockLayoutConfiguration? MobileConfiguration { get; set; }
-    
-    /// <summary>
-    /// Check if any of the blocks in <paramref name="contentBlocks"/> are overlapping.
-    /// The check is performed for all three layout configurations.
-    /// </summary>
-    /// <param name="contentBlocks"></param>
-    /// <returns></returns>
-    public static bool AreAnyBlocksOverlapping(List<ContentBlock> contentBlocks)
-    {
-        return CheckLayoutConfiguration(contentBlocks, cb => cb.DesktopConfiguration) ||
-               CheckLayoutConfiguration(contentBlocks, cb => cb.TabletConfiguration) ||
-               CheckLayoutConfiguration(contentBlocks, cb => cb.MobileConfiguration);
-    }
-
-    private static bool CheckLayoutConfiguration(
-        IEnumerable<ContentBlock> contentBlocks,
-        Func<ContentBlock, ContentBlockLayoutConfiguration?> configSelector
-    )
-    {
-        List<ContentBlockLayoutConfiguration?> configs = contentBlocks
-            .Select(configSelector)
-            .Where(config => config != null)
-            .ToList();
-
-        if (configs.Count <= 1) return false;
-
-        for (int i = 0; i < configs.Count; i++)
-        {
-            for (int j = i + 1; j < configs.Count; j++)
-            {
-                if (IsOverlapping(configs[i], configs[j]))
-                    return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static bool IsOverlapping(
-        ContentBlockLayoutConfiguration? contentBlock1Config,
-        ContentBlockLayoutConfiguration? contentBlock2Config
-    )
-    {
-        if (contentBlock1Config == null || contentBlock2Config == null) 
-            return false;
-        
-        if (contentBlock1Config.XPosition + contentBlock1Config.Width <= contentBlock2Config.XPosition || 
-            contentBlock2Config.XPosition + contentBlock2Config.Width <= contentBlock1Config.XPosition)
-            return false;
-        
-        if (contentBlock1Config.YPosition + contentBlock1Config.Height <= contentBlock2Config.YPosition || 
-            contentBlock2Config.YPosition + contentBlock2Config.Height <= contentBlock1Config.YPosition)
-            return false;
-
-        return true;
-    }
+    public int Height { get; set; }
 }

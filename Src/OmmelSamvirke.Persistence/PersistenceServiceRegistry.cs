@@ -3,7 +3,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OmmelSamvirke.Persistence.DatabaseContext;
 using OmmelSamvirke.Persistence.Features.Admins;
-using OmmelSamvirke.Persistence.Features.Common;
 using OmmelSamvirke.Persistence.Features.Communities;
 using OmmelSamvirke.Persistence.Features.Pages;
 
@@ -18,7 +17,6 @@ public static class PersistenceServiceRegistry
             options.UseSqlServer(configuration.GetConnectionString("DefaultDbConnectionString"));
         });
         
-        services.AddCommonPersistenceServices();
         services.AddCommunitiesPersistenceServices(configuration);
         services.AddAdminsPersistenceServices(configuration);
         services.AddPagesPersistenceServices(configuration);

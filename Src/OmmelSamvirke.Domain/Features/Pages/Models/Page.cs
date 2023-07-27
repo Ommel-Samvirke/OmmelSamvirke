@@ -1,12 +1,13 @@
 ﻿using OmmelSamvirke.Domain.Common;
 using OmmelSamvirke.Domain.Features.Pages.Enums;
+using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 
 namespace OmmelSamvirke.Domain.Features.Pages.Models;
 
 /// <summary>
-/// This class represents a page which is created based on a certain 
-/// <see cref="PageTemplate"/>. Each page must have a unique name 
-/// and it is associated with a specific template.
+/// This class represents a page composed of <see cref="ContentBlock"/> elements.
+/// Each page has 3 different layout configurations for Desktop, Tablet and Mobile devices.
+/// Each page must have a unique name.
 /// </summary>
 public class Page : BaseModel
 {
@@ -17,9 +18,22 @@ public class Page : BaseModel
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// The Id of the template which is used to create this page.
+    /// The layout configuration for Desktop devices.
     /// </summary>
-    public int TemplateId { get; set; }
+    public LayoutConfiguration DesktopConfiguration { get; set; } = new();
+    public int DesktopConfigurationId { get; set; }
+
+    /// <summary>
+    /// The layout configuration for Tablet devices.
+    /// </summary>
+    public LayoutConfiguration TabletConfiguration { get; set; }  = new();
+    public int TabletConfigurationId { get; set; }
+
+    /// <summary>
+    /// The layout configuration for Mobile devices.
+    /// </summary>
+    public LayoutConfiguration MobileConfiguration { get; set; }  = new();
+    public int MobileConfigurationId { get; set; }
 
     /// <summary>
     /// The id of the community the page belongs to.

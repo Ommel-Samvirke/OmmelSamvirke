@@ -11,7 +11,7 @@ public abstract class BaseModel : IEquatable<BaseModel>
     /// It is assumed that any DB used with Ommel Samvirke will
     /// use integer identifiers for all table types.
     /// </summary>
-    public int Id { get; init; }
+    public int Id { get; set; }
 
     /// <summary>
     /// Describes when the instance of the model was first created.
@@ -39,7 +39,7 @@ public abstract class BaseModel : IEquatable<BaseModel>
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return Id == other.Id;
+        return Id == other.Id && DateModified.Equals(other.DateModified);
     }
 
     /// <summary>

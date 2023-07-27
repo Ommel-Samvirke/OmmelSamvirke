@@ -40,42 +40,22 @@ public class GetPagesTests : BaseWebClientProvider
     public async Task GetContentBlockData_WhenIdExists_ReturnsListOfContentBlocks()
     {
         TestFixtures.InsertPage();
-        TestFixtures.InsertContentBlockData();
-        TestFixtures.InsertContentBlockData();
 
-        HttpResponseMessage response = await Client.GetAsync("/api/Pages/1/ContentBlockData");
+        HttpResponseMessage response = await Client.GetAsync("/api/Pages/ContentBlocks?layoutConfigurationId=1");
         string jsonResponse = await response.Content.ReadAsStringAsync();
         List<dynamic> deserializedResponse = JsonConvert.DeserializeObject<List<dynamic>>(jsonResponse)!;
         
         Assert.Multiple(() =>
         {
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(deserializedResponse, Has.Count.EqualTo(2));
+            Assert.That(deserializedResponse, Has.Count.EqualTo(1));
         });
     }
-    
-    [Test]
-    public async Task GetContentBlockData_WhenNoContentBlockDataIsAssociated_ReturnsEmptyList()
-    {
-        TestFixtures.InsertPage();
 
-        HttpResponseMessage response = await Client.GetAsync("/api/Pages/1/ContentBlockData");
-        string jsonResponse = await response.Content.ReadAsStringAsync();
-        List<dynamic> deserializedResponse = JsonConvert.DeserializeObject<List<dynamic>>(jsonResponse)!;
-        
-        Assert.Multiple(() =>
-        {
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(deserializedResponse, Has.Count.EqualTo(0));
-        });
-    }
-    
     [Test]
     public async Task GetContentBlockData_WhenIdDoesNotExist_ReturnsNotFound()
     {
         TestFixtures.InsertPage();
-        TestFixtures.InsertContentBlockData();
-        TestFixtures.InsertContentBlockData();
 
         HttpResponseMessage response = await Client.GetAsync("/api/Pages/ContentBlockData/2");
 

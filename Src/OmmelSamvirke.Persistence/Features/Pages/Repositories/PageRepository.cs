@@ -8,17 +8,34 @@ namespace OmmelSamvirke.Persistence.Features.Pages.Repositories;
 
 public class PageRepository : GenericRepository<Page>, IPageRepository
 {
-    private readonly AppDbContext _dbContext;
-
-    public PageRepository(AppDbContext dbContext) : base(dbContext)
+    public PageRepository(AppDbContext dbDbContext) : base(dbDbContext) { }
+    
+    public override async Task<IReadOnlyList<Page>> GetWithRelationsAsync(CancellationToken cancellationToken = default)
     {
-        _dbContext = dbContext;
+        IQueryable<Page> pagesWithRelations = DbSet
+            .Include(p => p.DesktopConfiguration)
+            .ThenInclude(d => d.ContentBlocks)
+            .Include(p => p.TabletConfiguration)
+            .ThenInclude(t => t.ContentBlocks)
+            .Include(p => p.MobileConfiguration)
+            .ThenInclude(m => m.ContentBlocks)
+            .AsNoTracking();
+
+        return await pagesWithRelations.ToListAsync(cancellationToken);
     }
-
-    public async Task<List<Page>> GetByPageTemplateId(int pageTemplateId, CancellationToken cancellationToken = default)
+    
+    public override async Task<Page?> GetByIdWithRelationsAsync(int id, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Pages.AsNoTracking()
-            .Where(p => p.TemplateId == pageTemplateId)
-            .ToListAsync(cancellationToken);
+        IQueryable<Page?> pageWithRelations = DbSet
+            .Include(p => p.DesktopConfiguration)
+            .ThenInclude(d => d.ContentBlocks)
+            .Include(p => p.TabletConfiguration)
+            .ThenInclude(t => t.ContentBlocks)
+            .Include(p => p.MobileConfiguration)
+            .ThenInclude(m => m.ContentBlocks)
+            .AsNoTracking()
+            .Where(p => p.Id == id);
+
+        return await pageWithRelations.FirstOrDefaultAsync(cancellationToken);
     }
 }

@@ -4,9 +4,12 @@ using OmmelSamvirke.Domain.Common;
 
 namespace OmmelSamvirke.Persistence.DatabaseContext;
 
-public partial class AppDbContext : DbContext
+public sealed partial class AppDbContext : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+        ChangeTracker.LazyLoadingEnabled = false;
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -16,7 +19,7 @@ public partial class AppDbContext : DbContext
     
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
-        foreach (EntityEntry<BaseModel> entry in base.ChangeTracker.Entries<BaseModel>().Where(
+        foreach (EntityEntry<BaseModel> entry in ChangeTracker.Entries<BaseModel>().Where(
                      q => q.State is EntityState.Added or EntityState.Modified)
                 )
         {

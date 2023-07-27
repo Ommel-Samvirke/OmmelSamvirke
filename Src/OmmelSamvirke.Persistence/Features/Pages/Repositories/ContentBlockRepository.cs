@@ -1,66 +1,41 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
+using OmmelSamvirke.Domain.Features.Pages.Models;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 using OmmelSamvirke.Persistence.DatabaseContext;
-using OmmelSamvirke.Persistence.Features.Common.Repositories;
 
 namespace OmmelSamvirke.Persistence.Features.Pages.Repositories;
 
-public class ContentBlockRepository : GenericRepository<ContentBlock>, IContentBlockRepository
+public class ContentBlockRepository<T> : IContentBlockRepository<T> where T : ContentBlock 
 {
-    private readonly AppDbContext _dbContext;
-    private readonly IContentBlockLayoutConfigurationRepository _configurationRepository;
+    private readonly DbSet<LayoutConfiguration> _layoutConfigurations;
 
-    public ContentBlockRepository(AppDbContext dbDbContext, IContentBlockLayoutConfigurationRepository configurationRepository) : base(dbDbContext)
+    public ContentBlockRepository(AppDbContext dbContext)
     {
-        _dbContext = dbDbContext;
-        _configurationRepository = configurationRepository;
+        _layoutConfigurations = dbContext.LayoutConfigurations;
     }
 
-    public async Task<List<ContentBlock>> CreateAsync(List<ContentBlock> contentBlocks, CancellationToken cancellationToken = default)
+    public async Task<List<T>> GetByLayoutConfiguration(int layoutConfigurationId, CancellationToken cancellationToken)
     {
-        await DbSet.AddRangeAsync(contentBlocks, cancellationToken);
-        foreach (ContentBlock entity in contentBlocks) 
-            DbSet.Entry(entity).State = EntityState.Added;
+        LayoutConfiguration? layoutConfig = await _layoutConfigurations
+            .Include(p => p.ContentBlocks)
+            .FirstOrDefaultAsync(x =>
+                x.Id == layoutConfigurationId, 
+                cancellationToken: cancellationToken
+            );
         
-        await DbDbContext.SaveChangesAsync(cancellationToken);
-        return contentBlocks;
-    }
+        if (layoutConfig is null)
+            return new List<T>();
 
-    public async Task<bool> DeleteAsync(List<ContentBlock> contentBlocks, CancellationToken cancellationToken = default)
-    {
-        try
+        if (typeof(T) == typeof(ContentBlock))
         {
-            DbSet.RemoveRange(contentBlocks);
-            foreach (ContentBlock entity in contentBlocks) 
-                DbSet.Entry(entity).State = EntityState.Deleted;
-            
-            await _configurationRepository.DeleteAsync(contentBlocks.Select(p => p.DesktopConfiguration).ToList(), cancellationToken);
-            await _configurationRepository.DeleteAsync(contentBlocks.Select(p => p.TabletConfiguration).ToList(), cancellationToken);
-            await _configurationRepository.DeleteAsync(contentBlocks.Select(p => p.MobileConfiguration).ToList(), cancellationToken);
-            
-            await DbDbContext.SaveChangesAsync(cancellationToken);
-            return true;
+            return layoutConfig.ContentBlocks
+                .Cast<T>()
+                .ToList();
         }
-        catch (Exception )
-        {
-            return false;
-        }
-    }
-
-    public async Task<List<ContentBlock>> GetByPageTemplateIdAsync(int pageTemplateId, CancellationToken cancellationToken = default)
-    {
-        IQueryable<int> contentBlockIds = _dbContext.PageTemplates.AsNoTracking().Where(pageTemplate => pageTemplate.Id == pageTemplateId)
-            .SelectMany(pageTemplate => pageTemplate.ContentBlocks.Select(contentBlock => contentBlock.Id))
-            .Distinct();
-
-        if (!contentBlockIds.Any())
-            return new List<ContentBlock>();
         
-        return await _dbContext.ContentBlocks.AsNoTracking().Where(contentBlock => contentBlockIds.Contains(contentBlock.Id))
-            .Include(cb => cb.DesktopConfiguration).AsNoTracking()
-            .Include(cb => cb.TabletConfiguration).AsNoTracking()
-            .Include(cb => cb.MobileConfiguration).AsNoTracking()
-            .ToListAsync(cancellationToken);
+        return layoutConfig.ContentBlocks
+            .OfType<T>()
+            .ToList();
     }
 }

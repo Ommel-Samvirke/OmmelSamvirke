@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using OmmelSamvirke.Application.Errors;
-using OmmelSamvirke.Application.Features.Pages.DTOs.Queries;
+using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 using OmmelSamvirke.Domain.Features.Communities.Interfaces.Repositories;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
@@ -9,13 +9,13 @@ using OmmelSamvirke.Domain.Features.Pages.Models;
 
 namespace OmmelSamvirke.Application.Features.Pages.Pages.Queries;
 
-public class GetPreviousPageQuery : IRequest<PageQueryDto>
+public class GetPreviousPageQuery : IRequest<PageDto>
 {
     public int CommunityId { get; init; }
     public int CurrentPageId { get; init; }
 }
 
-public class GetPreviousPageQueryHandler : IRequestHandler<GetPreviousPageQuery, PageQueryDto>
+public class GetPreviousPageQueryHandler : IRequestHandler<GetPreviousPageQuery, PageDto>
 {
     private readonly IMapper _mapper;
     private readonly ICommunityRepository _communityRepository;
@@ -28,12 +28,12 @@ public class GetPreviousPageQueryHandler : IRequestHandler<GetPreviousPageQuery,
         _pageRepository = pageRepository;
     }
     
-    public async Task<PageQueryDto> Handle(GetPreviousPageQuery request, CancellationToken cancellationToken)
+    public async Task<PageDto> Handle(GetPreviousPageQuery request, CancellationToken cancellationToken)
     {
         GetPreviousPageQueryValidator validator = new(_communityRepository, _pageRepository);
         ValidationResultHandler.Handle(await validator.ValidateAsync(request, cancellationToken), request);
 
         Page page = await _communityRepository.GetPreviousPage(request.CommunityId, request.CurrentPageId, cancellationToken);
-        return _mapper.Map<PageQueryDto>(page);
+        return _mapper.Map<PageDto>(page);
     }
 }

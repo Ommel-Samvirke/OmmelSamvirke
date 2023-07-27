@@ -5,13 +5,13 @@ using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
 
 namespace OmmelSamvirke.Application.Features.Pages.Pages.Validators;
 
-public class GetContentBlockDataQueryValidator : AbstractValidator<GetContentBlockDataQuery>
+public class GetContentBlockDataQueryValidator : AbstractValidator<GetContentBlockQuery>
 {
-    public GetContentBlockDataQueryValidator(IPageRepository pageRepository)
+    public GetContentBlockDataQueryValidator(ILayoutConfigurationRepository layoutConfigurationRepository)
     {
-        RuleFor(p => p.PageId)
-            .MustAsync(pageRepository.ExistsAsync)
+        RuleFor(p => p.LayoutConfigurationId)
+            .MustAsync(layoutConfigurationRepository.ExistsAsync)
             .WithErrorCode(ErrorCode.ResourceNotFound)
-            .WithMessage("Page does not exist");
+            .WithMessage("LayoutConfiguration does not exist");
     }
 }

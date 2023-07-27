@@ -21,4 +21,8 @@
       <ProjectReference Include="..\OmmelSamvirke.TestUtilities\OmmelSamvirke.TestUtilities.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Pages" />
+    </ItemGroup>
+
 </Project>

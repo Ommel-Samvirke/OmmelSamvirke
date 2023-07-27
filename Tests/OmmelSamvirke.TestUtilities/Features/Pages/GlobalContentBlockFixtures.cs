@@ -1,4 +1,5 @@
-﻿using OmmelSamvirke.Domain.Features.Pages.Models;
+﻿using OmmelSamvirke.Application.Features.Pages.DTOs.ContentBlocks;
+using OmmelSamvirke.Domain.Features.Pages.Enums;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 using OmmelSamvirke.TestUtilities.Features.Common;
 
@@ -10,25 +11,24 @@ public static class GlobalContentBlockFixtures
     {
         return EntityCreator.Create(new HeadlineBlock
         {
-            IsOptional = false,
-            DesktopConfiguration = GlobalContentBlockLayoutConfigurationFixtures.GetDefaultContentBlockLayoutConfiguration(),
-            TabletConfiguration = GlobalContentBlockLayoutConfigurationFixtures.GetDefaultContentBlockLayoutConfiguration(),
-            MobileConfiguration = GlobalContentBlockLayoutConfigurationFixtures.GetDefaultContentBlockLayoutConfiguration()
+            Headline = "TestHeadline",
+            XPosition = 0,
+            YPosition = 0,
+            Width = 6,
+            Height = 1
         });
     }
     
-    public static ContentBlock DefaultContentBlock(
-        ContentBlockLayoutConfiguration desktopConfiguration,
-        ContentBlockLayoutConfiguration tabletConfiguration,
-        ContentBlockLayoutConfiguration mobileConfiguration
-    )
+    public static ContentBlockDto DefaultContentBlockDto()
     {
-        return EntityCreator.Create(new HeadlineBlock
+        return EntityCreator.Create(new HeadLineBlockDto
         {
-            IsOptional = false,
-            DesktopConfiguration = desktopConfiguration,
-            TabletConfiguration = tabletConfiguration,
-            MobileConfiguration = mobileConfiguration
+            Headline = "TestHeadline",
+            XPosition = 0,
+            YPosition = 0,
+            Width = 6,
+            Height = 1,
+            ContentBlockType = ContentBlockType.HeadlineBlock
         });
     }
 }

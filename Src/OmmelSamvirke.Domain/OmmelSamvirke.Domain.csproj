@@ -11,4 +11,8 @@
       <Folder Include="Features\Communities\Enums" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="JsonSubTypes" Version="2.0.1" />
+    </ItemGroup>
+
 </Project>

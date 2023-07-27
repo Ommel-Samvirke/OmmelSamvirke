@@ -31,6 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Tests\OmmelSamvirke.TestUtilities\OmmelSamvirke.TestUtilities.csproj" />
       <ProjectReference Include="..\OmmelSamvirke.Application\OmmelSamvirke.Application.csproj" />
       <ProjectReference Include="..\OmmelSamvirke.Persistence\OmmelSamvirke.Persistence.csproj" />
     </ItemGroup>

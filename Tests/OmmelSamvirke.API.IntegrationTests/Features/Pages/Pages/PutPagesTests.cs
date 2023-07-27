@@ -1,10 +1,11 @@
 ﻿using System.Net;
 using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OmmelSamvirke.API.E2ETests.Common;
-using OmmelSamvirke.Domain.Features.Pages.Enums;
+using OmmelSamvirke.Application.Features.Pages.DTOs;
 using OmmelSamvirke.Domain.Features.Pages.Models;
-using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
+using OmmelSamvirke.TestUtilities.Features.Pages;
 
 namespace OmmelSamvirke.API.E2ETests.Features.Pages.Pages;
 
@@ -14,39 +15,18 @@ public class PutPagesTests : BaseWebClientProvider
     public async Task Update_GivenValidData_ReturnsOk()
     {
         TestFixtures.InsertCommunity();
-        TestFixtures.InsertPageTemplate();
         Page originalPage = TestFixtures.InsertPage();
-        HeadlineBlockData headlineBlockData = (HeadlineBlockData)TestFixtures.InsertContentBlockData().First();
-        headlineBlockData.Headline = "Updated headline";
-
-        string requestBody =
-            $@"{{
-                ""originalPage"": {{
-                    ""name"": ""{originalPage.Name}"",
-                    ""state"": {(int)originalPage.State},
-                    ""id"": {originalPage.Id},
-                    ""dateCreated"": ""{originalPage.DateCreated:yyyy-MM-ddTHH:mm:ss.ffffff}"",
-                    ""dateModified"": ""{originalPage.DateModified:yyyy-MM-ddTHH:mm:ss.ffffff}""
-                }},
-                ""updatedPage"": {{
-                    ""name"": ""Updated name"",
-                    ""state"": {(int)PageState.Visible},
-                    ""id"": {originalPage.Id},
-                    ""pageTemplateId"": 1
-                }},
-                ""updatedContentBlockDataElements"": [
-                    {{
-                        ""id"": 1,
-                        ""baseContentBlockId"": 1,
-                        ""pageId"": 1,
-                        ""headline"": ""Updated Headline"",
-                        ""contentBlockType"": 0
-                    }}
-                ]
-            }}";
-
-        HttpResponseMessage responseMessage = await Client.PutAsync("/api/Pages", 
-            new StringContent(requestBody,
+        
+        PageDto requestDto = GlobalPageFixtures.DefaultPageDto();
+        requestDto.Id = 1;
+        requestDto.Name = "Update Name";
+        string requestBody = JsonConvert.SerializeObject(new {
+            OriginalPage = originalPage,
+            UpdatedPage = requestDto
+        }, SerializerSettings.JsonSerializerSettings);
+        
+        HttpResponseMessage responseMessage = await Client.PutAsync("/api/Pages", new StringContent(
+            requestBody,
             Encoding.UTF8,
             "application/json"
         ));
@@ -58,148 +38,32 @@ public class PutPagesTests : BaseWebClientProvider
         {
             Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
             Assert.That(jsonResponseBody["id"]!.Value<int>(), Is.EqualTo(originalPage.Id));
-            Assert.That(jsonResponseBody["name"]!.Value<string>(), Is.EqualTo("Updated name"));
-            Assert.That(jsonResponseBody["state"]!.Value<int>(), Is.EqualTo((int)PageState.Visible));
+            Assert.That(jsonResponseBody["name"]!.Value<string>(), Is.EqualTo(requestDto.Name));
+            Assert.That(jsonResponseBody["state"]!.Value<int>(), Is.EqualTo((int)requestDto.State));
         });
     }
-    
+
     [Test]
     public async Task Update_GivenOriginalPageHasStaleModifiedDate_ReturnsConflict()
     {
         TestFixtures.InsertCommunity();
-        TestFixtures.InsertPageTemplate();
         Page originalPage = TestFixtures.InsertPage();
-        HeadlineBlockData headlineBlockData = (HeadlineBlockData)TestFixtures.InsertContentBlockData().First();
-        headlineBlockData.Headline = "Updated headline";
-
-        string requestBody =
-            $@"{{
-                ""originalPage"": {{
-                    ""name"": ""{originalPage.Name}"",
-                    ""state"": {(int)originalPage.State},
-                    ""id"": {originalPage.Id},
-                    ""dateCreated"": ""{originalPage.DateCreated:yyyy-MM-ddTHH:mm:ss.ffffff}"",
-                    ""dateModified"": ""2023-07-20T17:27:38.123456""
-                }},
-                ""updatedPage"": {{
-                    ""name"": ""Updated name"",
-                    ""state"": {(int)PageState.Visible},
-                    ""id"": {originalPage.Id},
-                    ""pageTemplateId"": 1
-                }},
-                ""updatedContentBlockDataElements"": [
-                    {{
-                        ""id"": 1,
-                        ""baseContentBlockId"": 1,
-                        ""pageId"": 1,
-                        ""headline"": ""Updated Headline"",
-                        ""contentBlockType"": 0
-                    }}
-                ]
-            }}";
-
-        HttpResponseMessage responseMessage = await Client.PutAsync("/api/Pages", 
-            new StringContent(requestBody,
+        originalPage.DateModified = originalPage.DateModified?.AddSeconds(1);
+        
+        PageDto requestDto = GlobalPageFixtures.DefaultPageDto();
+        requestDto.Id = 1;
+        requestDto.Name = "Update Name";
+        string requestBody = JsonConvert.SerializeObject(new {
+            OriginalPage = originalPage,
+            UpdatedPage = requestDto
+        }, SerializerSettings.JsonSerializerSettings);
+        
+        HttpResponseMessage responseMessage = await Client.PutAsync("/api/Pages", new StringContent(
+            requestBody,
             Encoding.UTF8,
             "application/json"
         ));
-
+        
         Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.Conflict));
-    }
-    
-    [Test]
-    public async Task Update_GivenRequestContainsEmptyNonOptionalContentBlockData_ReturnsBadRequest()
-    {
-        TestFixtures.InsertCommunity();
-        TestFixtures.InsertPageTemplate();
-        Page originalPage = TestFixtures.InsertPage();
-        HeadlineBlockData headlineBlockData = (HeadlineBlockData)TestFixtures.InsertContentBlockData().First();
-        headlineBlockData.Headline = "Updated headline";
-
-        string requestBody =
-            $@"{{
-                ""originalPage"": {{
-                    ""name"": ""{originalPage.Name}"",
-                    ""state"": {(int)originalPage.State},
-                    ""id"": {originalPage.Id},
-                    ""dateCreated"": ""{originalPage.DateCreated:yyyy-MM-ddTHH:mm:ss.ffffff}"",
-                    ""dateModified"": ""{originalPage.DateModified:yyyy-MM-ddTHH:mm:ss.ffffff}""
-                }},
-                ""updatedPage"": {{
-                    ""name"": ""Updated name"",
-                    ""state"": {(int)PageState.Visible},
-                    ""id"": {originalPage.Id},
-                    ""pageTemplateId"": 1
-                }},
-                ""updatedContentBlockDataElements"": [
-                    {{
-                        ""id"": 1,
-                        ""baseContentBlockId"": 1,
-                        ""pageId"": 1,
-                        ""headline"": """",
-                        ""contentBlockType"": 0
-                    }}
-                ]
-            }}";
-
-        HttpResponseMessage responseMessage = await Client.PutAsync("/api/Pages", 
-            new StringContent(requestBody,
-            Encoding.UTF8,
-            "application/json"
-        ));
-        
-        Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-    }
-    
-    [Test]
-    public async Task Update_GivenRequestContainsEmptyOptionalContentBlockData_ReturnsOk()
-    {
-        TestFixtures.InsertCommunity();
-        TestFixtures.InsertPageTemplate();
-        Page originalPage = TestFixtures.InsertPage();
-        TestFixtures.InsertContentBlockData(isOptional: true);
-        HeadlineBlockData headlineBlockData2 = (HeadlineBlockData)TestFixtures.InsertContentBlockData().First();
-        headlineBlockData2.Headline = "Updated headline";
-
-        string requestBody =
-            $@"{{
-                ""originalPage"": {{
-                    ""name"": ""{originalPage.Name}"",
-                    ""state"": {(int)originalPage.State},
-                    ""id"": {originalPage.Id},
-                    ""dateCreated"": ""{originalPage.DateCreated:yyyy-MM-ddTHH:mm:ss.ffffff}"",
-                    ""dateModified"": ""{originalPage.DateModified:yyyy-MM-ddTHH:mm:ss.ffffff}""
-                }},
-                ""updatedPage"": {{
-                    ""name"": ""Updated name"",
-                    ""state"": {(int)PageState.Visible},
-                    ""id"": {originalPage.Id},
-                    ""pageTemplateId"": 1
-                }},
-                ""updatedContentBlockDataElements"": [
-                    {{
-                        ""id"": 1,
-                        ""baseContentBlockId"": 1,
-                        ""pageId"": 1,
-                        ""headline"": """",
-                        ""contentBlockType"": 0
-                    }},
-                    {{
-                        ""id"": 2,
-                        ""baseContentBlockId"": 1,
-                        ""pageId"": 1,
-                        ""headline"": ""{headlineBlockData2.Headline}"",
-                        ""contentBlockType"": 0
-                    }}
-                ]
-            }}";
-
-        HttpResponseMessage responseMessage = await Client.PutAsync("/api/Pages", 
-            new StringContent(requestBody,
-                Encoding.UTF8,
-                "application/json"
-            ));
-        
-        Assert.That(responseMessage.StatusCode, Is.EqualTo(HttpStatusCode.OK));
     }
 }

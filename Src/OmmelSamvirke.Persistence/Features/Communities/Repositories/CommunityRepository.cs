@@ -72,4 +72,21 @@ public class CommunityRepository : GenericRepository<Community>, ICommunityRepos
 
         return pageIndex;
     }
+
+    public override async Task<IReadOnlyList<Community>> GetWithRelationsAsync(CancellationToken cancellationToken = default)
+    {
+        return await DbSet
+            .Include(p => p.Pages)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
+    }
+
+    public override async Task<Community?> GetByIdWithRelationsAsync(int id, CancellationToken cancellationToken = default)
+    {
+        return await DbSet
+            .Include(p => p.Pages)
+            .Where(p => p.Id == id)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(cancellationToken);
+    }
 }

@@ -10,4 +10,14 @@ public class AdminRepository : GenericRepository<Admin>, IAdminRepository
     public AdminRepository(AppDbContext dbContext) : base(dbContext)
     {
     }
+
+    public override async Task<IReadOnlyList<Admin>> GetWithRelationsAsync(CancellationToken cancellationToken = default)
+    {
+        return await GetAsync(cancellationToken);
+    }
+
+    public override async Task<Admin?> GetByIdWithRelationsAsync(int id, CancellationToken cancellationToken = default)
+    {
+        return await GetByIdAsync(id, cancellationToken);
+    }
 }

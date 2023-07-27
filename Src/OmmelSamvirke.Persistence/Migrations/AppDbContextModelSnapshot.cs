@@ -69,221 +69,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.ToTable("Communities", (string)null);
                 });
 
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.HeadlineBlockData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ContentBlockId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DateCreated")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModified")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Headline")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("PageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContentBlockId");
-
-                    b.HasIndex("PageId");
-
-                    b.ToTable("HeadlineBlockData", (string)null);
-                });
-
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.ImageBlockData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ContentBlockId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DateCreated")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModified")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)");
-
-                    b.Property<int>("PageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContentBlockId");
-
-                    b.HasIndex("PageId");
-
-                    b.ToTable("ImageBlockData", (string)null);
-                });
-
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.PdfBlockData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ContentBlockId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DateCreated")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModified")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PageId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PdfUrl")
-                        .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContentBlockId");
-
-                    b.HasIndex("PageId");
-
-                    b.ToTable("PdfBlockData", (string)null);
-                });
-
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.SlideshowBlockData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ContentBlockId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DateCreated")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModified")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImageUrls")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContentBlockId");
-
-                    b.HasIndex("PageId");
-
-                    b.ToTable("SlideshowBlockData", (string)null);
-                });
-
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.TextBlockData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ContentBlockId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DateCreated")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModified")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PageId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContentBlockId");
-
-                    b.HasIndex("PageId");
-
-                    b.ToTable("TextBlockData", (string)null);
-                });
-
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.VideoBlockData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ContentBlockId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DateCreated")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModified")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PageId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("VideoUrl")
-                        .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("nvarchar(4000)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContentBlockId");
-
-                    b.HasIndex("PageId");
-
-                    b.ToTable("VideoBlockData", (string)null);
-                });
-
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockLayoutConfiguration", b =>
+            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -302,6 +88,9 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.Property<int>("Height")
                         .HasColumnType("int");
 
+                    b.Property<int?>("LayoutConfigurationId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Width")
                         .HasColumnType("int");
 
@@ -313,10 +102,14 @@ namespace OmmelSamvirke.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContentBlockLayoutConfigurations", (string)null);
+                    b.HasIndex("LayoutConfigurationId");
+
+                    b.ToTable("ContentBlocks");
+
+                    b.UseTptMappingStrategy();
                 });
 
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock", b =>
+            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.LayoutConfiguration", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -332,40 +125,9 @@ namespace OmmelSamvirke.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DesktopConfigurationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsOptional")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("MobileConfigurationId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PageTemplateId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TabletConfigurationId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("DesktopConfigurationId");
-
-                    b.HasIndex("MobileConfigurationId");
-
-                    b.HasIndex("PageTemplateId");
-
-                    b.HasIndex("TabletConfigurationId");
-
-                    b.ToTable("ContentBlocks", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("ContentBlock");
-
-                    b.UseTphMappingStrategy();
+                    b.ToTable("LayoutConfigurations", (string)null);
                 });
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.Page", b =>
@@ -387,6 +149,12 @@ namespace OmmelSamvirke.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DesktopConfigurationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MobileConfigurationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -395,229 +163,119 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.Property<int>("State")
                         .HasColumnType("int");
 
-                    b.Property<int>("TemplateId")
+                    b.Property<int>("TabletConfigurationId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CommunityId");
 
-                    b.HasIndex("TemplateId");
+                    b.HasIndex("DesktopConfigurationId")
+                        .IsUnique();
 
-                    b.ToTable("Pages");
-                });
+                    b.HasIndex("MobileConfigurationId")
+                        .IsUnique();
 
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.PageTemplate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.HasIndex("TabletConfigurationId")
+                        .IsUnique();
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("DateCreated")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateModified")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(225)
-                        .HasColumnType("nvarchar(225)");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PageTemplates", (string)null);
+                    b.ToTable("Pages", (string)null);
                 });
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.HeadlineBlock", b =>
                 {
                     b.HasBaseType("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock");
 
-                    b.HasDiscriminator().HasValue("HeadlineBlock");
+                    b.Property<int>("ContentBlockType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Headline")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.ToTable("HeadlineBlocks", (string)null);
                 });
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ImageBlock", b =>
                 {
                     b.HasBaseType("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock");
 
-                    b.HasDiscriminator().HasValue("ImageBlock");
+                    b.Property<int>("ContentBlockType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.ToTable("ImageBlocks", (string)null);
                 });
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.PdfBlock", b =>
                 {
                     b.HasBaseType("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock");
 
-                    b.HasDiscriminator().HasValue("PdfBlock");
+                    b.Property<int>("ContentBlockType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PdfUrl")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.ToTable("PdfBlocks", (string)null);
                 });
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.SlideshowBlock", b =>
                 {
                     b.HasBaseType("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock");
 
-                    b.HasDiscriminator().HasValue("SlideshowBlock");
+                    b.Property<int>("ContentBlockType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrls")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("SlideshowBlocks", (string)null);
                 });
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.TextBlock", b =>
                 {
                     b.HasBaseType("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock");
 
-                    b.HasDiscriminator().HasValue("TextBlock");
+                    b.Property<int>("ContentBlockType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("TextBlocks", (string)null);
                 });
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.VideoBlock", b =>
                 {
                     b.HasBaseType("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock");
 
-                    b.HasDiscriminator().HasValue("VideoBlock");
-                });
+                    b.Property<int>("ContentBlockType")
+                        .HasColumnType("int");
 
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.HeadlineBlockData", b =>
-                {
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.HeadlineBlock", "ContentBlock")
-                        .WithMany()
-                        .HasForeignKey("ContentBlockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Property<string>("VideoUrl")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
 
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.Page", "Page")
-                        .WithMany()
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ContentBlock");
-
-                    b.Navigation("Page");
-                });
-
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.ImageBlockData", b =>
-                {
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ImageBlock", "ContentBlock")
-                        .WithMany()
-                        .HasForeignKey("ContentBlockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.Page", "Page")
-                        .WithMany()
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ContentBlock");
-
-                    b.Navigation("Page");
-                });
-
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.PdfBlockData", b =>
-                {
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.PdfBlock", "ContentBlock")
-                        .WithMany()
-                        .HasForeignKey("ContentBlockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.Page", "Page")
-                        .WithMany()
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ContentBlock");
-
-                    b.Navigation("Page");
-                });
-
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.SlideshowBlockData", b =>
-                {
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.SlideshowBlock", "ContentBlock")
-                        .WithMany()
-                        .HasForeignKey("ContentBlockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.Page", "Page")
-                        .WithMany()
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ContentBlock");
-
-                    b.Navigation("Page");
-                });
-
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.TextBlockData", b =>
-                {
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.TextBlock", "ContentBlock")
-                        .WithMany()
-                        .HasForeignKey("ContentBlockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.Page", "Page")
-                        .WithMany()
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ContentBlock");
-
-                    b.Navigation("Page");
-                });
-
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData.VideoBlockData", b =>
-                {
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.VideoBlock", "ContentBlock")
-                        .WithMany()
-                        .HasForeignKey("ContentBlockId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.Page", "Page")
-                        .WithMany()
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ContentBlock");
-
-                    b.Navigation("Page");
+                    b.ToTable("VideoBlocks", (string)null);
                 });
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock", b =>
                 {
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockLayoutConfiguration", "DesktopConfiguration")
-                        .WithMany()
-                        .HasForeignKey("DesktopConfigurationId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockLayoutConfiguration", "MobileConfiguration")
-                        .WithMany()
-                        .HasForeignKey("MobileConfigurationId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.PageTemplate", null)
+                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.LayoutConfiguration", null)
                         .WithMany("ContentBlocks")
-                        .HasForeignKey("PageTemplateId");
-
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockLayoutConfiguration", "TabletConfiguration")
-                        .WithMany()
-                        .HasForeignKey("TabletConfigurationId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("DesktopConfiguration");
-
-                    b.Navigation("MobileConfiguration");
-
-                    b.Navigation("TabletConfiguration");
+                        .HasForeignKey("LayoutConfigurationId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.Page", b =>
@@ -628,9 +286,81 @@ namespace OmmelSamvirke.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.PageTemplate", null)
-                        .WithMany()
-                        .HasForeignKey("TemplateId")
+                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.LayoutConfiguration", "DesktopConfiguration")
+                        .WithOne()
+                        .HasForeignKey("OmmelSamvirke.Domain.Features.Pages.Models.Page", "DesktopConfigurationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.LayoutConfiguration", "MobileConfiguration")
+                        .WithOne()
+                        .HasForeignKey("OmmelSamvirke.Domain.Features.Pages.Models.Page", "MobileConfigurationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.LayoutConfiguration", "TabletConfiguration")
+                        .WithOne()
+                        .HasForeignKey("OmmelSamvirke.Domain.Features.Pages.Models.Page", "TabletConfigurationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("DesktopConfiguration");
+
+                    b.Navigation("MobileConfiguration");
+
+                    b.Navigation("TabletConfiguration");
+                });
+
+            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.HeadlineBlock", b =>
+                {
+                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock", null)
+                        .WithOne()
+                        .HasForeignKey("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.HeadlineBlock", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ImageBlock", b =>
+                {
+                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock", null)
+                        .WithOne()
+                        .HasForeignKey("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ImageBlock", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.PdfBlock", b =>
+                {
+                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock", null)
+                        .WithOne()
+                        .HasForeignKey("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.PdfBlock", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.SlideshowBlock", b =>
+                {
+                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock", null)
+                        .WithOne()
+                        .HasForeignKey("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.SlideshowBlock", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.TextBlock", b =>
+                {
+                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock", null)
+                        .WithOne()
+                        .HasForeignKey("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.TextBlock", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.VideoBlock", b =>
+                {
+                    b.HasOne("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.ContentBlock", null)
+                        .WithOne()
+                        .HasForeignKey("OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks.VideoBlock", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -640,7 +370,7 @@ namespace OmmelSamvirke.Persistence.Migrations
                     b.Navigation("Pages");
                 });
 
-            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.PageTemplate", b =>
+            modelBuilder.Entity("OmmelSamvirke.Domain.Features.Pages.Models.LayoutConfiguration", b =>
                 {
                     b.Navigation("ContentBlocks");
                 });

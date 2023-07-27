@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OmmelSamvirke.Domain.Features.Pages.Interfaces.Repositories;
-using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlockData;
 using OmmelSamvirke.Domain.Features.Pages.Models.ContentBlocks;
 using OmmelSamvirke.Persistence.Features.Pages.Repositories;
 
@@ -12,49 +11,40 @@ public static class PagesPersistenceServiceRegistry
     public static void AddPagesPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped(
-            typeof(IContentBlockRepository),
-            typeof(ContentBlockRepository)
+            typeof(IContentBlockRepository<ContentBlock>),
+            typeof(ContentBlockRepository<ContentBlock>)
+        );
+        services.AddScoped(
+            typeof(IContentBlockRepository<HeadlineBlock>),
+            typeof(ContentBlockRepository<HeadlineBlock>)
+        );
+        services.AddScoped(
+            typeof(IContentBlockRepository<ImageBlock>),
+            typeof(ContentBlockRepository<ImageBlock>)
+        );
+        services.AddScoped(
+            typeof(IContentBlockRepository<PdfBlock>),
+            typeof(ContentBlockRepository<PdfBlock>)
+        );
+        services.AddScoped(
+            typeof(IContentBlockRepository<SlideshowBlock>),
+            typeof(ContentBlockRepository<SlideshowBlock>)
+        );
+        services.AddScoped(
+            typeof(IContentBlockRepository<TextBlock>),
+            typeof(ContentBlockRepository<TextBlock>)
+        );
+        services.AddScoped(
+            typeof(IContentBlockRepository<VideoBlock>),
+            typeof(ContentBlockRepository<VideoBlock>)
         );
         services.AddScoped(
             typeof(IPageRepository),
             typeof(PageRepository)
         );
         services.AddScoped(
-            typeof(IPageTemplateRepository),
-            typeof(PageTemplateRepository)
-        );
-        services.AddScoped(
-            typeof(IContentBlockLayoutConfigurationRepository),
-            typeof(ContentBlockLayoutConfigurationRepository)
-        );
-
-        services.AddScoped(
-            typeof(IContentBlockDataRepository<HeadlineBlockData, HeadlineBlock>),
-            typeof(ContentBlockDataRepository<HeadlineBlockData, HeadlineBlock>)
-        );
-        services.AddScoped(
-            typeof(IContentBlockDataRepository<ImageBlockData, ImageBlock>),
-            typeof(ContentBlockDataRepository<ImageBlockData, ImageBlock>)
-        );
-        services.AddScoped(
-            typeof(IContentBlockDataRepository<PdfBlockData, PdfBlock>),
-            typeof(ContentBlockDataRepository<PdfBlockData, PdfBlock>)
-        );
-        services.AddScoped(
-            typeof(IContentBlockDataRepository<SlideshowBlockData, SlideshowBlock>),
-            typeof(ContentBlockDataRepository<SlideshowBlockData, SlideshowBlock>)
-        );
-        services.AddScoped(
-            typeof(IContentBlockDataRepository<TextBlockData, TextBlock>),
-            typeof(ContentBlockDataRepository<TextBlockData, TextBlock>)
-        );
-        services.AddScoped(
-            typeof(IContentBlockDataRepository<VideoBlockData, VideoBlock>),
-            typeof(ContentBlockDataRepository<VideoBlockData, VideoBlock>)
-        );
-        services.AddScoped(
-            typeof(IContentBlockDataRepositoriesAggregate),
-            typeof(ContentBlockDataRepositoriesAggregate)
+            typeof(ILayoutConfigurationRepository),
+            typeof(LayoutConfigurationRepository)
         );
     }
 }
