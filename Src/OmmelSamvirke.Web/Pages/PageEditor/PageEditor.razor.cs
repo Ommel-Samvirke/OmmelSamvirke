@@ -1,23 +1,22 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 
-namespace OmmelSamvirke.Web.Pages;
+namespace OmmelSamvirke.Web.Pages.PageEditor;
 
 public partial class PageEditor
 {
     private readonly (int, int) _initialDimensions = (1600, 4000);
     private (int, int) _currentDimensions;
-    private Dictionary<string, object> gridStyle;
+    private Dictionary<string, object> _gridStyle = new();
     
-    private double zoomLevel = 1;
+    private double _zoomLevel = 1;
     private const double ZoomFactor = 0.1;
     private const double MinZoomLevel = 0.5;
-    private bool preventScrolling;
-
+    private bool _preventScrolling;
+    
     protected override void OnInitialized()
     {
         _currentDimensions = _initialDimensions;
-        gridStyle = new Dictionary<string, object>
+        _gridStyle = new Dictionary<string, object>
         {
             ["style"] = $"width: {_currentDimensions.Item1}px; height: {_currentDimensions.Item2}px;"
         };
@@ -31,20 +30,20 @@ public partial class PageEditor
         { 
             // Scrolling up
             case < 0:
-                zoomLevel += ZoomFactor;
+                _zoomLevel += ZoomFactor;
                 break;
             // Scrolling down
             case > 0:
-                zoomLevel = Math.Max(MinZoomLevel, zoomLevel - ZoomFactor);
+                _zoomLevel = Math.Max(MinZoomLevel, _zoomLevel - ZoomFactor);
                 break;
         }
         
-        UpdateGridDimensions(zoomLevel);
+        UpdateGridDimensions(_zoomLevel);
     }
 
     private void HandleKeyDown(KeyboardEventArgs e)
     {
-        preventScrolling = e.ShiftKey;
+        _preventScrolling = e.ShiftKey;
     }
     
     private void UpdateGridDimensions(double zoom)
@@ -54,7 +53,7 @@ public partial class PageEditor
         double gridSizeMain = 40 * zoom;
         double gridSizeSub = 10 * zoom; 
 
-        gridStyle["style"] = $"width: {newWidth}px; height: {newHeight}px; " +
+        _gridStyle["style"] = $"width: {newWidth}px; height: {newHeight}px; " +
                              $"background-size: {gridSizeMain}px {gridSizeMain}px, " +
                              $"{gridSizeMain}px {gridSizeMain}px, " +
                              $"{gridSizeSub}px {gridSizeSub}px, " +

@@ -12,11 +12,6 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
 
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddSassCompiler();
-}
-
 WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
