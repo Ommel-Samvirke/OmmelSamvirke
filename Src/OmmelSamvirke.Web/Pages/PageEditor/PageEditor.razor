@@ -2,8 +2,15 @@
 
 @using OmmelSamvirke.Web.Pages.PageEditor.Components;
 
-<div id="background" onwheel="@HandleScroll" onwheel:preventDefault="@_preventScrolling" onkeydown="@HandleKeyDown" tabindex="0">
+<div 
+    id="background" 
+    onwheel="@HandleScroll" 
+    onwheel:preventDefault="@_preventScrolling" 
+    onkeydown="@HandleKeyDown" 
+    tabindex="0" 
+    onscroll:preventDefault="true"
+>
     <div id="grid" @attributes="@_gridStyle">
-        <UIHeadlineBlock />
+        <UiHeadlineBlock ContainerDimensions="@_currentDimensions" />
     </div>
 </div>
