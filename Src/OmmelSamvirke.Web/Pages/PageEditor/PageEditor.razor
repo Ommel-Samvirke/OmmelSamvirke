@@ -8,11 +8,11 @@
     id="grid-background" 
     onwheel="@HandleScroll" 
     onwheel:preventDefault="@_preventScrolling" 
-    onkeydown="@HandleKeyDown" 
+    onkeydown="@HandleKeyDown"
     tabindex="0" 
     onscroll:preventDefault="true"
 >
-    <div id="grid" @attributes="@_gridStyle">
-        <UiHeadlineBlock ContainerDimensions="@_currentDimensions" />
+    <div id="grid" @attributes="@_gridStyle" onmouseleave="@OnMouseLeave" onmouseup="@OnMouseUp">
+        <UiHeadlineBlock @ref="_uiBlock" ContainerDimensions="@_currentDimensions" />
     </div>
 </div>

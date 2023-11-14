@@ -8,21 +8,20 @@ namespace OmmelSamvirke.Web.Pages.PageEditor.Components;
 public abstract partial class DraggableUiBlock
 {
     [Parameter]
-    public RenderFragment? ChildContent { get; set; }
-    
-    [Parameter]
     public (int, int) ContainerDimensions { get; set; }
 
     protected string ElementId = string.Empty;
     protected Dictionary<string, object> ElementStyle = new();
     
+    private const double ContainerPaddingTop = 50;
+    
+    private readonly int _width = 200;
+    private readonly int _height = 200;
+
     private string _containerId = string.Empty;
     private double? _mouseDownX;
     private double? _mouseDownY;
-    private double _containerPaddingTop = 50;
     private (double, double) _position = (0, 0);
-    private readonly int _width = 200;
-    private readonly int _height = 200;
     private WindowDimensions? _windowDimensions;
     private bool _isMouseDown;
     private double _verticalDebt;
@@ -43,6 +42,31 @@ public abstract partial class DraggableUiBlock
         _windowDimensions = await JsRuntime.InvokeAsync<WindowDimensions>("getWindowDimensions");
     }
 
+    public async Task TriggerMouseUp()
+    {
+        await OnMouseUp(null);
+    }
+
+    protected async Task OnMouseLeave(MouseEventArgs args)
+    {
+        if (!_isMouseDown)
+        {
+            await OnMouseUp(args);
+        }
+    }
+    
+    protected async Task OnWheel(WheelEventArgs args)
+    {
+        if (_isMouseDown)
+        {
+            _mouseDownY += args.DeltaY;
+        }
+
+        _position = (_position.Item1, _position.Item2 + args.DeltaY);
+        await MoveElement(_position.Item1, _position.Item2);
+    }
+
+
     protected async Task OnMouseDown(MouseEventArgs args)
     {
         ElementPositionWithContainer elementPosition = await JsRuntime.InvokeAsync<ElementPositionWithContainer>(
@@ -56,7 +80,7 @@ public abstract partial class DraggableUiBlock
         _isMouseDown = true;
     }
 
-    protected async Task OnMouseUp(MouseEventArgs args)
+    protected async Task OnMouseUp(MouseEventArgs? args)
     {
         _isMouseDown = false;
         
@@ -68,8 +92,8 @@ public abstract partial class DraggableUiBlock
 
     protected async Task OnMouseMove(MouseEventArgs args)
     {
-        if (_mouseDownX is null || _mouseDownY is null) return;
         if (!_isMouseDown) return;
+        if (_mouseDownX is null || _mouseDownY is null) return;
         if (await ScrollIfCloseToEdge(args.ClientY)) return;
         
         ElementPositionWithContainer elementPosition = await JsRuntime.InvokeAsync<ElementPositionWithContainer>(
@@ -192,7 +216,7 @@ public abstract partial class DraggableUiBlock
         );
         
         double distanceToBottom = _windowDimensions.Height - appBarPosition.Height - (newPositionY - elementPosition.ScrollTop);
-        double distanceToTop = newPositionY - elementPosition.ScrollTop + (elementPosition.ScrollTop > _containerPaddingTop ? _containerPaddingTop : 0);
+        double distanceToTop = newPositionY - elementPosition.ScrollTop + (elementPosition.ScrollTop > ContainerPaddingTop ? ContainerPaddingTop : 0);
         const int scrollSpeed = 10;
         
         if (distanceToBottom < 100)

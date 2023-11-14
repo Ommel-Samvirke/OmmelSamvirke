@@ -1,14 +1,21 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+using OmmelSamvirke.Web.Pages.PageEditor.Components;
 
 namespace OmmelSamvirke.Web.Pages.PageEditor;
 
 public partial class PageEditor
 {
+    private List<DraggableUiBlock> _uiBlocks = new();
+    private DraggableUiBlock _uiBlock
+    {
+        set => _uiBlocks.Add(value);
+    }
+    
     private readonly (int, int) _initialDimensions = (1600, 4000);
     private (int, int) _currentDimensions;
     private Dictionary<string, object> _gridStyle = new();
-    
+
     private double _zoomLevel = 1;
     private const double ZoomFactor = 0.1;
     private const double MinZoomLevel = 0.5;
@@ -72,5 +79,21 @@ public partial class PageEditor
                              $"{gridSizeSub}px {gridSizeSub}px;";
         
         StateHasChanged();
+    }
+
+    private async Task OnMouseLeave(MouseEventArgs args)
+    {
+        foreach (DraggableUiBlock uiBlock in _uiBlocks)
+        {
+            await uiBlock.TriggerMouseUp();
+        }
+    }
+
+    private async Task OnMouseUp(MouseEventArgs args)
+    {
+        foreach (DraggableUiBlock uiBlock in _uiBlocks)
+        {
+            await uiBlock.TriggerMouseUp();
+        }
     }
 }
