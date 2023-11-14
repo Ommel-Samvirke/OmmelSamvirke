@@ -47,3 +47,12 @@ function getWindowDimensions() {
         height: window.innerHeight
     };
 }
+
+function preventArrowKeyScroll(elementId) {
+    const element = document.getElementById(elementId);
+    element.addEventListener('keydown', function(event) {
+        if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+            event.preventDefault();
+        }
+    });
+}

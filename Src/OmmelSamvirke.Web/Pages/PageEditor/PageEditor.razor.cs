@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 
 namespace OmmelSamvirke.Web.Pages.PageEditor;
 
@@ -13,13 +14,24 @@ public partial class PageEditor
     private const double MinZoomLevel = 0.5;
     private bool _preventScrolling;
     
+    private string _containerId = string.Empty;
+    
     protected override void OnInitialized()
     {
+        _containerId = "grid-background";
         _currentDimensions = _initialDimensions;
         _gridStyle = new Dictionary<string, object>
         {
             ["style"] = $"width: {_currentDimensions.Item1}px; height: {_currentDimensions.Item2}px;"
         };
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime.InvokeVoidAsync("preventArrowKeyScroll", _containerId);
+        }
     }
     
     private void HandleScroll(WheelEventArgs e)

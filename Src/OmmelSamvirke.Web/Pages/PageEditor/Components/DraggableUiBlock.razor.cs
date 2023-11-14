@@ -17,6 +17,7 @@ public partial class DraggableUiBlock
     private string _containerId = string.Empty;
     private double? _mouseDownX;
     private double? _mouseDownY;
+    private double _containerPaddingTop = 50;
     private (double, double) _position = (0, 0);
     private readonly int _width = 200;
     private readonly int _height = 200;
@@ -29,7 +30,7 @@ public partial class DraggableUiBlock
     protected override void OnInitialized()
     {
         _elementId = Guid.NewGuid().ToString();
-        _containerId = "background";
+        _containerId = "grid-background";
         _elementSize = new Dictionary<string, object>
         {
             ["style"] = $"width: {_width}px; height: {_height}px;"
@@ -145,13 +146,62 @@ public partial class DraggableUiBlock
 
         return false;
     }
+
+    private async Task OnKeyPress(KeyboardEventArgs args)
+    {
+        switch (args.Key)
+        {
+            case "ArrowUp":
+                await MoveElement(_position.Item1, _position.Item2 - 10);
+                break;
+            case "ArrowDown":
+                await MoveElement(_position.Item1, _position.Item2 + 10);
+                break;
+            case "ArrowLeft":
+                await MoveElement(_position.Item1 - 10, _position.Item2);
+                break;
+            case "ArrowRight":
+                await MoveElement(_position.Item1 + 10, _position.Item2);
+                break;
+        }
+    }
     
     private async Task MoveElement(double newPositionX, double newPositionY)
     {
+        if (_windowDimensions is null) return;
+        
         if (newPositionX < 0) newPositionX = 0;
         if (newPositionY < 0) newPositionY = 0;
         if (newPositionX + _width > ContainerDimensions.Item1) newPositionX = ContainerDimensions.Item1 - _width;
         if (newPositionY + _height > ContainerDimensions.Item2) newPositionY = ContainerDimensions.Item2 - _height;
+        
+        ElementPositionWithContainer elementPosition = await JsRuntime.InvokeAsync<ElementPositionWithContainer>(
+            "getElementPositionWithContainer",
+            _elementId,
+            _containerId
+        );
+        ElementPosition appBarPosition = await JsRuntime.InvokeAsync<ElementPosition>(
+            "getElementPosition",
+            "appBar"
+        );
+        
+        double distanceToBottom = _windowDimensions.Height - appBarPosition.Height - (newPositionY - elementPosition.ScrollTop);
+        double distanceToTop = newPositionY - elementPosition.ScrollTop + (elementPosition.ScrollTop > _containerPaddingTop ? _containerPaddingTop : 0);
+        const int scrollSpeed = 10;
+        
+        if (distanceToBottom < 100)
+        {
+            await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, _elementId, scrollSpeed);
+        }
+
+        if (distanceToTop < -20)
+        {
+            await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, _elementId, -scrollSpeed);
+            if (newPositionY == 0)
+            {
+                await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, _elementId, -100);
+            }
+        }
         
         _position = (newPositionX, newPositionY);
         await JsRuntime.InvokeVoidAsync("setElementPosition", _elementId, _position.Item1, _position.Item2);

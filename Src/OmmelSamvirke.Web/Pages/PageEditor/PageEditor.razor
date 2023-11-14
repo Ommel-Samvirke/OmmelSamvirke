@@ -2,8 +2,10 @@
 
 @using OmmelSamvirke.Web.Pages.PageEditor.Components;
 
+@inject IJSRuntime JsRuntime
+
 <div 
-    id="background" 
+    id="grid-background" 
     onwheel="@HandleScroll" 
     onwheel:preventDefault="@_preventScrolling" 
     onkeydown="@HandleKeyDown" 
