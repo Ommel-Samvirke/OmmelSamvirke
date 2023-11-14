@@ -1,14 +1,14 @@
 ﻿@inject IJSRuntime JsRuntime
 
 <div 
-    id="@_elementId" 
+    id="@ElementId" 
     onmousedown="@OnMouseDown"
     onmouseup="@OnMouseUp"
     onmouseleave="@OnMouseUp"
     onmousemove="@OnMouseMove"
     onwheel="@OnMouseMove"
     onkeydown="@OnKeyPress"
-    @attributes="@_elementSize"
+    @attributes="@ElementStyle"
     tabindex="0"
 >
     @ChildContent

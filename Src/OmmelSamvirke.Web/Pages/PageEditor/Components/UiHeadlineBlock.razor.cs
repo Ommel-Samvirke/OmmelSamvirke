@@ -5,13 +5,12 @@ namespace OmmelSamvirke.Web.Pages.PageEditor.Components;
 
 public partial class UiHeadlineBlock
 {
-    [Parameter]
-    public (int, int) ContainerDimensions { get; set; }
-    
     private HeadlineBlock? _content;
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
+        
         _content = new HeadlineBlock
         {
             Headline = "Test headline"

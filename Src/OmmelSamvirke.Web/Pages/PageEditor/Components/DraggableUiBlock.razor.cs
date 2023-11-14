@@ -5,7 +5,7 @@ using OmmelSamvirke.Web.Models;
 
 namespace OmmelSamvirke.Web.Pages.PageEditor.Components;
 
-public partial class DraggableUiBlock
+public abstract partial class DraggableUiBlock
 {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -13,7 +13,9 @@ public partial class DraggableUiBlock
     [Parameter]
     public (int, int) ContainerDimensions { get; set; }
 
-    private string _elementId = string.Empty;
+    protected string ElementId = string.Empty;
+    protected Dictionary<string, object> ElementStyle = new();
+    
     private string _containerId = string.Empty;
     private double? _mouseDownX;
     private double? _mouseDownY;
@@ -23,15 +25,14 @@ public partial class DraggableUiBlock
     private readonly int _height = 200;
     private WindowDimensions? _windowDimensions;
     private bool _isMouseDown;
-    private Dictionary<string, object> _elementSize = new();
     private double _verticalDebt;
     private double _horizontalDebt;
 
     protected override void OnInitialized()
     {
-        _elementId = Guid.NewGuid().ToString();
+        ElementId = Guid.NewGuid().ToString();
         _containerId = "grid-background";
-        _elementSize = new Dictionary<string, object>
+        ElementStyle = new Dictionary<string, object>
         {
             ["style"] = $"width: {_width}px; height: {_height}px;"
         };
@@ -42,11 +43,11 @@ public partial class DraggableUiBlock
         _windowDimensions = await JsRuntime.InvokeAsync<WindowDimensions>("getWindowDimensions");
     }
 
-    private async Task OnMouseDown(MouseEventArgs args)
+    protected async Task OnMouseDown(MouseEventArgs args)
     {
         ElementPositionWithContainer elementPosition = await JsRuntime.InvokeAsync<ElementPositionWithContainer>(
             "getElementPositionWithContainer",
-            _elementId,
+            ElementId,
             _containerId
         );
         
@@ -55,7 +56,7 @@ public partial class DraggableUiBlock
         _isMouseDown = true;
     }
 
-    private async Task OnMouseUp(MouseEventArgs args)
+    protected async Task OnMouseUp(MouseEventArgs args)
     {
         _isMouseDown = false;
         
@@ -65,7 +66,7 @@ public partial class DraggableUiBlock
         await MoveElement(newPositionX, newPositionY);
     }
 
-    private async Task OnMouseMove(MouseEventArgs args)
+    protected async Task OnMouseMove(MouseEventArgs args)
     {
         if (_mouseDownX is null || _mouseDownY is null) return;
         if (!_isMouseDown) return;
@@ -73,10 +74,10 @@ public partial class DraggableUiBlock
         
         ElementPositionWithContainer elementPosition = await JsRuntime.InvokeAsync<ElementPositionWithContainer>(
             "getElementPositionWithContainer",
-            _elementId,
+            ElementId,
             _containerId
         );
-        
+
         double clientX = args.ClientX + elementPosition.ScrollLeft;
         double clientY = args.ClientY + elementPosition.ScrollTop;
 
@@ -91,18 +92,8 @@ public partial class DraggableUiBlock
             _horizontalDebt += mouseTravelledX - roundedMouseTravelledX;
             _verticalDebt += mouseTravelledY - roundedMouseTravelledY;
 
-            while (_horizontalDebt >= 10)
-            {
-                roundedMouseTravelledX += 10;
-                _horizontalDebt -= 10;
-            }
+            ResolvePositionalDebt(ref roundedMouseTravelledX, ref roundedMouseTravelledY);
 
-            while (_verticalDebt >= 10)
-            {
-                roundedMouseTravelledY += 10;
-                _verticalDebt -= 10;
-            }
-            
             _mouseDownX += roundedMouseTravelledX;
             _mouseDownY += roundedMouseTravelledY;
             
@@ -110,6 +101,40 @@ public partial class DraggableUiBlock
             double newPositionY = _position.Item2 + roundedMouseTravelledY;
             
             await MoveElement(newPositionX, newPositionY);
+        }
+    }
+
+    protected async Task OnKeyPress(KeyboardEventArgs args)
+    {
+        switch (args.Key)
+        {
+            case "ArrowUp":
+                await MoveElement(_position.Item1, _position.Item2 - 10);
+                break;
+            case "ArrowDown":
+                await MoveElement(_position.Item1, _position.Item2 + 10);
+                break;
+            case "ArrowLeft":
+                await MoveElement(_position.Item1 - 10, _position.Item2);
+                break;
+            case "ArrowRight":
+                await MoveElement(_position.Item1 + 10, _position.Item2);
+                break;
+        }
+    }
+    
+    private void ResolvePositionalDebt(ref double roundedMouseTravelledX, ref double roundedMouseTravelledY)
+    {
+        while (_horizontalDebt >= 10)
+        {
+            roundedMouseTravelledX += 10;
+            _horizontalDebt -= 10;
+        }
+
+        while (_verticalDebt >= 10)
+        {
+            roundedMouseTravelledY += 10;
+            _verticalDebt -= 10;
         }
     }
 
@@ -129,7 +154,7 @@ public partial class DraggableUiBlock
 
         if (distanceToBottom <= bottomEdgeThreshold)
         {
-            await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, _elementId, scrollSpeed);
+            await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, ElementId, scrollSpeed);
 
             _mouseDownY += scrollSpeed;
             await MoveElement(_position.Item1, _position.Item2 + scrollSpeed);
@@ -138,7 +163,7 @@ public partial class DraggableUiBlock
         
         if (clientY <= appBarPosition.Height + topEdgeThreshold)
         {
-            await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, _elementId, -scrollSpeed);
+            await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, ElementId, -scrollSpeed);
             _mouseDownY += -scrollSpeed;
             await MoveElement(_position.Item1, _position.Item2 + -scrollSpeed);
             return true;
@@ -147,25 +172,6 @@ public partial class DraggableUiBlock
         return false;
     }
 
-    private async Task OnKeyPress(KeyboardEventArgs args)
-    {
-        switch (args.Key)
-        {
-            case "ArrowUp":
-                await MoveElement(_position.Item1, _position.Item2 - 10);
-                break;
-            case "ArrowDown":
-                await MoveElement(_position.Item1, _position.Item2 + 10);
-                break;
-            case "ArrowLeft":
-                await MoveElement(_position.Item1 - 10, _position.Item2);
-                break;
-            case "ArrowRight":
-                await MoveElement(_position.Item1 + 10, _position.Item2);
-                break;
-        }
-    }
-    
     private async Task MoveElement(double newPositionX, double newPositionY)
     {
         if (_windowDimensions is null) return;
@@ -177,7 +183,7 @@ public partial class DraggableUiBlock
         
         ElementPositionWithContainer elementPosition = await JsRuntime.InvokeAsync<ElementPositionWithContainer>(
             "getElementPositionWithContainer",
-            _elementId,
+            ElementId,
             _containerId
         );
         ElementPosition appBarPosition = await JsRuntime.InvokeAsync<ElementPosition>(
@@ -191,19 +197,19 @@ public partial class DraggableUiBlock
         
         if (distanceToBottom < 100)
         {
-            await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, _elementId, scrollSpeed);
+            await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, ElementId, scrollSpeed);
         }
 
         if (distanceToTop < -20)
         {
-            await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, _elementId, -scrollSpeed);
+            await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, ElementId, -scrollSpeed);
             if (newPositionY == 0)
             {
-                await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, _elementId, -100);
+                await JsRuntime.InvokeVoidAsync("scrollPage", _containerId, ElementId, -100);
             }
         }
         
         _position = (newPositionX, newPositionY);
-        await JsRuntime.InvokeVoidAsync("setElementPosition", _elementId, _position.Item1, _position.Item2);
+        await JsRuntime.InvokeVoidAsync("setElementPosition", ElementId, _position.Item1, _position.Item2);
     }
 }

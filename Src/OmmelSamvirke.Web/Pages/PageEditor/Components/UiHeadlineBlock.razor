@@ -1,9 +1,20 @@
 ﻿@using OmmelSamvirke.Web.Pages.PageEditor.Components;
 
-<div>
-    <DraggableUiBlock ContainerDimensions="@ContainerDimensions">
-        <MudPaper>
-            <MudText>@_content.Headline</MudText>
-        </MudPaper>
-    </DraggableUiBlock>
+@inherits DraggableUiBlock
+
+<div 
+    class="container"
+    id="@ElementId" 
+    onmousedown="@OnMouseDown"
+    onmouseup="@OnMouseUp"
+    onmouseleave="@OnMouseUp"
+    onmousemove="@OnMouseMove"
+    onwheel="@OnMouseMove"
+    onkeydown="@OnKeyPress"
+    @attributes="@ElementStyle"
+    tabindex="0"
+>
+    <MudPaper>
+        <MudText>@_content.Headline</MudText>
+    </MudPaper>
 </div>
