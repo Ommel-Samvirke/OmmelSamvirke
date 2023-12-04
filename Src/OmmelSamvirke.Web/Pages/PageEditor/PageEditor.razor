@@ -13,6 +13,11 @@
     onscroll:preventDefault="true"
 >
     <div id="grid" @attributes="@_gridStyle" onmouseleave="@OnMouseLeave" onmouseup="@OnMouseUp">
-        <UiHeadlineBlock @ref="_uiBlock" ContainerDimensions="@_currentDimensions" />
+        <UiHeadlineBlock 
+            @ref="_uiBlock"
+            ContainerDimensions="@_currentDimensions"
+            UpdateCanvasYDimensions="@ExtendYDimension"
+            OnUiBlockMoved="@TrimYDimensionEmptySpace"
+        />
     </div>
 </div>

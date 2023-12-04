@@ -12,7 +12,7 @@ public partial class PageEditor
         set => _uiBlocks.Add(value);
     }
     
-    private readonly (int, int) _initialDimensions = (1600, 4000);
+    private readonly (int, int) _initialDimensions = (1600, 1600);
     private (int, int) _currentDimensions;
     private Dictionary<string, object> _gridStyle = new();
 
@@ -94,6 +94,40 @@ public partial class PageEditor
         foreach (DraggableUiBlock uiBlock in _uiBlocks)
         {
             await uiBlock.TriggerMouseUp();
+        }
+    }
+    
+    private void ExtendYDimension(int deltaY)
+    {
+        _currentDimensions = (_currentDimensions.Item1, _currentDimensions.Item2 + deltaY);
+        _gridStyle["style"] = $"width: {_currentDimensions.Item1}px; height: {_currentDimensions.Item2}px;";
+    }
+    
+    private void TrimYDimensionEmptySpace()
+    {
+        double highestYPosition = 0;
+        
+        foreach (DraggableUiBlock uiBlock in _uiBlocks)
+        {
+            int height = uiBlock.Height;
+            double yPosition = uiBlock.Position.Item2;
+            double yPositionPlusHeight = yPosition + height;
+            
+            if (yPositionPlusHeight > highestYPosition)
+            {
+                highestYPosition = yPositionPlusHeight;
+            }
+        }
+        
+        if (highestYPosition < _initialDimensions.Item2)
+        {
+            _currentDimensions = (_currentDimensions.Item1, _initialDimensions.Item2);
+            _gridStyle["style"] = $"width: {_currentDimensions.Item1}px; height: {_currentDimensions.Item2}px;";
+        }
+        else
+        {
+            _currentDimensions = (_currentDimensions.Item1, (int)highestYPosition);
+            _gridStyle["style"] = $"width: {_currentDimensions.Item1}px; height: {_currentDimensions.Item2}px;";
         }
     }
 }
