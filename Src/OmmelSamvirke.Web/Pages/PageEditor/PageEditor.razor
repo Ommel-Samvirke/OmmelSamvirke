@@ -1,8 +1,11 @@
-﻿@page "/sideredigering"
+﻿@attribute [Route(PageRoutes.PageEditor)]
 
 @using OmmelSamvirke.Web.Pages.PageEditor.Components;
+@using OmmelSamvirke.Web.Routing
 
 @inject IJSRuntime JsRuntime
+
+<PageTitle>Redigeringsværktøj</PageTitle>
 
 <div 
     id="grid-background" 

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
-using OmmelSamvirke.Web.Data;
 using MudBlazor.Services;
+using OmmelSamvirke.Web.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +9,8 @@ StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configurat
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddMudServices();
+builder.Services.AddScoped<UserNavigationStateService>();
 
 WebApplication app = builder.Build();
 
@@ -28,7 +28,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.MapBlazorHub();
-app.MapFallbackToPage("/_Host");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapBlazorHub();
+    endpoints.MapFallbackToPage("/_Host");
+});
 
 app.Run();

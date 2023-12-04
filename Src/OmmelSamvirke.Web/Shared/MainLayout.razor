@@ -1,4 +1,11 @@
-﻿@inherits LayoutComponentBase
+﻿@implements IDisposable
+@inherits LayoutComponentBase
+
+@using OmmelSamvirke.Web.Services
+@using OmmelSamvirke.Web.Routing
+
+@inject NavigationManager NavManager
+@inject UserNavigationStateService UserNavigationStateService
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -6,7 +13,15 @@
 
 <MudLayout>
     <MudAppBar Elevation="0" UserAttributes='new Dictionary<string, object> {{ "id", "appBar" }}'>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(DrawerToggle)" />
+        @if (UserNavigationStateService.CurrentPageEnum == PageEnum.PageEditor)
+        {
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.DesktopWindows" Color="Color.Inherit" OnClick="@(() => {})" />
+            <MudIconButton Icon="@Icons.Material.Filled.TabletAndroid" Color="Color.Inherit" OnClick="@(() => {})" />
+            <MudIconButton Icon="@Icons.Material.Filled.Smartphone" Color="Color.Inherit" OnClick="@(() => {})" />
+        }
+        
         <MudSpacer />
         <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />

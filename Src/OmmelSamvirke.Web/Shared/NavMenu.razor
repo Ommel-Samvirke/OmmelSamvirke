@@ -1,4 +1,5 @@
-﻿<MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="/sideredigering" Icon="@Icons.Material.Filled.Edit">Page Editor</MudNavLink>
+﻿@using OmmelSamvirke.Web.Routing
+<MudNavMenu>
+    <MudNavLink Href="@PageRoutes.Home" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+    <MudNavLink Href="@PageRoutes.PageEditor" Icon="@Icons.Material.Filled.Edit">Page Editor</MudNavLink>
 </MudNavMenu>
