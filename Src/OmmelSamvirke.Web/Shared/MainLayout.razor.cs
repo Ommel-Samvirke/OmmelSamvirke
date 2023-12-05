@@ -9,6 +9,10 @@ public partial class MainLayout
     {
         NavManager.LocationChanged += HandleLocationChanged;
         UserNavigationStateService.OnCurrentPageChanged += StateHasChanged;
+        
+        Uri uri = new(NavManager.Uri);
+        string path = Uri.UnescapeDataString(uri.AbsolutePath);
+        UpdateCurrentPage(path);
     }
 
     private void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
@@ -16,14 +20,19 @@ public partial class MainLayout
         Uri uri = new(e.Location);
         string path = Uri.UnescapeDataString(uri.AbsolutePath);
         
+        UpdateCurrentPage(path);
+    }
+
+    private void UpdateCurrentPage(string path)
+    {
         PageEnum? page = GetPageByPath(path);
 
         if (!page.HasValue) return;
         if (page.Value == UserNavigationStateService.CurrentPageEnum) return;
-        
+
         UserNavigationStateService.SetCurrentPage(page.Value);
     }
-    
+
     private static PageEnum? GetPageByPath(string path)
     {
         foreach (PageEnum page in Enum.GetValues(typeof(PageEnum)))
