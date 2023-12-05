@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using OmmelSamvirke.Web.Models;
+using OmmelSamvirke.Web.Models.PageEditor;
 
 namespace OmmelSamvirke.Web.Pages.PageEditor.Components;
 

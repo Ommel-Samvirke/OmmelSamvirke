@@ -1,4 +1,4 @@
-﻿namespace OmmelSamvirke.Web.Models;
+﻿namespace OmmelSamvirke.Web.Models.PageEditor;
 
 public class ElementPositionWithContainer
 {
