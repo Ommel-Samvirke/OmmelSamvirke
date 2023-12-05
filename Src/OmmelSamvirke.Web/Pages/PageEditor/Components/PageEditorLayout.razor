@@ -1,0 +1,19 @@
+﻿@inject IJSRuntime JsRuntime
+
+<div 
+    id="grid-background" 
+    onwheel="@HandleScroll" 
+    onwheel:preventDefault="@_preventScrolling" 
+    onkeydown="@HandleKeyDown"
+    tabindex="0" 
+    onscroll:preventDefault="true"
+>
+    <div id="grid" @attributes="@_gridStyle" onmouseleave="@OnMouseLeave" onmouseup="@OnMouseUp">
+        <UiHeadlineBlock 
+            @ref="UiBlock"
+            ContainerDimensions="@_currentDimensions"
+            UpdateCanvasYDimensions="@ExtendYDimension"
+            OnUiBlockMoved="@TrimYDimensionEmptySpace"
+        />
+    </div>
+</div>

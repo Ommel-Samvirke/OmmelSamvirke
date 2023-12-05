@@ -3,39 +3,65 @@
 
 @using OmmelSamvirke.Web.Services
 @using OmmelSamvirke.Web.Routing
+@using OmmelSamvirke.Web.Services.PageEditor
+@using OmmelSamvirke.Web.Enums.PageEditor
 
 @inject NavigationManager NavManager
 @inject UserNavigationStateService UserNavigationStateService
+@inject SelectedLayoutService SelectedLayoutService
 
-<MudThemeProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
-
-<MudLayout>
-    <MudAppBar Elevation="0" UserAttributes='new Dictionary<string, object> {{ "id", "appBar" }}'>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(DrawerToggle)" />
-        @if (UserNavigationStateService.CurrentPageEnum == PageEnum.PageEditor)
-        {
+<div>
+    <MudThemeProvider />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
+    
+    <MudLayout>
+        <MudAppBar Elevation="0" UserAttributes='new Dictionary<string, object> {{ "id", "appBar" }}'>
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(DrawerToggle)" />
+            @if (UserNavigationStateService.CurrentPageEnum == PageEnum.PageEditor)
+            {
+                <MudSpacer />
+                <MudTooltip Text="PC (1600px)" Arrow="true" Placement="Placement.Bottom">
+                    <MudIconButton 
+                        Icon="@Icons.Material.Filled.DesktopWindows"
+                        Color="Color.Inherit"
+                        OnClick="@(() => SelectedLayoutService.SetSelectedLayout(PageLayout.Desktop))"
+                        Class="@("layout-selector " + (SelectedLayoutService.SelectedLayout == PageLayout.Desktop ? "selected-layout" : ""))"
+                    />
+                </MudTooltip>
+                <MudTooltip Text="Tablet (760px)" Arrow="true" Placement="Placement.Bottom">
+                    <MudIconButton 
+                        Icon="@Icons.Material.Filled.TabletAndroid"
+                        Color="Color.Inherit"
+                        OnClick="@(() => SelectedLayoutService.SetSelectedLayout(PageLayout.Tablet))"
+                        Class="@("layout-selector " + (SelectedLayoutService.SelectedLayout == PageLayout.Tablet ? "selected-layout" : ""))"
+                    />
+                </MudTooltip>
+                <MudTooltip Text="Mobil (360px)" Arrow="true" Placement="Placement.Bottom">
+                    <MudIconButton 
+                        Icon="@Icons.Material.Filled.Smartphone" 
+                        Color="Color.Inherit" 
+                        OnClick="@(() => SelectedLayoutService.SetSelectedLayout(PageLayout.Mobile))" 
+                        Class="@("layout-selector " + (SelectedLayoutService.SelectedLayout == PageLayout.Mobile ? "selected-layout" : ""))"
+                    />
+                </MudTooltip>
+            }
+            
             <MudSpacer />
-            <MudIconButton Icon="@Icons.Material.Filled.DesktopWindows" Color="Color.Inherit" OnClick="@(() => {})" />
-            <MudIconButton Icon="@Icons.Material.Filled.TabletAndroid" Color="Color.Inherit" OnClick="@(() => {})" />
-            <MudIconButton Icon="@Icons.Material.Filled.Smartphone" Color="Color.Inherit" OnClick="@(() => {})" />
-        }
-        
-        <MudSpacer />
-        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />
-    </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
-        <MudDrawerHeader>
-            <MudText Typo="Typo.h6">OmmelSamvirke.Web</MudText>
-        </MudDrawerHeader>
-        <NavMenu />
-    </MudDrawer>
-    <MudMainContent Style="height: 100%">
-        @Body
-    </MudMainContent>
-</MudLayout>
+            <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
+            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />
+        </MudAppBar>
+        <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
+            <MudDrawerHeader>
+                <MudText Typo="Typo.h6">OmmelSamvirke.Web</MudText>
+            </MudDrawerHeader>
+            <NavMenu />
+        </MudDrawer>
+        <MudMainContent Style="height: 100%">
+            @Body
+        </MudMainContent>
+    </MudLayout>
+</div>
 
 @code {
     bool _drawerOpen = true;

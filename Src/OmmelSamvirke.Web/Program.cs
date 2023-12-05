@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using MudBlazor.Services;
 using OmmelSamvirke.Web.Services;
+using OmmelSamvirke.Web.Services.PageEditor;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 builder.Services.AddScoped<UserNavigationStateService>();
+builder.Services.AddScoped<SelectedLayoutService>();
 
 WebApplication app = builder.Build();
 

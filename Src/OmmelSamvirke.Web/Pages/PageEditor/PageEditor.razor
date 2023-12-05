@@ -1,26 +1,33 @@
 ﻿@attribute [Route(PageRoutes.PageEditor)]
 
+@implements IDisposable
+
 @using OmmelSamvirke.Web.Pages.PageEditor.Components;
 @using OmmelSamvirke.Web.Routing
+@using OmmelSamvirke.Web.Enums.PageEditor
+@using OmmelSamvirke.Web.Services.PageEditor
 
-@inject IJSRuntime JsRuntime
+@inject SelectedLayoutService SelectedLayoutService
 
 <PageTitle>Redigeringsværktøj</PageTitle>
 
-<div 
-    id="grid-background" 
-    onwheel="@HandleScroll" 
-    onwheel:preventDefault="@_preventScrolling" 
-    onkeydown="@HandleKeyDown"
-    tabindex="0" 
-    onscroll:preventDefault="true"
->
-    <div id="grid" @attributes="@_gridStyle" onmouseleave="@OnMouseLeave" onmouseup="@OnMouseUp">
-        <UiHeadlineBlock 
-            @ref="_uiBlock"
-            ContainerDimensions="@_currentDimensions"
-            UpdateCanvasYDimensions="@ExtendYDimension"
-            OnUiBlockMoved="@TrimYDimensionEmptySpace"
-        />
-    </div>
-</div>
+@if (SelectedLayoutService.SelectedLayout == PageLayout.Desktop)
+{
+    <PageEditorLayout
+        InitialDimensions="@((1600, 1600))"
+    />
+}
+
+@if (SelectedLayoutService.SelectedLayout == PageLayout.Tablet)
+{
+    <PageEditorLayout
+        InitialDimensions="@((760, 1600))"
+    />
+}
+
+@if (SelectedLayoutService.SelectedLayout == PageLayout.Mobile)
+{
+    <PageEditorLayout
+        InitialDimensions="@((360, 1600))"
+    />
+}

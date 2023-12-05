@@ -1,0 +1,11 @@
+﻿::deep .layout-selector {
+    padding: 8px;
+    margin: 0 4px;
+    box-sizing: border-box;
+    background: inherit;
+}
+
+::deep .selected-layout {
+    border: 2px solid #fff;
+    padding: 8px 6px;
+}
