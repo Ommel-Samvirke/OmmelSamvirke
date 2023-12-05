@@ -7,14 +7,8 @@ namespace OmmelSamvirke.Web.Pages.PageEditor.Components;
 public partial class PageEditorLayout
 {
     [Parameter] public (int, int) InitialDimensions { get; set; }
-    
-    private List<DraggableUiBlock> _uiBlocks = new();
-    private DraggableUiBlock UiBlock
-    {
-        set => _uiBlocks.Add(value);
-    }
-    
-    private (int, int) _currentDimensions;
+    public (int, int) CurrentDimensions { get; private set; }
+
     private Dictionary<string, object> _gridStyle = new();
 
     private double _zoomLevel = 1;
@@ -26,11 +20,13 @@ public partial class PageEditorLayout
     
     protected override void OnInitialized()
     {
+        SelectedLayoutService.OnUiBlockCollectionChanged += StateHasChanged;
+        
         _containerId = "grid-background";
-        _currentDimensions = InitialDimensions;
+        CurrentDimensions = InitialDimensions;
         _gridStyle = new Dictionary<string, object>
         {
-            ["style"] = $"width: {_currentDimensions.Item1}px; height: {_currentDimensions.Item2}px;"
+            ["style"] = $"width: {CurrentDimensions.Item1}px; height: {CurrentDimensions.Item2}px;"
         };
     }
     
@@ -42,6 +38,46 @@ public partial class PageEditorLayout
         }
     }
     
+    public void AddUiBlock(DraggableUiBlock uiBlock)
+    {
+        SelectedLayoutService.AddUiBlock(uiBlock);
+        StateHasChanged();
+    }
+
+    public void ExtendYDimension(int deltaY)
+    {
+        CurrentDimensions = (CurrentDimensions.Item1, CurrentDimensions.Item2 + deltaY);
+        _gridStyle["style"] = $"width: {CurrentDimensions.Item1}px; height: {CurrentDimensions.Item2}px;";
+    }
+    
+    public void TrimYDimensionEmptySpace()
+    {
+        double highestYPosition = 0;
+        
+        foreach (DraggableUiBlock uiBlock in SelectedLayoutService.SelectedLayoutUiBlocks)
+        {
+            int height = uiBlock.Dimensions.Item2;
+            double yPosition = uiBlock.Position.Item2;
+            double yPositionPlusHeight = yPosition + height;
+            
+            if (yPositionPlusHeight > highestYPosition)
+            {
+                highestYPosition = yPositionPlusHeight;
+            }
+        }
+        
+        if (highestYPosition < InitialDimensions.Item2)
+        {
+            CurrentDimensions = (CurrentDimensions.Item1, InitialDimensions.Item2);
+            _gridStyle["style"] = $"width: {CurrentDimensions.Item1}px; height: {CurrentDimensions.Item2}px;";
+        }
+        else
+        {
+            CurrentDimensions = (CurrentDimensions.Item1, (int)highestYPosition);
+            _gridStyle["style"] = $"width: {CurrentDimensions.Item1}px; height: {CurrentDimensions.Item2}px;";
+        }
+    }
+
     private void HandleScroll(WheelEventArgs e)
     {
         if (!e.ShiftKey) return;
@@ -84,51 +120,25 @@ public partial class PageEditorLayout
 
     private async Task OnMouseLeave(MouseEventArgs args)
     {
-        foreach (DraggableUiBlock uiBlock in _uiBlocks)
+        for (int i = 0; i < SelectedLayoutService.SelectedLayoutUiBlocks.Count; i++)
         {
+            DraggableUiBlock uiBlock = SelectedLayoutService.SelectedLayoutUiBlocks[i];
             await uiBlock.TriggerMouseUp();
         }
     }
 
     private async Task OnMouseUp(MouseEventArgs args)
     {
-        foreach (DraggableUiBlock uiBlock in _uiBlocks)
+        for (int i = 0; i < SelectedLayoutService.SelectedLayoutUiBlocks.Count; i++)
         {
+            DraggableUiBlock uiBlock = SelectedLayoutService.SelectedLayoutUiBlocks[i];
             await uiBlock.TriggerMouseUp();
         }
     }
-    
-    private void ExtendYDimension(int deltaY)
+
+    public void Dispose()
     {
-        _currentDimensions = (_currentDimensions.Item1, _currentDimensions.Item2 + deltaY);
-        _gridStyle["style"] = $"width: {_currentDimensions.Item1}px; height: {_currentDimensions.Item2}px;";
-    }
-    
-    private void TrimYDimensionEmptySpace()
-    {
-        double highestYPosition = 0;
-        
-        foreach (DraggableUiBlock uiBlock in _uiBlocks)
-        {
-            int height = uiBlock.Height;
-            double yPosition = uiBlock.Position.Item2;
-            double yPositionPlusHeight = yPosition + height;
-            
-            if (yPositionPlusHeight > highestYPosition)
-            {
-                highestYPosition = yPositionPlusHeight;
-            }
-        }
-        
-        if (highestYPosition < InitialDimensions.Item2)
-        {
-            _currentDimensions = (_currentDimensions.Item1, InitialDimensions.Item2);
-            _gridStyle["style"] = $"width: {_currentDimensions.Item1}px; height: {_currentDimensions.Item2}px;";
-        }
-        else
-        {
-            _currentDimensions = (_currentDimensions.Item1, (int)highestYPosition);
-            _gridStyle["style"] = $"width: {_currentDimensions.Item1}px; height: {_currentDimensions.Item2}px;";
-        }
+        SelectedLayoutService.OnUiBlockCollectionChanged -= StateHasChanged;
+        GC.SuppressFinalize(this);
     }
 }

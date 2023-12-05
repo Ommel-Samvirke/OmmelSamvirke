@@ -11,23 +11,32 @@
 
 <PageTitle>Redigeringsværktøj</PageTitle>
 
-@if (SelectedLayoutService.SelectedLayout == PageLayout.Desktop)
-{
-    <PageEditorLayout
-        InitialDimensions="@((1600, 1600))"
-    />
-}
+<div id="page-editor-container">
+    @if (SelectedLayoutService.SelectedLayout == PageLayout.Desktop)
+    {
+        <PageEditorLayout
+            @ref="_desktopLayout"
+            InitialDimensions="@((1600, 1600))"
+        />
+    }
 
-@if (SelectedLayoutService.SelectedLayout == PageLayout.Tablet)
-{
-    <PageEditorLayout
-        InitialDimensions="@((760, 1600))"
-    />
-}
+    @if (SelectedLayoutService.SelectedLayout == PageLayout.Tablet)
+    {
+        <PageEditorLayout
+            @ref="_tabletLayout"
+            InitialDimensions="@((760, 1600))"
+        />
+    }
 
-@if (SelectedLayoutService.SelectedLayout == PageLayout.Mobile)
-{
-    <PageEditorLayout
-        InitialDimensions="@((360, 1600))"
+    @if (SelectedLayoutService.SelectedLayout == PageLayout.Mobile)
+    {
+        <PageEditorLayout
+            @ref="_mobileLayout"
+            InitialDimensions="@((360, 1600))"
+        />
+    }
+
+    <ContentBlockToolBar
+        OnAddUiBlock="@AddUiBlockToLayout"
     />
-}
+</div>

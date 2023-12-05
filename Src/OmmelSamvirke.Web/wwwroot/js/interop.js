@@ -27,6 +27,14 @@ function getElementPositionWithContainer(elementId, containerElementId) {
     };
 }
 
+function getContainerScrollPosition(containerElementId) {
+    const container = document.getElementById(containerElementId);
+    return {
+        scrollTop: container.scrollTop,
+        scrollLeft: container.scrollLeft
+    };
+}
+
 function setElementPosition(elementId, x, y) {
     const element = document.getElementById(elementId);
     element.style.left = x + "px";

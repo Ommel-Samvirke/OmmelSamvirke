@@ -7,6 +7,18 @@ public partial class UiHeadlineBlock
 {
     private HeadlineBlock? _content;
 
+    public UiHeadlineBlock()
+    {
+    }
+
+    public UiHeadlineBlock((int, int) initialDimensions, (double, double) initialPosition, PageEditorLayout? parentLayout)
+    {
+        InitialDimensions = initialDimensions;
+        InitialPosition = initialPosition;
+        ParentLayout = parentLayout;
+        ElementId = Guid.NewGuid().ToString();
+    }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();

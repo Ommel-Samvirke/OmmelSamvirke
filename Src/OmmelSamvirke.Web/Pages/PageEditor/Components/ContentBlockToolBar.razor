@@ -1,0 +1,33 @@
+﻿@using OmmelSamvirke.Web.Services.PageEditor
+
+@inject SelectedLayoutService SelectedLayoutService
+@inject IJSRuntime JsRuntime
+
+<div id="toolbar">
+    <MudPaper Elevation="25">
+        <MudToolBar>
+            <MudTooltip Text="Overskrift" Arrow="true" Placement="Placement.Bottom">
+                <MudIconButton Icon="@Icons.Material.Filled.TextFields" OnClick="HandleAddHeadlineBlock" />
+            </MudTooltip>
+            <MudTooltip Text="Tekst" Arrow="true" Placement="Placement.Bottom">
+                <MudIconButton Icon="@Icons.Material.Filled.TextSnippet" OnClick="HandleAddTextBlock" />
+            </MudTooltip>
+            <MudTooltip Text="Billede" Arrow="true" Placement="Placement.Bottom">
+                <MudIconButton Icon="@Icons.Material.Filled.Image" OnClick="HandleAddImageBlock" />
+            </MudTooltip>
+            <MudTooltip Text="PDF" Arrow="true" Placement="Placement.Bottom">
+                <MudIconButton Icon="@Icons.Material.Filled.PictureAsPdf" OnClick="HandleAddPdfBlock" />
+            </MudTooltip>
+            <MudTooltip Text="Video" Arrow="true" Placement="Placement.Bottom">
+                <MudIconButton Icon="@Icons.Material.Filled.VideoCameraBack" OnClick="HandleAddVideoBlock" />
+            </MudTooltip>
+            <MudTooltip Text="Galleri" Arrow="true" Placement="Placement.Bottom">
+                <MudIconButton Icon="@Icons.Material.Filled.Collections" OnClick="HandleAddGalleryBlock" />
+            </MudTooltip>
+            <MudDivider Vertical="true" />
+            <MudTooltip Text="Vis gitter" Arrow="true" Placement="Placement.Bottom">
+                <MudIconButton Icon="@Icons.Material.Filled.Grid4x4" />
+            </MudTooltip>
+        </MudToolBar>
+    </MudPaper>
+</div>

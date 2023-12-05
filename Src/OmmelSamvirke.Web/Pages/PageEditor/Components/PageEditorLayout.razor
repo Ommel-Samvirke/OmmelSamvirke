@@ -1,4 +1,9 @@
-﻿@inject IJSRuntime JsRuntime
+﻿@using OmmelSamvirke.Web.Services.PageEditor
+
+@implements IDisposable
+
+@inject SelectedLayoutService SelectedLayoutService
+@inject IJSRuntime JsRuntime
 
 <div 
     id="grid-background" 
@@ -9,11 +14,17 @@
     onscroll:preventDefault="true"
 >
     <div id="grid" @attributes="@_gridStyle" onmouseleave="@OnMouseLeave" onmouseup="@OnMouseUp">
-        <UiHeadlineBlock 
-            @ref="UiBlock"
-            ContainerDimensions="@_currentDimensions"
-            UpdateCanvasYDimensions="@ExtendYDimension"
-            OnUiBlockMoved="@TrimYDimensionEmptySpace"
-        />
+        @foreach (DraggableUiBlock uiBlock in SelectedLayoutService.SelectedLayoutUiBlocks)
+        {
+            if (uiBlock is UiHeadlineBlock headlineBlock)
+            {
+                <UiHeadlineBlock
+                    InitialDimensions="@headlineBlock.InitialDimensions"
+                    InitialPosition="@headlineBlock.InitialPosition"
+                    ParentLayout="@headlineBlock.ParentLayout"
+                    ElementId="@headlineBlock.ElementId"
+                />
+            }
+        }
     </div>
 </div>
