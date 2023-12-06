@@ -20,17 +20,17 @@ public partial class PageEditor
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
-        if (_desktopLayout is not null)
+        if (SelectedLayoutService.SelectedLayout == PageLayout.Desktop && _desktopLayout is not null)
         {
             SelectedLayoutService.SetSelectedLayoutInstance(_desktopLayout);
         }
         
-        if (_tabletLayout is not null)
+        if (SelectedLayoutService.SelectedLayout == PageLayout.Tablet && _tabletLayout is not null)
         {
             SelectedLayoutService.SetSelectedLayoutInstance(_tabletLayout);
         }
         
-        if (_mobileLayout is not null)
+        if (SelectedLayoutService.SelectedLayout == PageLayout.Mobile && _mobileLayout is not null)
         {
             SelectedLayoutService.SetSelectedLayoutInstance(_mobileLayout);
         }
