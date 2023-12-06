@@ -21,7 +21,16 @@ public class SelectedLayoutService
             if (_selectedLayout == value) return;
             
             _selectedLayout = value;
-            SelectedLayoutUiBlocks = _uiBlocks[_selectedLayout];
+            
+            if (_uiBlocks.ContainsKey(_selectedLayout))
+            {
+                SelectedLayoutUiBlocks = _uiBlocks[_selectedLayout];
+            }
+            else
+            {
+                SelectedLayoutUiBlocks = new List<DraggableUiBlock>();
+                _uiBlocks.Add(_selectedLayout, SelectedLayoutUiBlocks);
+            }
             OnSelectedLayoutChanged?.Invoke();
         }
     }
