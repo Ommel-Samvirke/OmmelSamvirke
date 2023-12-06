@@ -1,9 +1,12 @@
 ﻿@using OmmelSamvirke.Web.Pages.PageEditor.Components;
+@using OmmelSamvirke.Web.Services.PageEditor
 
 @inherits DraggableUiBlock
 
+@inject SelectedLayoutService SelectedLayoutService
+
 <div 
-    class="container"
+    class="@("container" + (SelectedLayoutService.CurrentlySelectedUiBlock == this ? " selected" : ""))"
     id="@ElementId" 
     onmousedown="@OnMouseDown"
     onmouseup="@OnMouseUp"
@@ -11,6 +14,7 @@
     onmousemove="@OnMouseMove"
     onwheel="@OnWheel"
     onkeydown="@OnKeyPress"
+    onfocusout="@OnFocusOut"
     @attributes="@ElementStyle"
     tabindex="0"
 >

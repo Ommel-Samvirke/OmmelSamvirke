@@ -138,6 +138,7 @@ public partial class PageEditorLayout
 
     public void Dispose()
     {
+        SelectedLayoutService.DeselectUiBlock();
         SelectedLayoutService.OnUiBlockCollectionChanged -= StateHasChanged;
         GC.SuppressFinalize(this);
     }

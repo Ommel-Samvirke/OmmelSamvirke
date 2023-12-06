@@ -6,8 +6,9 @@
     top: 0; left: 0;
 }
 
-.container:focus {
-    outline: none;
+.selected {
+    outline: 2px dashed var(--mud-palette-primary);
+    outline-offset: -1px;
 }
 
 ::deep .mud-paper {

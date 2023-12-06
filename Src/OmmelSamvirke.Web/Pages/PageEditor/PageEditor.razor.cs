@@ -53,7 +53,7 @@ public partial class PageEditor
                 throw new ArgumentOutOfRangeException();
         }
     }
-    
+
     public void Dispose()
     {
         SelectedLayoutService.OnSelectedLayoutChanged -= StateHasChanged;

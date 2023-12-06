@@ -11,8 +11,8 @@ public abstract partial class DraggableUiBlock
     [Parameter] public PageEditorLayout? ParentLayout { get; set; }
     [Parameter] public (int, int) InitialDimensions { get; set; }
     [Parameter] public (double, double) InitialPosition { get; set; }
-    [Parameter] public string ElementId { get; set; }
-    
+    [Parameter] public string ElementId { get; set; } = null!;
+
     public (int, int) Dimensions { get; private set; }
     public (double, double) Position { get; private set; }
 
@@ -82,6 +82,8 @@ public abstract partial class DraggableUiBlock
         _mouseDownX = args.ClientX + elementPosition.ScrollLeft;
         _mouseDownY = args.ClientY + elementPosition.ScrollTop;
         _isMouseDown = true;
+        
+        SelectedLayoutService.SelectUiBlock(this);
     }
 
     protected async Task OnMouseUp(MouseEventArgs? args)
@@ -90,7 +92,7 @@ public abstract partial class DraggableUiBlock
         
         int newPositionX = (int)Math.Round(Position.Item1 / 10.0) * 10;
         int newPositionY = (int)Math.Round(Position.Item2 / 10.0) * 10;
-
+        
         await MoveElement(newPositionX, newPositionY);
     }
 
@@ -130,6 +132,11 @@ public abstract partial class DraggableUiBlock
             
             await MoveElement(newPositionX, newPositionY);
         }
+    }
+
+    protected void OnFocusOut()
+    {
+        SelectedLayoutService.DeselectUiBlock();
     }
 
     protected async Task OnKeyPress(KeyboardEventArgs args)

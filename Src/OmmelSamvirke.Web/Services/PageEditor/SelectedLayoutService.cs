@@ -10,6 +10,8 @@ public class SelectedLayoutService
     
     public PageEditorLayout? SelectedLayoutInstance;
     public List<DraggableUiBlock> SelectedLayoutUiBlocks = new();
+    public DraggableUiBlock? CurrentlySelectedUiBlock { get; private set; }
+    
     private PageLayout _selectedLayout = PageLayout.Desktop;
     private Dictionary<PageLayout, List<DraggableUiBlock>> _uiBlocks = new();
 
@@ -73,5 +75,15 @@ public class SelectedLayoutService
 
         SelectedLayoutUiBlocks = _uiBlocks[SelectedLayout];
         OnUiBlockCollectionChanged?.Invoke();
+    }
+    
+    public void SelectUiBlock(DraggableUiBlock uiBlock)
+    {
+        CurrentlySelectedUiBlock = uiBlock;
+    }
+    
+    public void DeselectUiBlock()
+    {
+        CurrentlySelectedUiBlock = null;
     }
 }
