@@ -3,10 +3,10 @@
 
 @inherits DraggableUiBlock
 
-@inject SelectedLayoutService SelectedLayoutService
+@inject LayoutService LayoutService
 
 <div 
-    class="@("container" + (SelectedLayoutService.CurrentlySelectedUiBlock == this ? " selected" : ""))"
+    class="@("container" + (LayoutService.CurrentlySelectedUiBlock == this ? " selected" : ""))"
     id="@ElementId" 
     onmousedown="@OnMouseDown"
     onmouseup="@OnMouseUp"

@@ -14,31 +14,31 @@ public partial class PageEditor
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        SelectedLayoutService.OnSelectedLayoutChanged += StateHasChanged;
+        LayoutService.OnSelectedLayoutChanged += StateHasChanged;
     }
 
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
-        if (SelectedLayoutService.SelectedLayout == PageLayout.Desktop && _desktopLayout is not null)
+        if (LayoutService.SelectedLayout == PageLayout.Desktop && _desktopLayout is not null)
         {
-            SelectedLayoutService.SetSelectedLayoutInstance(_desktopLayout);
+            LayoutService.SetSelectedLayoutInstance(_desktopLayout);
         }
         
-        if (SelectedLayoutService.SelectedLayout == PageLayout.Tablet && _tabletLayout is not null)
+        if (LayoutService.SelectedLayout == PageLayout.Tablet && _tabletLayout is not null)
         {
-            SelectedLayoutService.SetSelectedLayoutInstance(_tabletLayout);
+            LayoutService.SetSelectedLayoutInstance(_tabletLayout);
         }
         
-        if (SelectedLayoutService.SelectedLayout == PageLayout.Mobile && _mobileLayout is not null)
+        if (LayoutService.SelectedLayout == PageLayout.Mobile && _mobileLayout is not null)
         {
-            SelectedLayoutService.SetSelectedLayoutInstance(_mobileLayout);
+            LayoutService.SetSelectedLayoutInstance(_mobileLayout);
         }
     } 
 
     private void AddUiBlockToLayout(DraggableUiBlock uiBlock)
     {
-        switch (SelectedLayoutService.SelectedLayout)
+        switch (LayoutService.SelectedLayout)
         {
             case PageLayout.Desktop:
                 _desktopLayout?.AddUiBlock(uiBlock);
@@ -56,7 +56,7 @@ public partial class PageEditor
 
     public void Dispose()
     {
-        SelectedLayoutService.OnSelectedLayoutChanged -= StateHasChanged;
+        LayoutService.OnSelectedLayoutChanged -= StateHasChanged;
         GC.SuppressFinalize(this);
     }
 }

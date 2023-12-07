@@ -12,7 +12,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 builder.Services.AddScoped<UserNavigationStateService>();
-builder.Services.AddScoped<SelectedLayoutService>();
+builder.Services.AddScoped<LayoutService>();
 
 WebApplication app = builder.Build();
 

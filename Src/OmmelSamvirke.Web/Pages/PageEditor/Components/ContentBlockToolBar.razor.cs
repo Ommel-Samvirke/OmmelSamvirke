@@ -10,15 +10,15 @@ public partial class ContentBlockToolBar
 
     private async Task HandleAddHeadlineBlock()
     {
-        if (SelectedLayoutService.SelectedLayoutInstance is null) return;
+        if (LayoutService.SelectedLayoutInstance is null) return;
 
-        double xPosition = SelectedLayoutService.SelectedLayoutInstance.CurrentDimensions.Item1 / 2 - (200 / 2);
+        double xPosition = LayoutService.SelectedLayoutInstance.CurrentDimensions.Item1 / 2 - (200 / 2);
         double yPosition = await GetGridScrollTop();
         
         UiHeadlineBlock headlineBlock = new(
             initialDimensions: (200, 200),
             initialPosition: (xPosition, yPosition),
-            parentLayout: SelectedLayoutService.SelectedLayoutInstance
+            parentLayout: LayoutService.SelectedLayoutInstance
         );
         
         await OnAddUiBlock.InvokeAsync(headlineBlock);

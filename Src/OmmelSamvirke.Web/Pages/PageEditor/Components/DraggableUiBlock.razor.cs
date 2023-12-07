@@ -83,7 +83,7 @@ public abstract partial class DraggableUiBlock
         _mouseDownY = args.ClientY + elementPosition.ScrollTop;
         _isMouseDown = true;
         
-        SelectedLayoutService.SelectUiBlock(this);
+        LayoutService.SelectUiBlock(this);
     }
 
     protected async Task OnMouseUp(MouseEventArgs? args)
@@ -136,7 +136,7 @@ public abstract partial class DraggableUiBlock
 
     protected void OnFocusOut()
     {
-        SelectedLayoutService.DeselectUiBlock();
+        LayoutService.DeselectUiBlock();
     }
 
     protected async Task OnKeyPress(KeyboardEventArgs args)
@@ -226,7 +226,7 @@ public abstract partial class DraggableUiBlock
         await HandlePotentialScrollDuringMove(newPositionY);
         
         Position = (newPositionX, newPositionY);
-        SelectedLayoutService.UpdateUiBlock(this);
+        LayoutService.UpdateUiBlock(this);
         
         await JsRuntime.InvokeVoidAsync("setElementPosition", ElementId, Position.Item1, Position.Item2);
         ParentLayout.TrimYDimensionEmptySpace();

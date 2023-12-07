@@ -3,7 +3,7 @@ using OmmelSamvirke.Web.Pages.PageEditor.Components;
 
 namespace OmmelSamvirke.Web.Services.PageEditor;
 
-public class SelectedLayoutService
+public class LayoutService
 {
     public event Action? OnSelectedLayoutChanged;
     public event Action? OnUiBlockCollectionChanged;

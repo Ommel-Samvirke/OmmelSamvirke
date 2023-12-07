@@ -7,12 +7,12 @@
 @using OmmelSamvirke.Web.Enums.PageEditor
 @using OmmelSamvirke.Web.Services.PageEditor
 
-@inject SelectedLayoutService SelectedLayoutService
+@inject LayoutService LayoutService
 
 <PageTitle>Redigeringsværktøj</PageTitle>
 
 <div id="page-editor-container">
-    @if (SelectedLayoutService.SelectedLayout == PageLayout.Desktop)
+    @if (LayoutService.SelectedLayout == PageLayout.Desktop)
     {
         <PageEditorLayout
             @ref="_desktopLayout"
@@ -20,7 +20,7 @@
         />
     }
 
-    @if (SelectedLayoutService.SelectedLayout == PageLayout.Tablet)
+    @if (LayoutService.SelectedLayout == PageLayout.Tablet)
     {
         <PageEditorLayout
             @ref="_tabletLayout"
@@ -28,7 +28,7 @@
         />
     }
 
-    @if (SelectedLayoutService.SelectedLayout == PageLayout.Mobile)
+    @if (LayoutService.SelectedLayout == PageLayout.Mobile)
     {
         <PageEditorLayout
             @ref="_mobileLayout"

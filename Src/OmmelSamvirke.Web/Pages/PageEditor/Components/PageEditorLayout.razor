@@ -2,7 +2,7 @@
 
 @implements IDisposable
 
-@inject SelectedLayoutService SelectedLayoutService
+@inject LayoutService LayoutService
 @inject IJSRuntime JsRuntime
 
 <div 
@@ -14,7 +14,7 @@
     onscroll:preventDefault="true"
 >
     <div id="grid" @attributes="@_gridStyle" onmouseleave="@OnMouseLeave" onmouseup="@OnMouseUp">
-        @foreach (DraggableUiBlock uiBlock in SelectedLayoutService.SelectedLayoutUiBlocks)
+        @foreach (DraggableUiBlock uiBlock in LayoutService.SelectedLayoutUiBlocks)
         {
             if (uiBlock is UiHeadlineBlock headlineBlock)
             {

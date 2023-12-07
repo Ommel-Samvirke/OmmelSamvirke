@@ -8,7 +8,7 @@
 
 @inject NavigationManager NavManager
 @inject UserNavigationStateService UserNavigationStateService
-@inject SelectedLayoutService SelectedLayoutService
+@inject LayoutService LayoutService
 
 <div>
     <MudThemeProvider />
@@ -25,24 +25,24 @@
                     <MudIconButton 
                         Icon="@Icons.Material.Filled.DesktopWindows"
                         Color="Color.Inherit"
-                        OnClick="@(() => SelectedLayoutService.SetSelectedLayout(PageLayout.Desktop))"
-                        Class="@("layout-selector " + (SelectedLayoutService.SelectedLayout == PageLayout.Desktop ? "selected-layout" : ""))"
+                        OnClick="@(() => LayoutService.SetSelectedLayout(PageLayout.Desktop))"
+                        Class="@("layout-selector " + (LayoutService.SelectedLayout == PageLayout.Desktop ? "selected-layout" : ""))"
                     />
                 </MudTooltip>
                 <MudTooltip Text="Tablet (760px)" Arrow="true" Placement="Placement.Bottom">
                     <MudIconButton 
                         Icon="@Icons.Material.Filled.TabletAndroid"
                         Color="Color.Inherit"
-                        OnClick="@(() => SelectedLayoutService.SetSelectedLayout(PageLayout.Tablet))"
-                        Class="@("layout-selector " + (SelectedLayoutService.SelectedLayout == PageLayout.Tablet ? "selected-layout" : ""))"
+                        OnClick="@(() => LayoutService.SetSelectedLayout(PageLayout.Tablet))"
+                        Class="@("layout-selector " + (LayoutService.SelectedLayout == PageLayout.Tablet ? "selected-layout" : ""))"
                     />
                 </MudTooltip>
                 <MudTooltip Text="Mobil (360px)" Arrow="true" Placement="Placement.Bottom">
                     <MudIconButton 
                         Icon="@Icons.Material.Filled.Smartphone" 
                         Color="Color.Inherit" 
-                        OnClick="@(() => SelectedLayoutService.SetSelectedLayout(PageLayout.Mobile))" 
-                        Class="@("layout-selector " + (SelectedLayoutService.SelectedLayout == PageLayout.Mobile ? "selected-layout" : ""))"
+                        OnClick="@(() => LayoutService.SetSelectedLayout(PageLayout.Mobile))" 
+                        Class="@("layout-selector " + (LayoutService.SelectedLayout == PageLayout.Mobile ? "selected-layout" : ""))"
                     />
                 </MudTooltip>
             }

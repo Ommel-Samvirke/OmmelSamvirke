@@ -20,7 +20,7 @@ public partial class PageEditorLayout
     
     protected override void OnInitialized()
     {
-        SelectedLayoutService.OnUiBlockCollectionChanged += StateHasChanged;
+        LayoutService.OnUiBlockCollectionChanged += StateHasChanged;
         
         _containerId = "grid-background";
         CurrentDimensions = InitialDimensions;
@@ -40,7 +40,7 @@ public partial class PageEditorLayout
     
     public void AddUiBlock(DraggableUiBlock uiBlock)
     {
-        SelectedLayoutService.AddUiBlock(uiBlock);
+        LayoutService.AddUiBlock(uiBlock);
         StateHasChanged();
     }
 
@@ -54,7 +54,7 @@ public partial class PageEditorLayout
     {
         double highestYPosition = 0;
         
-        foreach (DraggableUiBlock uiBlock in SelectedLayoutService.SelectedLayoutUiBlocks)
+        foreach (DraggableUiBlock uiBlock in LayoutService.SelectedLayoutUiBlocks)
         {
             int height = uiBlock.Dimensions.Item2;
             double yPosition = uiBlock.Position.Item2;
@@ -120,26 +120,26 @@ public partial class PageEditorLayout
 
     private async Task OnMouseLeave(MouseEventArgs args)
     {
-        for (int i = 0; i < SelectedLayoutService.SelectedLayoutUiBlocks.Count; i++)
+        for (int i = 0; i < LayoutService.SelectedLayoutUiBlocks.Count; i++)
         {
-            DraggableUiBlock uiBlock = SelectedLayoutService.SelectedLayoutUiBlocks[i];
+            DraggableUiBlock uiBlock = LayoutService.SelectedLayoutUiBlocks[i];
             await uiBlock.TriggerMouseUp();
         }
     }
 
     private async Task OnMouseUp(MouseEventArgs args)
     {
-        for (int i = 0; i < SelectedLayoutService.SelectedLayoutUiBlocks.Count; i++)
+        for (int i = 0; i < LayoutService.SelectedLayoutUiBlocks.Count; i++)
         {
-            DraggableUiBlock uiBlock = SelectedLayoutService.SelectedLayoutUiBlocks[i];
+            DraggableUiBlock uiBlock = LayoutService.SelectedLayoutUiBlocks[i];
             await uiBlock.TriggerMouseUp();
         }
     }
 
     public void Dispose()
     {
-        SelectedLayoutService.DeselectUiBlock();
-        SelectedLayoutService.OnUiBlockCollectionChanged -= StateHasChanged;
+        LayoutService.DeselectUiBlock();
+        LayoutService.OnUiBlockCollectionChanged -= StateHasChanged;
         GC.SuppressFinalize(this);
     }
 }
