@@ -12,12 +12,15 @@ public partial class ContentBlockToolBar
     {
         if (LayoutService.SelectedLayoutInstance is null) return;
 
-        double xPosition = LayoutService.SelectedLayoutInstance.CurrentDimensions.Item1 / 2 - (200 / 2);
-        double yPosition = await GetGridScrollTop();
+        const int initialWidth = 200;
+        const int initialHeight = 200;
+        
+        double initialXPosition = LayoutService.SelectedLayoutInstance.CurrentDimensions.Item1 / 2 - initialWidth / 2;
+        double initialYPosition = await GetGridScrollTop();
         
         UiHeadlineBlock headlineBlock = new(
-            initialDimensions: (200, 200),
-            initialPosition: (xPosition, yPosition),
+            initialDimensions: (initialWidth, initialHeight),
+            initialPosition: (initialXPosition, initialYPosition),
             parentLayout: LayoutService.SelectedLayoutInstance
         );
         

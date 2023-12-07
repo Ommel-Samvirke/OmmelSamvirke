@@ -13,8 +13,8 @@ public abstract partial class DraggableUiBlock
     [Parameter] public (double, double) InitialPosition { get; set; }
     [Parameter] public string ElementId { get; set; } = null!;
 
-    public (int, int) Dimensions { get; private set; }
-    public (double, double) Position { get; private set; }
+    public (int, int) Dimensions { get; protected set; }
+    public (double, double) Position { get; protected set; }
 
     protected Dictionary<string, object> ElementStyle = new();
     
@@ -29,8 +29,18 @@ public abstract partial class DraggableUiBlock
 
     protected override void OnInitialized()
     {
-        Dimensions = (InitialDimensions.Item1, InitialDimensions.Item2);
-        Position = (InitialPosition.Item1, InitialPosition.Item2);
+        DraggableUiBlock? uiBlock = LayoutService
+            .GetUiBlocksForLayout(LayoutService.SelectedLayout)
+            .Find(x => x.ElementId == ElementId);
+
+        if (uiBlock is not null)
+        {
+            Dimensions = (uiBlock.Dimensions.Item1, uiBlock.Dimensions.Item2);
+            Position = (uiBlock.Position.Item1, uiBlock.Position.Item2);
+        } else {
+            Dimensions = (InitialDimensions.Item1, InitialDimensions.Item2);
+            Position = (InitialPosition.Item1, InitialPosition.Item2);
+        }
         
         _containerId = "grid-background";
         ElementStyle = new Dictionary<string, object>

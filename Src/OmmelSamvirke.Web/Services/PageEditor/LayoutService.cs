@@ -13,7 +13,7 @@ public class LayoutService
     public DraggableUiBlock? CurrentlySelectedUiBlock { get; private set; }
     
     private PageLayout _selectedLayout = PageLayout.Desktop;
-    private Dictionary<PageLayout, List<DraggableUiBlock>> _uiBlocks = new();
+    private readonly Dictionary<PageLayout, List<DraggableUiBlock>> _uiBlocks = new();
 
     public PageLayout SelectedLayout
     {
@@ -77,6 +77,11 @@ public class LayoutService
         OnUiBlockCollectionChanged?.Invoke();
     }
     
+    public List<DraggableUiBlock> GetUiBlocksForLayout(PageLayout layout)
+    {
+        return _uiBlocks.ContainsKey(layout) ? _uiBlocks[layout] : new List<DraggableUiBlock>();
+    }
+
     public void SelectUiBlock(DraggableUiBlock uiBlock)
     {
         CurrentlySelectedUiBlock = uiBlock;
