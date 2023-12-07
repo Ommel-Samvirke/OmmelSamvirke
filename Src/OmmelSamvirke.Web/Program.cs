@@ -13,6 +13,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 builder.Services.AddScoped<UserNavigationStateService>();
 builder.Services.AddScoped<LayoutService>();
+builder.Services.AddScoped<PropertiesPanelService>();
 
 WebApplication app = builder.Build();
 

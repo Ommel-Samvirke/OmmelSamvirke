@@ -1,0 +1,16 @@
+﻿@using OmmelSamvirke.Web.Services.PageEditor
+
+@implements IDisposable
+
+@inject PropertiesPanelService PropertiesPanelService
+
+<MudDrawer @bind-Open="@_isDrawerOpen" Anchor="Anchor.End" Elevation="1" Variant="@DrawerVariant.Responsive">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6">My App</MudText>
+    </MudDrawerHeader>
+    <MudNavMenu>
+        <MudNavLink Match="NavLinkMatch.All">Store</MudNavLink>
+        <MudNavLink Match="NavLinkMatch.All">Library</MudNavLink>
+        <MudNavLink Match="NavLinkMatch.All">Community</MudNavLink>
+    </MudNavMenu>
+</MudDrawer>

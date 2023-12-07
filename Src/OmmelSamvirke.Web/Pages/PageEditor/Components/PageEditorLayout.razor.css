@@ -4,6 +4,7 @@
     height: calc(100dvh - 64px);
     background-color: #FBFBFB;
     overflow: scroll;
+    overflow-x: hidden;
     padding: 50px 0;
     margin-bottom: 25px;
 }

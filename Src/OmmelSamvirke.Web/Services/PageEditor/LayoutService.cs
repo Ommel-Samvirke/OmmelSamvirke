@@ -14,6 +14,12 @@ public class LayoutService
     
     private PageLayout _selectedLayout = PageLayout.Desktop;
     private readonly Dictionary<PageLayout, List<DraggableUiBlock>> _uiBlocks = new();
+    private readonly PropertiesPanelService _propertiesPanelService;
+
+    public LayoutService(PropertiesPanelService propertiesPanelService)
+    {
+        _propertiesPanelService = propertiesPanelService;
+    }
 
     public PageLayout SelectedLayout
     {
@@ -85,10 +91,12 @@ public class LayoutService
     public void SelectUiBlock(DraggableUiBlock uiBlock)
     {
         CurrentlySelectedUiBlock = uiBlock;
+        _propertiesPanelService.Open();
     }
     
     public void DeselectUiBlock()
     {
         CurrentlySelectedUiBlock = null;
+        _propertiesPanelService.Close();
     }
 }
