@@ -15,13 +15,15 @@ public partial class PageEditorLayout
     private const double ZoomFactor = 0.1;
     private const double MinZoomLevel = 0.5;
     private bool _preventScrolling;
+    private bool _isGridVisible = true;
     
     private string _containerId = string.Empty;
     
     protected override void OnInitialized()
     {
         LayoutService.OnUiBlockCollectionChanged += StateHasChanged;
-        
+        LayoutService.OnGridVisibilityChanged += ToggleGridVisibility;
+
         _containerId = "grid-background";
         CurrentDimensions = InitialDimensions;
         _gridStyle = new Dictionary<string, object>
@@ -135,11 +137,18 @@ public partial class PageEditorLayout
             await uiBlock.TriggerMouseUp();
         }
     }
+    
+    private void ToggleGridVisibility()
+    {
+        _isGridVisible = !_isGridVisible;
+        StateHasChanged();
+    }
 
     public void Dispose()
     {
         LayoutService.DeselectUiBlock();
         LayoutService.OnUiBlockCollectionChanged -= StateHasChanged;
+        LayoutService.OnGridVisibilityChanged -= ToggleGridVisibility;
         GC.SuppressFinalize(this);
     }
 }

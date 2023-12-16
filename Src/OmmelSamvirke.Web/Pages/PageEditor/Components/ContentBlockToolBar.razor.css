@@ -3,19 +3,14 @@
     left: 50%;
     bottom: 40px;
     transform: translateX(-50%);
-    z-index: 2147483647;
 }
 
 ::deep .mud-button-root {
     margin: 0 8px;
 }
 
-::deep .mud-button-root:first-child {
-    margin-left: 0;
-}
-
-::deep .mud-button-root:last-child {
-    margin-right: 0;
+::deep .mud-toolbar {
+    margin: 0 -24px;
 }
 
 ::deep .mud-divider {

@@ -25,8 +25,8 @@
                 <MudIconButton Icon="@Icons.Material.Filled.Collections" OnClick="HandleAddGalleryBlock" />
             </MudTooltip>
             <MudDivider Vertical="true" />
-            <MudTooltip Text="Vis gitter" Arrow="true" Placement="Placement.Bottom">
-                <MudIconButton Icon="@Icons.Material.Filled.Grid4x4" />
+            <MudTooltip Text="@_toggleGridLabel" Arrow="true" Placement="Placement.Bottom">
+                <MudIconButton Icon="@Icons.Material.Filled.Grid4x4" OnClick="ToggleGrid" />
             </MudTooltip>
         </MudToolBar>
     </MudPaper>

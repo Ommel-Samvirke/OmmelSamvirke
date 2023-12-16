@@ -7,7 +7,8 @@ public class LayoutService
 {
     public event Action? OnSelectedLayoutChanged;
     public event Action? OnUiBlockCollectionChanged;
-    
+    public event Action? OnGridVisibilityChanged;
+
     public PageEditorLayout? SelectedLayoutInstance;
     public List<DraggableUiBlock> SelectedLayoutUiBlocks = new();
     public DraggableUiBlock? CurrentlySelectedUiBlock { get; private set; }
@@ -98,5 +99,10 @@ public class LayoutService
     {
         CurrentlySelectedUiBlock = null;
         _propertiesPanelService.Close();
+    }
+    
+    public void ToggleGrid()
+    {
+        OnGridVisibilityChanged?.Invoke();
     }
 }

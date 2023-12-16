@@ -12,6 +12,7 @@
     onkeydown="@HandleKeyDown"
     tabindex="0" 
     onscroll:preventDefault="true"
+    class="@(_isGridVisible ? "grid-visible" : "grid-hidden")"
 >
     <div id="grid" @attributes="@_gridStyle" onmouseleave="@OnMouseLeave" onmouseup="@OnMouseUp">
         @foreach (DraggableUiBlock uiBlock in LayoutService.SelectedLayoutUiBlocks)

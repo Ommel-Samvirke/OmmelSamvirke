@@ -8,6 +8,8 @@ public partial class ContentBlockToolBar
 {
     [Parameter] public EventCallback<DraggableUiBlock> OnAddUiBlock { get; set; }
 
+    private string _toggleGridLabel = "Skjul gitter";
+    
     private async Task HandleAddHeadlineBlock()
     {
         if (LayoutService.SelectedLayoutInstance is null) return;
@@ -50,6 +52,12 @@ public partial class ContentBlockToolBar
     private async Task HandleAddGalleryBlock()
     {
         await OnAddUiBlock.InvokeAsync();
+    }
+    
+    private void ToggleGrid()
+    {
+        LayoutService.ToggleGrid();
+        _toggleGridLabel = _toggleGridLabel.Equals("Vis gitter") ? "Skjul gitter" : "Vis gitter";
     }
 
     private async Task<double> GetGridScrollTop()
